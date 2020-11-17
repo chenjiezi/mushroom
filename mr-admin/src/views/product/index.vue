@@ -32,13 +32,13 @@
         <el-table-column align="center" prop="productPrice" label="单价" width="100"></el-table-column>
         <el-table-column align="center" prop="stockNum" label="库存" width="100"></el-table-column>
         <el-table-column align="center" prop="categoryName" label="商品分类" width="100"></el-table-column>
-        <el-table-column align="center" prop="productDetail" label="商品详情"></el-table-column>
+        <!-- <el-table-column align="center" prop="productDetail" label="商品详情"></el-table-column> -->
         <el-table-column align="center" prop="productStatusName" label="商品状态" width="80"></el-table-column>
-        <el-table-column align="center" prop="createTime" label="创建时间" width="120"></el-table-column>
-        <el-table-column align="center" prop="updateTime" label="更新时间" width="120"></el-table-column>
+        <el-table-column align="center" prop="createTime" label="创建时间" width="140"></el-table-column>
+        <el-table-column align="center" prop="updateTime" label="更新时间" width="140"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="edit(scope)" :loading="editBtnloading" type="text" size="small">编辑</el-button>
+            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
             <el-button @click="del(scope)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
@@ -57,7 +57,7 @@
         >
       </el-pagination>
     </div>
-    <el-dialog :title="dialogTitle" :visible.sync="DialogVisible">
+    <el-dialog :title="dialogTitle" :visible.sync="DialogVisible" :close-on-click-modal="false">
       <!-- 弹框- 新增、编辑 -->
       <template v-if="!isDel">
         <el-form ref="productForm" :model="productForm" :rules="productFormRules" label-width="180px">
@@ -65,7 +65,7 @@
             <el-input v-model="productForm.productName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="商品单价" prop="productPrice">
-            <el-input v-model="productForm.productPrice" autocomplete="off"></el-input>
+            <el-input v-model="productForm.productPrice" type="number" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="商品库存" prop="stockNum">
             <el-input v-model="productForm.stockNum" type="number" autocomplete="off"></el-input>
@@ -145,8 +145,13 @@ export default {
           { required: true, message: '商品名称为必填项', trigger: 'blur'}
         ],
         productPrice: [
-          { required: true, message: '单价为必填项', trigger: 'blur'}
-        ]
+          { required: true, message: '商品单价为必填项', trigger: 'blur'},
+          // { type: 'number', message: '商品单价为数值类型', trigger: 'blur'}
+        ],
+        stockNum: [
+          { required: true, message: '商品库存为必填项', trigger: 'blur'},
+          // { type: 'number', message: '商品库存为数值类型', trigger: 'blur'}
+        ],
       }
     }
   },
@@ -157,12 +162,13 @@ export default {
   methods: {
     submitForm () {
       this.searchForm.categoryId = this.searchForm.cascaderCategoryId[2]
-      this.page.currentPage = 1 // TODO: 查询重置为第一页
+      this.page.currentPage = 1
       this.getData()
     },
     resetForm () {
       this.$refs.searchForm.resetFields()
-      this.page.currentPage = 1 // 查询重置为第一页
+      this.page.currentPage = 1
+      this.searchForm = {}
       this.getData()
     },
     add () {
@@ -174,6 +180,7 @@ export default {
       this.DialogVisible = true
       this.$nextTick(() => {
         this.$refs.productForm.resetFields()
+        this.productForm = {}
       })
     },
     edit (scope) {
@@ -219,7 +226,6 @@ export default {
               item2.children.forEach(item3 => {
                 if (idx === item3.categoryId) {
                   temp = [item2.parentId, item3.parentId, item3.categoryId]
-                  console.log('temp：', temp)
                 }
               })
             }
@@ -242,13 +248,14 @@ export default {
       if (!this.isDel) {
         this.$refs.productForm.validate((valid) => {
           if (valid) {
+            this.productForm.categoryId = this.productForm.cascaderCategoryId[2]
+
             console.log('要提交的productForm：', this.productForm)
             if (this.isAdd) {
+              this.$refs.searchForm.resetFields() // 重置查询条件
+              this.page.currentPage = 1 // 查询第一页
               this.saveData() // 发送新增数据请求
             } else if (this.isEdit) {
-              this.productForm.categoryId = this.productForm.cascaderCategoryId[2]
-              delete this.productForm.cascaderCategoryId
-              console.log('编辑请求的productForm：', this.productForm)
               this.editData() // 发送编辑数据请求
             }
           } else {
@@ -257,6 +264,8 @@ export default {
           }
         });
       } else {
+        this.$refs.searchForm.resetFields() // 重置查询条件
+        this.page.currentPage = 1 // 查询第一页
         this.delData() // 发送删除数据请求
       }
     },
@@ -268,15 +277,19 @@ export default {
         if (res.code === 200) {
           // 根据 categoryId 获取 categoryName
           res.data.resultList.map(item => {
+            let isFirst = false
             this.categoryList.forEach(item1 => {
               if (item1.children) {
                 item1.children.forEach(item2 => {
                   if (item2.children) {
                     item2.children.forEach(item3 => {
-                      if (item.categoryId === item3.categoryId) {
-                        item.categoryName = item3.categoryName
-                      } else {
-                        item.categoryName = '-'
+                      if (!isFirst) {
+                        if (item.categoryId === item3.categoryId) {
+                          item.categoryName = item3.categoryName
+                          isFirst = true
+                        } else {
+                          item.categoryName = '-'
+                        }
                       }
                     })
                   }
@@ -284,8 +297,8 @@ export default {
               }
             })
             item.productStatusName = item.productStatus == 1 ? '售卖中' : '已下架'
-            item.createTime = item.createTime ? item.createTime.split('T')[0] : item.createTime
-            item.updateTime = item.updateTime ? item.updateTime.split('T')[0] : item.updateTime
+            item.createTime = item.createTime ? item.createTime.split('.')[0].replace('T', ' ') : item.createTime
+            item.updateTime = item.updateTime ? item.updateTime.split('.')[0].replace('T', ' ') : item.updateTime
             return item
           })
           this.tableData = res.data.resultList
