@@ -63,7 +63,7 @@ export const constantRoutes = [
       path: 'product',
       name: 'Product',
       component: () => import('@/views/product/index'),
-      meta: { title: '商品管理', icon: 'dashboard' }
+      meta: { title: '商品管理', icon: 'el-icon-s-shop' }
     }]
   },
 
@@ -75,7 +75,7 @@ export const constantRoutes = [
       path: 'category',
       name: 'category',
       component: () => import('@/views/category/index'),
-      meta: { title: '商品分类管理', icon: 'dashboard' }
+      meta: { title: '商品分类管理', icon: 'el-icon-s-grid' }
     }]
   },
 
@@ -87,7 +87,7 @@ export const constantRoutes = [
       path: 'carousel',
       name: 'carousel',
       component: () => import('@/views/carousel/index'),
-      meta: { title: '首页轮播图管理', icon: 'dashboard' }
+      meta: { title: '首页轮播图管理', icon: 'el-icon-picture-outline' }
     }]
   },
 
