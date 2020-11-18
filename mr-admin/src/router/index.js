@@ -80,6 +80,18 @@ export const constantRoutes = [
   },
 
   {
+    path: '/carousel',
+    component: Layout,
+    redirect: '/carousel/carousel',
+    children: [{
+      path: 'carousel',
+      name: 'carousel',
+      component: () => import('@/views/carousel/index'),
+      meta: { title: '首页轮播图管理', icon: 'dashboard' }
+    }]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
