@@ -92,6 +92,18 @@ export const constantRoutes = [
   },
 
   {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/user',
+    children: [{
+      path: 'user',
+      name: 'user',
+      component: () => import('@/views/user/index'),
+      meta: { title: '会员管理', icon: 'el-icon-picture-outline' }
+    }]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
