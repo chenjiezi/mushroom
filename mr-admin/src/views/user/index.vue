@@ -4,7 +4,7 @@
       <div class="search_bar">
         <el-form :inline="true" size="mini" :model="searchForm" ref="searchForm" class="demo-ruleForm">
           <el-form-item label="搜索" prop="keyWord">
-            <el-input type="text" v-model="searchForm.keyWord" autocomplete="off"></el-input>
+            <el-input type="text" v-model="searchForm.keyWord" autocomplete="off" placeholder="账号/昵称"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm()">查询</el-button>
@@ -12,28 +12,10 @@
           </el-form-item>
         </el-form>
       </div>
-      <div class="tool_bar">
-        <el-button type="primary" size="mini" @click="add()">新增会员</el-button>
-      </div>
     </div>
     <div class="main">
       <el-table :data="tableData" border size="mini" :cell-style="{padding: '2px 0'}">
         <el-table-column align="center" prop="userId" label="ID" width="100"></el-table-column>
-        <el-table-column align="center" prop="avatar" label="头像">
-          <template slot-scope="scope">
-            <template v-if="scope.row.avatar">
-              <el-image 
-                style="width: 30px; height: 30px"
-                :src="scope.row.avatar" 
-                :preview-src-list="[scope.row.avatar]"
-                >
-              </el-image>
-            </template>
-            <template v-else>
-              无
-            </template>
-          </template>
-        </el-table-column>
         <el-table-column align="center" prop="loginName" label="账号"></el-table-column>
         <el-table-column align="center" prop="nickName" label="昵称" width="100"></el-table-column>
         <el-table-column align="center" prop="address" label="地址"></el-table-column>
@@ -145,7 +127,7 @@ export default {
       this.isEdit = false
       this.isDel = false
       this.saveBtnLoading = false
-      this.dialogTitle = '新增会员'
+      this.dialogTitle = '新增用户'
       this.DialogVisible = true
       this.$nextTick(() => {
         this.$refs.userForm.resetFields()
@@ -158,8 +140,8 @@ export default {
       this.isDel = false
       this.editBtnloading = true
       this.saveBtnLoading = false
-      this.dialogTitle = `编辑会员 账号：${scope.row.loginName || '-'}`
-      // 根据userId查询会员信息
+      this.dialogTitle = `编辑用户 账号：${scope.row.loginName || '-'}`
+      // 根据userId查询用户信息
       api.getUserInfoByUserId(scope.row.userId).then((res) => {
         if (res.code === 200) {
           this.DialogVisible = true
@@ -183,7 +165,7 @@ export default {
       this.isDel = true
       this.saveBtnLoading = false
       this.curId = scope.row.userId
-      this.dialogTitle = `删除会员 账号：${scope.row.loginName || '-'}`
+      this.dialogTitle = `删除用户 账号：${scope.row.loginName || '-'}`
       this.DialogVisible = true
     },
     save () {
@@ -216,7 +198,11 @@ export default {
         ...this.page
       }).then(res => {
         if (res.code === 200) {
-          this.tableData = res.data.resultList
+          this.tableData = res.data.resultList.map(item => {
+            item.createTime = this.dateFormat(item, 'createTime')
+            item.updateTime = this.dateFormat(item, 'updateTime')
+            return item
+          })
           this.page.total = res.data.total
           this.page.currentPage = res.data.currentPage
           this.page.pageSize = res.data.pageSize
@@ -269,6 +255,9 @@ export default {
     changeSize (pageSize) {
       this.page.pageSize = pageSize
       this.getData()
+    },
+    dateFormat (item, time) {
+      return item[time] ? item[time].split('.')[0].replace('T', ' ') : item[time]
     }
   }
 }
