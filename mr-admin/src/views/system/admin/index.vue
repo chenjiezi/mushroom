@@ -19,9 +19,9 @@
     <div class="main">
       <el-table :data="tableData" border size="mini" :cell-style="{padding: '2px 0'}">
         <el-table-column align="center" prop="adminId" label="ID" width="50"></el-table-column>
-        <el-table-column align="center" prop="roleIds" label="角色" width="100"></el-table-column>
+        <el-table-column align="center" prop="roleIdsTotext" label="角色" width="100"></el-table-column>
         <el-table-column align="center" prop="adminName" label="账号"></el-table-column>
-        <el-table-column align="center" prop="password" label="密码" width="140"></el-table-column>
+        <!-- <el-table-column align="center" prop="password" label="密码" width="140"></el-table-column> -->
         <el-table-column align="center" prop="nickName" label="昵称"></el-table-column>
         <el-table-column align="center" prop="email" label="邮箱" width="140"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
@@ -52,13 +52,19 @@
           <el-form-item label="账号" prop="adminName">
             <el-input v-model="adminForm.adminName" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <!-- <el-form-item label="密码" prop="password">
             <el-input v-model="adminForm.password" autocomplete="off"></el-input>
-          </el-form-item>
-          <!-- TODO: roleIds转换 -->
-          <!-- <el-form-item label="角色" prop="roleIds">
-            <el-input v-model="adminForm.roleIds" autocomplete="off"></el-input>
           </el-form-item> -->
+          <el-form-item label="角色" prop="roleIds">
+            <el-select v-model="adminForm.roleIds" multiple placeholder="请选择">
+              <el-option
+                v-for="item in roleList"
+                :key="item.roleId"
+                :label="item.roleName"
+                :value="item.roleId">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="昵称" prop="nickName">
             <el-input v-model="adminForm.nickName" autocomplete="off"></el-input>
           </el-form-item>
@@ -81,6 +87,7 @@
 
 <script>
 import * as api from './api'
+import * as roleApi from '../role/api'
 
 export default {
   data () {
@@ -123,8 +130,9 @@ export default {
       }
     }
   },
-  created () {
-    this.getData()
+  async created () {
+    await this.getRoleList()
+    await this.getData()
   },
   methods: {
     submitForm () {
@@ -216,8 +224,16 @@ export default {
       }).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.resultList.map(item => {
-            // TODO:
-            item.roleIds = item.roleIds ? item.roleIds : '-'
+            if (item.roleIds && item.roleIds.length > 0) {
+              item.roleIds.forEach(itemRoleId => {
+                this.roleList.forEach(roleItem => {
+                  if (itemRoleId === roleItem.roleId) {
+                    item.roleIdsTotext = ` ${roleItem.roleName}`
+                  }
+                })
+              })
+            }
+            item.roleIdsTotext = item.roleIdsTotext ? item.roleIdsTotext : '-'
             item.password = item.password ? item.password : '-'
             return item
           })
@@ -276,6 +292,13 @@ export default {
     },
     dateFormat (item, time) {
       return item[time] ? item[time].split('.')[0].replace('T', ' ') : item[time]
+    },
+    getRoleList () {
+      roleApi.getRoleList({pageSize: 999}).then(res => {
+        if (res.code === 200) {
+          this.roleList = res.data.resultList
+        }
+      })
     }
   }
 }
