@@ -74,7 +74,7 @@
                 :disabled="firstAndSecondDisabled"
                 ></el-cascader>
             </el-form-item>
-            <el-form-item label="三级级商品分类名称" prop="categoryName">
+            <el-form-item label="三级商品分类名称" prop="categoryName">
               <el-input v-model="categoryForm.categoryName" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>
