@@ -3,7 +3,7 @@
     <div class="top_bar">
       <div class="search_bar"></div>
       <div class="tool_bar">
-        <el-button type="primary" size="mini" @click="addFisrtLevel()">新增一级菜单</el-button>
+        <el-button type="primary" size="mini" @click="addFisrtLevel()">新增目录</el-button>
       </div>
     </div>
     <div class="main">
@@ -14,16 +14,12 @@
         row-key="menuId"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         :cell-style="{padding: '2px 0'}">
-        <el-table-column align="center" fixed prop="menuId" label="ID">
-        </el-table-column>
-        <el-table-column align="center" prop="menuName" label="菜单名称">
-        </el-table-column>
-        <el-table-column align="center" prop="levelNumToText" label="菜单级别">
-        </el-table-column>
-        <el-table-column align="center" prop="createTime" label="创建时间">
-        </el-table-column>
-        <el-table-column align="center" prop="updateTime" label="编辑时间">
-        </el-table-column>
+        <el-table-column align="center" prop="menuName" label="菜单名称"></el-table-column>
+        <el-table-column align="center" prop="icon" label="icon"></el-table-column>
+        <el-table-column align="center" prop="path" label="路由地址"></el-table-column>
+        <el-table-column align="center" prop="component" label="组件路径"></el-table-column>
+        <el-table-column align="center" prop="perms" label="权限标识"></el-table-column>
+        <el-table-column align="center" prop="menuTypeToText" label="菜单类别"></el-table-column>
         <el-table-column fixed="right" label="操作" width="140">
           <template slot-scope="scope">
             <el-button v-if="scope.row.levelNum !== 3" @click="addSecondOrThirdLevel(scope)" type="text" size="small">新增</el-button>
@@ -36,18 +32,27 @@
     <el-dialog :title="dialogTitle" :visible.sync="DialogVisible" :close-on-click-modal="false">
       <!-- 弹框 新增/编辑 操作 -->
       <template v-if="!isDel">
-        <!-- 操作 一级菜单 表单 -->
+        <!-- 操作 目录 表单 -->
         <template v-if="isFirstLevel">
           <el-form ref="menuForm1" :model="menuForm" :rules="menuFormRules" label-width="180px">
-            <el-form-item label="一级菜单名称" prop="menuName">
+            <el-form-item label="目录名称" prop="menuName">
               <el-input v-model="menuForm.menuName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="路由地址" prop="path">
+              <el-input v-model="menuForm.path" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="icon" prop="icon">
+              <el-input v-model="menuForm.icon" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="menuForm.remark" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>
         </template>
-        <!-- 操作 二级菜单 表单 -->
+        <!-- 操作 菜单 表单 -->
         <template v-if="isSecondLevel">
           <el-form ref="menuForm2" :model="menuForm" :rules="menuFormRules" label-width="180px">
-            <el-form-item label="一级菜单名称" prop="parentId">
+            <el-form-item label="目录名称" prop="parentId">
               <el-select v-model="menuForm.parentId" :disabled="firstDisabled" placeholder="请选择">
                 <el-option
                   v-for="item in firstList"
@@ -58,15 +63,39 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="二级菜单名称" prop="menuName">
+            <el-form-item label="菜单名称" prop="menuName">
               <el-input v-model="menuForm.menuName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="路由地址" prop="path">
+              <el-input v-model="menuForm.path" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="组件路径" prop="component">
+              <el-input v-model="menuForm.component" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="权限标识" prop="perms">
+              <el-input v-model="menuForm.perms" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="显示状态" prop="visible">
+              <el-switch
+                v-model="menuForm.visible"
+                :active-value="false"
+                :inactive-value="true"
+                active-text="显示"
+                inactive-text="隐藏">
+              </el-switch>
+            </el-form-item>
+            <el-form-item label="icon" prop="icon">
+              <el-input v-model="menuForm.icon" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="menuForm.remark" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>
         </template>
-        <!-- 操作 三级菜单 表单 -->
+        <!-- 操作 按钮 表单 -->
         <template v-if="isThirdLevel">
           <el-form ref="menuForm3" :model="menuForm" :rules="menuFormRules" label-width="180px">
-            <el-form-item label="一/二级菜单名称" prop="menuIdArr">
+            <el-form-item label="目录/菜单名称" prop="menuIdArr">
               <el-cascader
                 v-model="menuForm.menuIdArr"
                 :options="firstAndSecondList"
@@ -74,8 +103,17 @@
                 :disabled="firstAndSecondDisabled"
                 ></el-cascader>
             </el-form-item>
-            <el-form-item label="三级级菜单名称" prop="menuName">
+            <el-form-item label="按钮名称" prop="menuName">
               <el-input v-model="menuForm.menuName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="权限标识" prop="perms">
+              <el-input v-model="menuForm.perms" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="icon" prop="icon">
+              <el-input v-model="menuForm.icon" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="备注" prop="remark">
+              <el-input v-model="menuForm.remark" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>
         </template>
@@ -124,6 +162,15 @@ export default {
         parentId: [
           { required: true, message: '必填项', trigger: 'blur'}
         ],
+        path: [
+          { required: true, message: '必填项', trigger: 'blur'}
+        ],
+        component: [
+          { required: true, message: '必填项', trigger: 'blur'}
+        ],
+        perms: [
+          { required: true, message: '必填项', trigger: 'blur'}
+        ],
         menuIdArr: [
           { required: true, message: '必填项', trigger: 'blur'}
         ]
@@ -136,27 +183,28 @@ export default {
     this.getData()
   },
   methods: {
-    addFisrtLevel () { // 显示 一级 新增操作弹窗
+    addFisrtLevel () { // 显示 目录 新增操作弹窗
       this.isTrue(['isAdd', 'isFirstLevel'])
-      this.dialogTitle = '新增一级菜单'
+      this.dialogTitle = '新增目录'
       this.DialogVisible = true
       this.$nextTick(() => {
         // 重置表单
         this.$refs.menuForm1.resetFields();
         this.menuForm = {
           parentId: '0',
+          menuType: 'M',
           levelNum: 1
         }
       })
     },
-    addSecondOrThirdLevel ({row}) { // 显示 一/二级 新增操作弹窗
+    addSecondOrThirdLevel ({row}) { // 显示 按钮/菜单 新增操作弹窗
       if (row.levelNum === 2) {
         this.isTrue(['isAdd', 'isThirdLevel'])
-        this.dialogTitle = '新增三级菜单'
+        this.dialogTitle = '新增按钮'
         this.firstAndSecondDisabled = true
       } else if (row.levelNum === 1){
         this.isTrue(['isAdd', 'isSecondLevel'])
-        this.dialogTitle = '新增二级菜单'
+        this.dialogTitle = '新增菜单'
         this.firstDisabled = true
       }
       this.DialogVisible = true
@@ -166,11 +214,13 @@ export default {
         if (row.levelNum === 2) {
           this.menuForm = {
             menuIdArr: [row.parentId, row.menuId],
+            menuType: 'F',
             levelNum: row.levelNum + 1
           }
         } else if (row.levelNum === 1) {
           this.menuForm = {
             parentId: row.menuId,
+            menuType: 'C',
             levelNum: row.levelNum + 1
           }
         }
@@ -181,14 +231,14 @@ export default {
       if (row.levelNum === 3) {
         this.isTrue(['isEdit', 'isThirdLevel'])
         this.firstAndSecondDisabled = false
-        this.dialogTitle = `编辑三级菜单：${row.menuName}`
+        this.dialogTitle = `编辑按钮 [${row.menuName}]`
       } else if (row.levelNum === 2) {
         this.isTrue(['isEdit', 'isSecondLevel'])
         this.firstDisabled = false
-        this.dialogTitle = `编辑二级菜单：${row.menuName}`
+        this.dialogTitle = `编辑菜单 [${row.menuName}]`
       } else {
         this.isTrue(['isEdit', 'isFirstLevel'])
-        this.dialogTitle = `编辑一级菜单：${row.menuName}`
+        this.dialogTitle = `编辑目录 [${row.menuName}]`
       }
       this.DialogVisible = true
       this.$nextTick(() => {
@@ -210,21 +260,37 @@ export default {
             menuName: row.menuName,
             parentId: row.parentId,
             levelNum: row.levelNum,
+            icon: row.icon,
+            path: row.path,
+            menuType: row.menuType,
+            remark: row.remark,
             menuIdArr: [ppId, row.parentId]
           }
         } else if (row.levelNum === 2){
           this.menuForm = {
             menuId: row.menuId,
             menuName: row.menuName,
+            path: row.path,
+            component: row.component,
+            perms: row.perms,
+            icon: row.icon,
+            visible: row.visible,
+            remark: row.remark,
             parentId: row.parentId,
-            levelNum: row.levelNum
+            levelNum: row.levelNum,
+            menuType: row.menuType
           }
         } else {
           this.menuForm = {
             menuId: row.menuId,
             menuName: row.menuName,
+            perms: row.perms,
+            icon: row.icon,
+            path: row.path,
+            remark: row.remark,
             parentId: row.parentId,
-            levelNum: row.levelNum
+            levelNum: row.levelNum,
+            menuType: row.menuType
           }
         }
         this.editBtnLoading = false
@@ -232,11 +298,11 @@ export default {
     },
     del ({row}) { // 显示 一/二/三级 删除操作弹窗
       if (row.levelNum === 3) {
-        this.dialogTitle = `删除三级菜单：${row.menuName}`
+        this.dialogTitle = `删除按钮 [${row.menuName}]`
       } else if (row.levelNum === 2){
-        this.dialogTitle = `删除二级菜单：${row.menuName}`
+        this.dialogTitle = `删除菜单 [${row.menuName}]`
       } else {
-        this.dialogTitle = `删除一级菜单：${row.menuName}`
+        this.dialogTitle = `删除目录 [${row.menuName}]`
       }
       this.curId = row.menuId // 当前数据id
       this.isTrue(['isDel'])
@@ -268,17 +334,17 @@ export default {
     getData () {
       api.getMenulist().then(res => {
         this.tableData = res.data.map(item => {
-          item.levelNumToText = this.levelNumFormat(item.levelNum)
+          item.menuTypeToText = this.menuTypeFormat(item.menuType)
           item.createTime = this.dateFormat(item, 'createTime')
           item.updateTime = this.dateFormat(item, 'updateTime')
           if (item.children) {
             item.children.map(item1 => {
-              item1.levelNumToText = this.levelNumFormat(item1.levelNum)
+              item1.menuTypeToText = this.menuTypeFormat(item1.menuType)
               item1.createTime = this.dateFormat(item1, 'createTime')
               item1.updateTime = this.dateFormat(item1, 'updateTime')
               if (item1.children) {
                 item1.children.map(item2 => {
-                  item2.levelNumToText = this.levelNumFormat(item2.levelNum)
+                  item2.menuTypeToText = this.menuTypeFormat(item2.menuType)
                   item2.createTime = this.dateFormat(item2, 'createTime')
                   item2.updateTime = this.dateFormat(item2, 'updateTime')
                   return item2 
@@ -363,9 +429,13 @@ export default {
     dateFormat (item, time) {
       return item[time] ? item[time].split('.')[0].replace('T', ' ') : item[time]
     },
-    levelNumFormat (levelNum) {
-      const t = ['一', '二', '三', '四', '五']
-      return t[levelNum - 1]
+    menuTypeFormat (menuType) {
+      const t = {
+        'M': '目录',
+        'C': '菜单',
+        'F': '按钮'
+      }
+      return t[menuType]
     }
   }
 }
