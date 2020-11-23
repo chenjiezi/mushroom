@@ -123,9 +123,6 @@ export default {
         ],
         password: [
           { required: true, message: '必填项', trigger: 'blur'}
-        ],
-        roleIds: [
-          { required: true, message: '必填项', trigger: 'blur'}
         ]
       }
     }
