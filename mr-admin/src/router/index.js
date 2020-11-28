@@ -58,9 +58,8 @@ export const constantRoutes = [
   {
     path: '/carousel',
     component: Layout,
-    redirect: '/carousel/carousel',
     children: [{
-      path: 'carousel',
+      path: 'index',
       name: 'Carousel',
       component: () => import('@/views/carousel/index'),
       meta: { title: '首页轮播图管理', icon: 'el-icon-picture-outline' }
@@ -70,21 +69,25 @@ export const constantRoutes = [
   {
     path: '/product',
     component: Layout,
-    redirect: '/product/product',
     children: [{
-      path: 'product',
+      path: 'index',
       name: 'Product',
       component: () => import('@/views/product/index'),
       meta: { title: '商品管理', icon: 'el-icon-s-shop' }
+    }, {
+      path: 'productDetail/:id',
+      name: 'ProductDetail',
+      hidden: true,
+      component: () => import('@/views/product/productDetail'),
+      meta: { title: '商品详情编辑', icon: 'el-icon-s-shop', props: true }
     }]
   },
 
   {
     path: '/user',
     component: Layout,
-    redirect: '/user/user',
     children: [{
-      path: 'user',
+      path: 'index',
       name: 'user',
       component: () => import('@/views/user/index'),
       meta: { title: '用户管理', icon: 'el-icon-user' }
@@ -94,9 +97,8 @@ export const constantRoutes = [
   {
     path: '/order',
     component: Layout,
-    redirect: '/order/order',
     children: [{
-      path: 'order',
+      path: 'index',
       name: 'order',
       component: () => import('@/views/order/index'),
       meta: { title: '订单管理', icon: 'el-icon-tickets' }
@@ -106,9 +108,8 @@ export const constantRoutes = [
   {
     path: '/category',
     component: Layout,
-    redirect: '/category/category',
     children: [{
-      path: 'category',
+      path: 'index',
       name: 'category',
       component: () => import('@/views/category/index'),
       meta: { title: '商品分类管理', icon: 'el-icon-s-grid' }
