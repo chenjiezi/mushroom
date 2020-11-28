@@ -29,15 +29,39 @@
       <el-table :data="tableData" border size="mini" style="" :header-cell-style="{'background-color': '#fff'}" :cell-style="{padding: '2px 0'}">
         <el-table-column align="center" prop="productId" label="ID" width="100"></el-table-column>
         <el-table-column align="center" prop="productName" label="商品名称"></el-table-column>
+        <el-table-column align="center" prop="productImg" label="商品图片" width="80">
+          <template slot-scope="scope">
+            <template v-if="scope.row.productImg">
+              <el-image 
+                style="width: 30px; height: 30px"
+                :src="scope.row.productImg" 
+                :preview-src-list="[scope.row.productImg]"
+                >
+              </el-image>
+            </template>
+            <template v-else>
+              无
+            </template>
+          </template>
+        </el-table-column>
         <el-table-column align="center" prop="productPrice" label="单价" width="100"></el-table-column>
         <el-table-column align="center" prop="stockNum" label="库存" width="100"></el-table-column>
         <el-table-column align="center" prop="categoryName" label="商品分类" width="100"></el-table-column>
-        <!-- <el-table-column align="center" prop="productDetail" label="商品详情"></el-table-column> -->
-        <el-table-column align="center" prop="productStatusName" label="商品状态" width="80"></el-table-column>
-        <el-table-column align="center" prop="createTime" label="创建时间" width="140"></el-table-column>
-        <el-table-column align="center" prop="updateTime" label="更新时间" width="140"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column align="center" prop="productStatusName" label="商品状态" width="150">
           <template slot-scope="scope">
+            <el-switch
+              v-model="scope.row.productStatus"
+              :active-value="true"
+              :inactive-value="false"
+              @change="productStatusChange(scope.row)"
+              active-text="上架"
+              inactive-text="下架">
+            </el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作" width="150">
+          <template slot-scope="scope">
+            <el-button @click="productDetailFunc(scope)" type="text" size="small">商品详情</el-button>
             <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
             <el-button @click="del(scope)" type="text" size="small">删除</el-button>
           </template>
@@ -57,7 +81,11 @@
         >
       </el-pagination>
     </div>
-    <el-dialog :title="dialogTitle" :visible.sync="DialogVisible" :close-on-click-modal="false">
+    <el-dialog
+      :title="dialogTitle"
+      @close="closeDialog"
+      :visible.sync="DialogVisible"
+      :close-on-click-modal="false">
       <!-- 弹框- 新增、编辑 -->
       <template v-if="!isDel">
         <el-form ref="productForm" :model="productForm" :rules="productFormRules" label-width="180px">
@@ -81,14 +109,44 @@
           <el-form-item label="商品状态" prop="productStatus">
             <el-switch
               v-model="productForm.productStatus"
-              active-value="1"
-              inactive-value="0"
+              :active-value="true"
+              :inactive-value="false"
               active-text="上架"
               inactive-text="下架">
             </el-switch>
           </el-form-item>
-          <el-form-item label="商品详情" prop="productDetail">
-            <el-input type="textarea" v-model="productForm.productDetail"></el-input>
+          <el-form-item label="商品图片" prop="productImg">
+            <el-upload
+              action="/api/pic/singleImage"
+              list-type="picture-card"
+              :on-success="handleSuccess"
+              :on-remove="handleRemove"
+              :file-list="fileList"
+              :auto-upload="true">
+                <i slot="default" class="el-icon-plus"></i>
+                <div slot="file" slot-scope="{file}" style="height: 100%;">
+                  <img
+                    class="el-upload-list__item-thumbnail"
+                    :src="file.url" alt=""
+                  >
+                  <span class="el-upload-list__item-actions">
+                    <span
+                      class="el-upload-list__item-preview"
+                      @click="handlePictureCardPreview(file)"
+                    >
+                      <i class="el-icon-zoom-in"></i>
+                    </span>
+                    <span
+                      v-if="!disabled"
+                      class="el-upload-list__item-delete"
+                      @click="handleRemove(file)"
+                    >
+                      <i class="el-icon-delete"></i>
+                    </span>
+                  </span>
+                </div>
+                <!-- <div slot="tip" class="el-upload__tip">只能上传一张商品图片，如需更改，删除已有再次添加!</div> -->
+            </el-upload>
           </el-form-item>
         </el-form>
       </template>
@@ -101,6 +159,9 @@
         <el-button type="primary" @click="save()" :loading="saveBtnLoading">确 定</el-button>
       </div>
     </el-dialog>
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -111,6 +172,10 @@ import * as categoryApi from '../category/api'
 export default {
   data () {
     return {
+      fileList: [],
+      dialogImageUrl: '',
+      dialogVisible: false,
+      disabled: false,
       dialogTitle: '弹窗',
       DialogVisible: false,
       isAdd: false,
@@ -128,7 +193,6 @@ export default {
         cascaderCategoryId: [],
         categoryId: '',
         productStatus: 0,
-        productDetail: '',
       },
       searchForm: {
         productName: '',
@@ -160,6 +224,48 @@ export default {
     await this.getData() // 商品数据
   },
   methods: {
+    productStatusChange (data) {
+      const { productId, productStatus } = data
+      api.updateProduct({ productId, productStatus }).then(res => {
+        this.$message.closeAll()
+        if (res.code === 200) {
+          this.$message.success(res.message)
+        } else {
+          this.$message.error(res.message)
+        }
+      }).finally(() => {
+        this.getData()
+      })
+    },
+    // Dialog 关闭的回调
+    closeDialog () {
+      // 问题：打开过有商品图片的编辑弹窗，关闭后再次打开没有商品图片的编辑弹窗时，有去除上一张商品图片预览的动画。
+      // 解决方法：在关闭编辑弹窗时，就将图片预览去除。
+      this.fileList = []
+    },
+    // 上传图片
+    handleSuccess (response, file, fileList) {
+      if (response.code === 200) {
+        this.$message.success(response.message)
+        this.productForm.productImg = response.data
+      } else {
+        this.$message.error(response.message)
+      }
+    },
+    // 移除图片
+    handleRemove(file, fileList) {
+      this.productForm.productImg = ''
+      this.fileList = []
+    },
+    // 预览图片
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    // 重定向到商品详情编辑页面
+    productDetailFunc (scope) {
+      this.$router.push({path: `/product/productDetail/${scope.row.productId}`})
+    },
     submitForm () {
       this.searchForm.categoryId = this.searchForm.cascaderCategoryId[2]
       this.page.currentPage = 1
@@ -181,6 +287,7 @@ export default {
       this.$nextTick(() => {
         this.$refs.productForm.resetFields()
         this.productForm = {}
+        this.fileList = []
       })
     },
     edit (scope) {
@@ -202,10 +309,17 @@ export default {
               productPrice: res.data.productPrice,
               stockNum: res.data.stockNum,
               productStatus: res.data.productStatus,
-              productDetail: res.data.productDetail,
+              productImg: res.data.productImg,
               categoryId: res.data.categoryId,
               // cascaderCategoryId 用于显示
               cascaderCategoryId: this.getCascaderCategoryId(res.data.categoryId)
+            }
+            // 展示图片
+            if (res.data.productImg) {
+              this.fileList = [{
+                name: res.data.productImg,
+                url: res.data.productImg
+              }]
             }
           })
         }
@@ -311,17 +425,9 @@ export default {
     saveData () {
       api.saveProduct(this.productForm).then(res => {
         if (res.code === 200) {
-          this.$message({
-            message: res.message,
-            type: 'success',
-            duration: 3 * 1000
-          })
+          this.$message.success(res.message)
         } else {
-          this.$message({
-            message: res.message,
-            type: 'error',
-            duration: 3 * 1000
-          })
+          this.$message.error(res.message)
         }
       }).finally(() => {
         this.getData()
@@ -332,17 +438,9 @@ export default {
     editData () {
       api.updateProduct(this.productForm).then(res => {
         if (res.code === 200) {
-          this.$message({
-            message: res.message,
-            type: 'success',
-            duration: 3 * 1000
-          })
+          this.$message.success(res.message)
         } else {
-          this.$message({
-            message: res.message,
-            type: 'error',
-            duration: 3 * 1000
-          })
+          this.$message.error(res.message)
         }
       }).finally(() => {
         this.getData()
@@ -353,17 +451,9 @@ export default {
     delData () {
       api.deleteProductInfoByProductId(this.curProductId).then(res => {
         if (res.code === 200) {
-          this.$message({
-            message: res.message,
-            type: 'success',
-            duration: 3 * 1000
-          })
+          this.$message.success(res.message)
         } else {
-          this.$message({
-            message: res.message,
-            type: 'error',
-            duration: 3 * 1000
-          })
+          this.$message.error(res.message)
         }
       }).finally(() => {
         this.getData()

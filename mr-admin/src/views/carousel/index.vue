@@ -7,8 +7,8 @@
     </div>
     <div class="main">
       <el-table :data="tableData" border size="mini" style="" :header-cell-style="{'background-color': '#fff'}" :cell-style="{padding: '2px 0'}">
-        <el-table-column align="center" prop="carouselId" label="ID" width="100"></el-table-column>
-        <el-table-column align="center" prop="carouselUrl" label="轮播图">
+        <el-table-column align="center" prop="carouselId" label="ID"></el-table-column>
+        <el-table-column align="center" prop="carouselUrl" label="轮播图" width="60">
           <template slot-scope="scope">
             <template v-if="scope.row.carouselUrl">
               <el-image 
@@ -25,12 +25,22 @@
         </el-table-column>
         <el-table-column align="center" prop="redirectUrl" label="跳转地址"></el-table-column>
         <el-table-column align="center" prop="carouselRank" label="展示顺序" width="100"></el-table-column>
-        <el-table-column align="center" prop="isShow" label="是否展示" width="100"></el-table-column>
+        <el-table-column align="center" prop="isShow" label="是否展示" width="150">
+          <template slot-scope="scope">
+            <!-- TODO:无厘头的bug -->
+            <el-switch
+              v-model="scope.row.isShow"
+              :active-value="true"
+              :inactive-value="false"
+              @change="isShowChange(scope.row)"
+              >
+            </el-switch>
+          </template>
+        </el-table-column>
         <el-table-column align="center" prop="createTime" label="创建时间"></el-table-column>
         <el-table-column align="center" prop="updateTime" label="编辑时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="180">
+        <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="upload(scope)" type="text" size="small">轮播图上传</el-button>
             <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
             <el-button @click="del(scope)" type="text" size="small">删除</el-button>
           </template>
@@ -50,7 +60,11 @@
         >
       </el-pagination>
     </div>
-    <el-dialog :title="dialogTitle" :visible.sync="DialogVisible" :close-on-click-modal="false">
+    <el-dialog 
+      :title="dialogTitle"
+      :visible.sync="DialogVisible"
+      @close="closeDialog"
+      :close-on-click-modal="false">
       <!-- 弹框- 新增、编辑 -->
       <template v-if="!isDel">
         <el-form ref="carouselForm" :model="carouselForm" :rules="carouselFormRules" label-width="180px">
@@ -67,6 +81,39 @@
               :inactive-value="false"
               >
             </el-switch>
+          </el-form-item>
+          <el-form-item label="轮播图" prop="carouselUrl">
+            <el-upload
+              action="/api/pic/singleImage"
+              list-type="picture-card"
+              :on-success="handleSuccess"
+              :on-remove="handleRemove"
+              :file-list="fileList"
+              :auto-upload="true">
+                <i slot="default" class="el-icon-plus"></i>
+                <div slot="file" slot-scope="{file}" style="height: 100%;">
+                  <img
+                    class="el-upload-list__item-thumbnail"
+                    :src="file.url" alt=""
+                  >
+                  <span class="el-upload-list__item-actions">
+                    <span
+                      class="el-upload-list__item-preview"
+                      @click="handlePictureCardPreview(file)"
+                    >
+                      <i class="el-icon-zoom-in"></i>
+                    </span>
+                    <span
+                      v-if="!disabled"
+                      class="el-upload-list__item-delete"
+                      @click="handleRemove(file)"
+                    >
+                      <i class="el-icon-delete"></i>
+                    </span>
+                  </span>
+                </div>
+                <!-- <div slot="tip" class="el-upload__tip">只能上传一张商品图片，如需更改，删除已有再次添加!</div> -->
+            </el-upload>
           </el-form-item>
         </el-form>
       </template>
@@ -88,6 +135,10 @@ import * as api from './api'
 export default {
   data () {
     return {
+      fileList: [],
+      dialogImageUrl: '',
+      dialogVisible: false,
+      disabled: false,
       dialogTitle: '弹窗',
       DialogVisible: false,
       isAdd: false,
@@ -121,8 +172,43 @@ export default {
     this.getData()
   },
   methods: {
-    upload ({row}) {
-      this.$message.warning('等e哥开发')
+    isShowChange (data) {
+      const { carouselId, isShow } = data
+      api.updateCarousel({ carouselId, isShow }).then(res => {
+        this.$message.closeAll()
+        if (res.code === 200) {
+          this.$message.success(res.message)
+        } else {
+          this.$message.error(res.message)
+        }
+      }).finally(() => {
+        this.getData()
+      })
+    },
+    // Dialog 关闭的回调
+    closeDialog () {
+      // 问题：打开过有商品图片的编辑弹窗，关闭后再次打开没有商品图片的编辑弹窗时，有去除上一张商品图片预览的动画。
+      // 解决方法：在关闭编辑弹窗时，就将图片预览去除。
+      this.fileList = []
+    },
+    // 上传图片
+    handleSuccess (response, file, fileList) {
+      if (response.code === 200) {
+        this.$message.success(response.message)
+        this.carouselForm.carouselUrl = response.data
+      } else {
+        this.$message.error(response.message)
+      }
+    },
+    // 移除图片
+    handleRemove(file, fileList) {
+      this.carouselForm.carouselUrl = ''
+      this.fileList = []
+    },
+    // 预览图片
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
     },
     add () {
       this.isAdd = true
@@ -136,6 +222,7 @@ export default {
         this.carouselForm = {
           isShow: false
         }
+        this.fileList = []
       })
     },
     edit (scope) {
@@ -157,6 +244,13 @@ export default {
               redirectUrl: res.data.redirectUrl,
               carouselRank: res.data.carouselRank,
               isShow: res.data.isShow
+            }
+            // 展示图片
+            if (res.data.carouselUrl) {
+              this.fileList = [{
+                name: res.data.carouselUrl,
+                url: res.data.carouselUrl
+              }]
             }
           })
         }
