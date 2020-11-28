@@ -32,7 +32,7 @@
               v-model="scope.row.isShow"
               :active-value="true"
               :inactive-value="false"
-              @change="isShowChange(scope.row)"
+              @change="isShowChange($event, scope.row)"
               >
             </el-switch>
           </template>
