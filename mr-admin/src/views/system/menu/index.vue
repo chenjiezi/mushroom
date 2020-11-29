@@ -3,7 +3,8 @@
     <div class="top_bar">
       <div class="search_bar"></div>
       <div class="tool_bar">
-        <el-button type="primary" size="mini" @click="addFisrtLevel()">新增目录</el-button>
+        <el-button type="primary" size="mini" @click="addFisrtLevel('M')">新增目录</el-button>
+        <el-button type="primary" style="margin-left:12px;" size="mini" @click="addFisrtLevel('C')">新增菜单</el-button>
       </div>
     </div>
     <div class="main">
@@ -22,7 +23,7 @@
         <el-table-column align="center" prop="menuTypeToText" label="菜单类别"></el-table-column>
         <el-table-column fixed="right" label="操作" width="140">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.levelNum !== 3" @click="addSecondOrThirdLevel(scope)" type="text" size="small">新增</el-button>
+            <el-button v-if="scope.row.menuType !== 'F'" @click="addSecondOrThirdLevel(scope)" type="text" size="small">新增</el-button>
             <el-button :disabled="editBtnLoading" @click="edit(scope)" type="text" size="small">编辑</el-button>
             <el-button @click="del(scope)" type="text" size="small">删除</el-button>
           </template>
@@ -52,7 +53,8 @@
         <!-- 操作 菜单 表单 -->
         <template v-if="isSecondLevel">
           <el-form ref="menuForm2" :model="menuForm" :rules="menuFormRules" label-width="180px">
-            <el-form-item label="目录名称" prop="parentId">
+            <!-- 菜单的 parentId 为0,则菜单为一级 -->
+            <el-form-item label="目录名称" prop="parentId" v-if="menuForm.parentId != 0">
               <el-select v-model="menuForm.parentId" :disabled="firstDisabled" placeholder="请选择">
                 <el-option
                   v-for="item in firstList"
@@ -95,13 +97,24 @@
         <!-- 操作 按钮 表单 -->
         <template v-if="isThirdLevel">
           <el-form ref="menuForm3" :model="menuForm" :rules="menuFormRules" label-width="180px">
-            <el-form-item label="目录/菜单名称" prop="menuIdArr">
+            <el-form-item label="目录/菜单名称" prop="menuIdArr" v-if="menuForm.levelNum === 3">
               <el-cascader
                 v-model="menuForm.menuIdArr"
                 :options="firstAndSecondList"
                 :props="{ value: 'menuId', label: 'menuName', children: 'children' }"
                 :disabled="firstAndSecondDisabled"
                 ></el-cascader>
+            </el-form-item>
+            <el-form-item label="目录名称" prop="parentId" v-else>
+              <el-select v-model="menuForm.parentId" :disabled="firstAndSecondDisabled" placeholder="请选择">
+                <el-option
+                  v-for="item in firstList"
+                  :key="item.menuId"
+                  :label="item.menuName"
+                  :value="item.menuId"
+                  >
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="按钮名称" prop="menuName">
               <el-input v-model="menuForm.menuName" autocomplete="off"></el-input>
@@ -183,26 +196,35 @@ export default {
     this.getData()
   },
   methods: {
-    addFisrtLevel () { // 显示 目录 新增操作弹窗
-      this.isTrue(['isAdd', 'isFirstLevel'])
-      this.dialogTitle = '新增目录'
+    addFisrtLevel (menuType) { // 显示 目录 新增操作弹窗
+      if (menuType === 'M') {
+        this.isTrue(['isAdd', 'isFirstLevel'])
+      } else if (menuType === 'C') {
+        this.isTrue(['isAdd', 'isSecondLevel'])
+      }
+      this.dialogTitle = menuType === 'M' ? '新增目录' : '新增菜单'
       this.DialogVisible = true
       this.$nextTick(() => {
         // 重置表单
-        this.$refs.menuForm1.resetFields();
+        if (menuType === 'M') {
+          this.$refs.menuForm1.resetFields();
+        } else if (menuType === 'C') {
+          this.$refs.menuForm2.resetFields();
+        }
         this.menuForm = {
           parentId: '0',
-          menuType: 'M',
-          levelNum: 1
+          menuType: menuType,
+          levelNum: 1,
+          visible: true
         }
       })
     },
     addSecondOrThirdLevel ({row}) { // 显示 按钮/菜单 新增操作弹窗
-      if (row.levelNum === 2) {
+      if (row.menuType === 'C') {
         this.isTrue(['isAdd', 'isThirdLevel'])
         this.dialogTitle = '新增按钮'
         this.firstAndSecondDisabled = true
-      } else if (row.levelNum === 1){
+      } else if (row.menuType === 'M'){
         this.isTrue(['isAdd', 'isSecondLevel'])
         this.dialogTitle = '新增菜单'
         this.firstDisabled = true
@@ -210,17 +232,21 @@ export default {
       this.DialogVisible = true
       this.$nextTick(() => {
         // 重置表单
-        this.$refs[`menuForm${row.levelNum + 1}`].resetFields();
-        if (row.levelNum === 2) {
+        if (row.menuType === 'C') {
+          this.$refs.menuForm3.resetFields();
           this.menuForm = {
-            menuIdArr: [row.parentId, row.menuId],
             menuType: 'F',
             levelNum: row.levelNum + 1
           }
-        } else if (row.levelNum === 1) {
+          row.parentId == 0
+          ? this.menuForm.parentId = row.menuId
+          : this.menuForm.menuIdArr = [row.parentId, row.menuId]
+        } else if (row.menuType === 'M'){
+          this.$refs.menuForm2.resetFields();
           this.menuForm = {
             parentId: row.menuId,
             menuType: 'C',
+            visible: true,
             levelNum: row.levelNum + 1
           }
         }
@@ -228,11 +254,11 @@ export default {
     },
     edit ({row}) { // 显示 一/二/三级 编辑操作弹窗
       this.editBtnLoading = true
-      if (row.levelNum === 3) {
+      if (row.menuType === 'F') {
         this.isTrue(['isEdit', 'isThirdLevel'])
         this.firstAndSecondDisabled = false
         this.dialogTitle = `编辑按钮 [${row.menuName}]`
-      } else if (row.levelNum === 2) {
+      } else if (row.menuType === 'C') {
         this.isTrue(['isEdit', 'isSecondLevel'])
         this.firstDisabled = false
         this.dialogTitle = `编辑菜单 [${row.menuName}]`
@@ -242,8 +268,8 @@ export default {
       }
       this.DialogVisible = true
       this.$nextTick(() => {
-        this.$refs[`menuForm${row.levelNum}`].resetFields();
-        if (row.levelNum === 3) {
+        if (row.menuType === 'F') {
+          this.$refs.menuForm3.resetFields();
           // 通过 三级的pId 获取 三级的pId的pId（下拉框需要到）
           let ppId = ''
           this.firstAndSecondList.forEach(item => {
@@ -260,14 +286,17 @@ export default {
             menuName: row.menuName,
             parentId: row.parentId,
             levelNum: row.levelNum,
+            perms: row.perms,
             icon: row.icon,
             path: row.path,
             menuType: row.menuType,
             remark: row.remark,
             menuIdArr: [ppId, row.parentId]
           }
-        } else if (row.levelNum === 2){
+        } else if (row.menuType === 'C'){
+          this.$refs.menuForm2.resetFields();
           this.menuForm = {
+            parentId: row.parentId,
             menuId: row.menuId,
             menuName: row.menuName,
             path: row.path,
@@ -276,11 +305,11 @@ export default {
             icon: row.icon,
             visible: row.visible,
             remark: row.remark,
-            parentId: row.parentId,
             levelNum: row.levelNum,
             menuType: row.menuType
           }
         } else {
+          this.$refs.menuForm1.resetFields();
           this.menuForm = {
             menuId: row.menuId,
             menuName: row.menuName,
@@ -297,9 +326,9 @@ export default {
       })
     },
     del ({row}) { // 显示 一/二/三级 删除操作弹窗
-      if (row.levelNum === 3) {
+      if (row.menuType === 'F') {
         this.dialogTitle = `删除按钮 [${row.menuName}]`
-      } else if (row.levelNum === 2){
+      } else if (row.menuType === 'C'){
         this.dialogTitle = `删除菜单 [${row.menuName}]`
       } else {
         this.dialogTitle = `删除目录 [${row.menuName}]`
@@ -311,10 +340,15 @@ export default {
     save () {
       this.saveBtnLoading = true
       if (!this.isDel) {
-
-        this.$refs[`menuForm${this.menuForm.levelNum}`].validate((valid) => {
+        let menuFormNum = 3
+        if (this.menuForm.menuType === 'M') {
+          menuFormNum = 1
+        } else if (this.menuForm.menuType === 'C') {
+          menuFormNum = 2
+        }
+        this.$refs[`menuForm${menuFormNum}`].validate((valid) => {
           if (valid) {
-            if (this.menuForm.levelNum === 3) {
+            if (this.menuForm.menuType === 'F' && this.menuForm.levelNum === 3) {
               this.menuForm.parentId = this.menuForm.menuIdArr[1]
             }
             if (this.isAdd) {
@@ -409,8 +443,7 @@ export default {
         this.saveBtnLoading = false
       })
     },
-    isTrue (arr) { 
-      // TODO: 待优化
+    isTrue (arr) {
       const t = [
         'isAdd',
         'isEdit',

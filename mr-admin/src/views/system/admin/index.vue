@@ -19,11 +19,11 @@
     <div class="main">
       <el-table :data="tableData" border size="mini" :cell-style="{padding: '2px 0'}">
         <el-table-column align="center" prop="adminId" label="ID" width="50"></el-table-column>
-        <el-table-column align="center" prop="roleIdsTotext" label="角色" width="100"></el-table-column>
+        <el-table-column align="center" prop="roleIdsTotext" label="角色"></el-table-column>
         <el-table-column align="center" prop="adminName" label="账号"></el-table-column>
         <!-- <el-table-column align="center" prop="password" label="密码" width="140"></el-table-column> -->
         <el-table-column align="center" prop="nickName" label="昵称"></el-table-column>
-        <el-table-column align="center" prop="email" label="邮箱" width="140"></el-table-column>
+        <el-table-column align="center" prop="email" label="邮箱"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
@@ -102,6 +102,7 @@ export default {
       curId: null, // 当前Id
       tableData: [],
       categoryList: [],
+      roleList: [],
       adminForm: {
         adminName: '',
         password: '',
@@ -221,13 +222,18 @@ export default {
       }).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.resultList.map(item => {
+            // 管理员的角色
             if (item.roleIds && item.roleIds.length > 0) {
               item.roleIds.forEach(itemRoleId => {
-                this.roleList.forEach(roleItem => {
+                for (let roleItem of this.roleList) {
                   if (itemRoleId === roleItem.roleId) {
-                    item.roleIdsTotext = ` ${roleItem.roleName}`
+                    if (item.roleIdsTotext) {
+                      item.roleIdsTotext += `、${roleItem.roleName}`
+                    } else {
+                      item.roleIdsTotext = `${roleItem.roleName}`
+                    }
                   }
-                })
+                }
               })
             }
             item.roleIdsTotext = item.roleIdsTotext ? item.roleIdsTotext : '-'

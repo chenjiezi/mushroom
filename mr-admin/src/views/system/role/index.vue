@@ -58,10 +58,15 @@
           <el-form-item label="备注" prop="remark">
             <el-input type="textarea" v-model="roleForm.remark" autocomplete="off"></el-input>
           </el-form-item>
-          <!-- TODO: menuIds转换 -->
-          <!-- <el-form-item label="菜单"" prop="menuIds">
-            <el-input v-model="roleForm.menuIds" autocomplete="off"></el-input>
-          </el-form-item> -->
+          <el-form-item label="菜单" prop="menuIds">
+            <el-tree
+              :data="menuList"
+              show-checkbox
+              node-key="menuId"
+              @check="getNodeKey"
+              :props="{children: 'children', label: 'menuName', value: 'menuId'}">
+            </el-tree>
+          </el-form-item>
         </el-form>
       </template>
       <!-- 弹框-删除 -->
@@ -78,6 +83,7 @@
 
 <script>
 import * as api from './api'
+import * as menuApi from '../menu/api'
 
 export default {
   data () {
@@ -92,11 +98,12 @@ export default {
       curId: null, // 当前Id
       tableData: [],
       categoryList: [],
+      menuList: [],
       roleForm: {
         roleName: '',
         password: '',
         remark: '',
-        menuIds: ''
+        menuIds: []
       },
       searchForm: {
         roleName: ''
@@ -119,10 +126,21 @@ export default {
       }
     }
   },
-  created () {
-    this.getData()
+  async created () {
+    await this.getMenuListData()
+    await this.getData()
   },
   methods: {
+    getNodeKey(a,b) {
+      console.log('a,b：', a,b)
+    },
+    getMenuListData () {
+      menuApi.getMenulist().then(res => {
+        if (res.code === 200) {
+          this.menuList = res.data
+        }
+      })
+    },
     submitForm () {
       this.page.currentPage = 1
       this.getData()
