@@ -264,7 +264,10 @@ export default {
     },
     // 重定向到商品详情编辑页面
     productDetailFunc (scope) {
-      this.$router.push({path: `/product/productDetail/${scope.row.productId}`})
+      this.$router.push({
+        path: `/product/productDetail/${scope.row.productId}`,
+        query: {productInfo: scope.row}
+      })
     },
     submitForm () {
       this.searchForm.categoryId = this.searchForm.cascaderCategoryId[2]
