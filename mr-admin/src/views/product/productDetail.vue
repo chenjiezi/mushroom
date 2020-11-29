@@ -1,5 +1,10 @@
 <template>
   <div :class="{fullscreen:fullscreen}" class="tinymce-container" :style="{width:containerWidth}">
+    <div class="product-detail-title">
+      <span class="product-detail-text">编辑商品详情 【商品名称：{{productInfo.productName}}】</span>
+      <el-button size="small" @click="$router.go(-1)">返回商品管理</el-button>
+      <el-button size="mini" class="edit-btn" type="primary" @click="getContent">提交</el-button>
+    </div>
     <textarea :id="tinymceId" class="tinymce-textarea" />
     <div class="editor-custom-btn-container">
       <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" />
@@ -8,20 +13,14 @@
 </template>
 
 <script>
-/**
- * docs:
- * https://panjiachen.github.io/vue-element-admin-site/feature/component/rich-editor.html#tinymce
- */
 import editorImage from './EditorImage/index'
 import plugins from './EditorImage/plugins'
 import toolbar from './EditorImage/toolbar'
 import load from './EditorImage/dynamicLoadScript'
-
-// why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
+import * as api from './api'
 const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
 
 export default {
-  name: 'Tinymce',
   components: { editorImage },
   props: {
     id: {
@@ -29,10 +28,6 @@ export default {
       default: function() {
         return 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
       }
-    },
-    value: {
-      type: String,
-      default: ''
     },
     toolbar: {
       type: Array,
@@ -58,6 +53,9 @@ export default {
   },
   data() {
     return {
+      value: '',
+      productInfo: {},
+      productId: this.$route.params.id || '0',
       hasChange: false,
       hasInit: false,
       tinymceId: this.id,
@@ -80,12 +78,14 @@ export default {
     }
   },
   watch: {
-    value(val) {
-      if (!this.hasChange && this.hasInit) {
-        this.$nextTick(() =>
-          window.tinymce.get(this.tinymceId).setContent(val || ''))
-      }
+    productInfo(val) {
+        this.$nextTick(() =>{
+          window.tinymce.get(this.tinymceId).setContent(val.productDetail || '')
+        })
     }
+  },
+  created () {
+    this.productInfo = this.$route.query.productInfo
   },
   mounted() {
     this.init()
@@ -116,8 +116,8 @@ export default {
       const _this = this
       window.tinymce.init({
         selector: `#${this.tinymceId}`,
-        language: this.languageTypeList['en'],
-        height: this.height,
+        language: this.languageTypeList['zh'],
+        height: 550,
         body_class: 'panel-body ',
         object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
@@ -148,43 +148,7 @@ export default {
             _this.fullscreen = e.state
           })
         },
-        // it will try to keep these URLs intact
-        // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
-        // https://stackoverflow.com/questions/5196205/disable-tinymce-absolute-to-relative-url-conversions
         convert_urls: false
-        // 整合七牛上传
-        // images_dataimg_filter(img) {
-        //   setTimeout(() => {
-        //     const $image = $(img);
-        //     $image.removeAttr('width');
-        //     $image.removeAttr('height');
-        //     if ($image[0].height && $image[0].width) {
-        //       $image.attr('data-wscntype', 'image');
-        //       $image.attr('data-wscnh', $image[0].height);
-        //       $image.attr('data-wscnw', $image[0].width);
-        //       $image.addClass('wscnph');
-        //     }
-        //   }, 0);
-        //   return img
-        // },
-        // images_upload_handler(blobInfo, success, failure, progress) {
-        //   progress(0);
-        //   const token = _this.$store.getters.token;
-        //   getToken(token).then(response => {
-        //     const url = response.data.qiniu_url;
-        //     const formData = new FormData();
-        //     formData.append('token', response.data.qiniu_token);
-        //     formData.append('key', response.data.qiniu_key);
-        //     formData.append('file', blobInfo.blob(), url);
-        //     upload(formData).then(() => {
-        //       success(url);
-        //       progress(100);
-        //     })
-        //   }).catch(err => {
-        //     failure('出现未知问题，刷新页面，或者联系程序员')
-        //     console.log(err);
-        //   });
-        // },
       })
     },
     destroyTinymce() {
@@ -201,7 +165,19 @@ export default {
       window.tinymce.get(this.tinymceId).setContent(value)
     },
     getContent() {
-      window.tinymce.get(this.tinymceId).getContent()
+      const content = window.tinymce.get(this.tinymceId).getContent()
+      if (!content || content === '') {
+        this.$message.warning('请编辑内容，再提交!')
+        return false
+      }
+      console.log('content：', content)
+      api.updateProduct({productId: this.productInfo.productId, productDetail: content}).then(res => {
+        if (res.code === 200) {
+          this.$message.success(res.message)
+        } else {
+          this.$message.error(res.message)
+        }
+      })
     },
     imageSuccessCBK(arr) {
       arr.forEach(v => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
@@ -214,6 +190,7 @@ export default {
 .tinymce-container {
   position: relative;
   line-height: normal;
+  padding: 20px;
 }
 
 .tinymce-container {
@@ -231,9 +208,9 @@ export default {
 
 .editor-custom-btn-container {
   position: absolute;
-  right: 4px;
-  top: 4px;
-  /*z-index: 2005;*/
+  right: 20px;
+  top: 20px;
+  /*z-index: 2020;*/
 }
 
 .fullscreen .editor-custom-btn-container {
@@ -243,5 +220,22 @@ export default {
 
 .editor-upload-btn {
   display: inline-block;
+}
+
+.product-detail-title {
+  height: 35px;
+  line-height: 35px;
+  margin-bottom: 10px;
+  .product-detail-text {
+    margin-right: 12px;
+  }
+  .edit-btn {
+    position: absolute;
+    right: 130px;
+    top: 20px;
+    background: rgb(24, 144, 255);
+    border-color: rgb(24, 144, 255);
+    height: 29px;
+  }
 }
 </style>
