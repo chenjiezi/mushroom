@@ -45,7 +45,11 @@
         >
       </el-pagination>
     </div>
-    <el-dialog :title="dialogTitle" :visible.sync="DialogVisible" :close-on-click-modal="false">
+    <el-dialog
+      :title="dialogTitle"
+      :visible.sync="DialogVisible"
+      @close="closeDialog"
+      :close-on-click-modal="false">
       <!-- 弹框- 新增、编辑 -->
       <template v-if="!isDel">
         <el-form ref="roleForm" :model="roleForm" :rules="roleFormRules" label-width="180px">
@@ -59,13 +63,16 @@
             <el-input type="textarea" v-model="roleForm.remark" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="菜单" prop="menuIds">
-            <el-tree
-              :data="menuList"
-              show-checkbox
-              node-key="menuId"
-              @check="getNodeKey"
-              :props="{children: 'children', label: 'menuName', value: 'menuId'}">
-            </el-tree>
+            <div style="height: 250px;overflow-y: scroll;padding:12px;">
+              <el-tree
+                ref="tree"
+                :data="menuList"
+                show-checkbox
+                node-key="menuId"
+                @check="getNodeKey"
+                :props="{children: 'children', label: 'menuName', value: 'menuId'}">
+              </el-tree>
+            </div>
           </el-form-item>
         </el-form>
       </template>
@@ -131,8 +138,19 @@ export default {
     await this.getData()
   },
   methods: {
-    getNodeKey(a,b) {
-      console.log('a,b：', a,b)
+    // 关弹窗之前
+    closeDialog () {
+      // 树结构折叠
+      let treeList = this.menuList;
+      for (let i = 0; i < treeList.length; i++) {
+        this.$refs.tree.store.nodesMap[treeList[i].menuId].expanded = false;
+      }
+      // 树结构去除勾选
+      this.$refs.tree.setCheckedKeys([])
+    },
+    getNodeKey(cueNode,data) {
+      const { checkedKeys, halfCheckedKeys } = data
+      this.roleForm.menuIds = [...checkedKeys, ...halfCheckedKeys]
     },
     getMenuListData () {
       menuApi.getMenulist().then(res => {
@@ -180,8 +198,10 @@ export default {
               roleId: res.data.roleId,
               roleName: res.data.roleName,
               roleKey: res.data.roleKey,
+              menuIds: res.data.menuIds,
               remark: res.data.remark
             }
+          this.$refs.tree.setCheckedKeys(res.data.menuIds)
           })
         }
       }).finally(() => {
