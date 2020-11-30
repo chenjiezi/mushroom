@@ -16,7 +16,17 @@
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         :cell-style="{padding: '2px 0'}">
         <el-table-column align="center" prop="menuName" label="菜单名称"></el-table-column>
-        <el-table-column align="center" prop="icon" label="icon"></el-table-column>
+        <el-table-column align="center" prop="icon" label="图标">
+          <template slot-scope="scope">
+            <svg-icon
+              v-if="scope.row.icon"
+              slot="prefix"
+              :icon-class="scope.row.icon"
+              class="el-input__icon"
+              style="height: 32px;width: 16px;padding-top: 10px;"
+            />
+          </template>
+        </el-table-column>
         <el-table-column align="center" prop="path" label="路由地址"></el-table-column>
         <el-table-column align="center" prop="component" label="组件路径"></el-table-column>
         <el-table-column align="center" prop="perms" label="权限标识"></el-table-column>
@@ -42,8 +52,25 @@
             <el-form-item label="路由地址" prop="path">
               <el-input v-model="menuForm.path" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="icon" prop="icon">
-              <el-input v-model="menuForm.icon" autocomplete="off"></el-input>
+            <el-form-item label="图标" prop="icon">
+              <el-popover
+                placement="bottom-start"
+                width="460"
+                trigger="click"
+                @show="$refs['iconSelect'].reset()"
+              >
+                <IconSelect ref="iconSelect" @selected="selected" />
+                <el-input slot="reference" v-model="menuForm.icon" placeholder="点击选择图标" readonly>
+                  <svg-icon
+                    v-if="menuForm.icon"
+                    slot="prefix"
+                    :icon-class="menuForm.icon"
+                    class="el-input__icon"
+                    style="height: 32px;width: 16px;padding-top: 10px;"
+                  />
+                  <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+                </el-input>
+              </el-popover>
             </el-form-item>
             <el-form-item label="备注" prop="remark">
               <el-input v-model="menuForm.remark" autocomplete="off"></el-input>
@@ -86,8 +113,25 @@
                 inactive-text="隐藏">
               </el-switch>
             </el-form-item>
-            <el-form-item label="icon" prop="icon">
-              <el-input v-model="menuForm.icon" autocomplete="off"></el-input>
+            <el-form-item label="图标" prop="icon">
+              <el-popover
+                placement="bottom-start"
+                width="460"
+                trigger="click"
+                @show="$refs['iconSelect'].reset()"
+              >
+                <IconSelect ref="iconSelect" @selected="selected" />
+                <el-input slot="reference" v-model="menuForm.icon" placeholder="点击选择图标" readonly>
+                  <svg-icon
+                    v-if="menuForm.icon"
+                    slot="prefix"
+                    :icon-class="menuForm.icon"
+                    class="el-input__icon"
+                    style="height: 32px;width: 16px;padding-top: 10px;"
+                  />
+                  <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+                </el-input>
+              </el-popover>
             </el-form-item>
             <el-form-item label="备注" prop="remark">
               <el-input v-model="menuForm.remark" autocomplete="off"></el-input>
@@ -123,7 +167,24 @@
               <el-input v-model="menuForm.perms" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item label="icon" prop="icon">
-              <el-input v-model="menuForm.icon" autocomplete="off"></el-input>
+              <el-popover
+                placement="bottom-start"
+                width="460"
+                trigger="click"
+                @show="$refs['iconSelect'].reset()"
+              >
+                <IconSelect ref="iconSelect" @selected="selected" />
+                <el-input slot="reference" v-model="menuForm.icon" placeholder="点击选择图标" readonly>
+                  <svg-icon
+                    v-if="menuForm.icon"
+                    slot="prefix"
+                    :icon-class="menuForm.icon"
+                    class="el-input__icon"
+                    style="height: 32px;width: 16px;padding-top: 10px;"
+                  />
+                  <i v-else slot="prefix" class="el-icon-search el-input__icon" />
+                </el-input>
+              </el-popover>
             </el-form-item>
             <el-form-item label="备注" prop="remark">
               <el-input v-model="menuForm.remark" autocomplete="off"></el-input>
@@ -145,8 +206,10 @@
 
 <script>
 import * as api from './api'
+import IconSelect from "@/components/IconSelect";
 
 export default {
+  components: { IconSelect },
   data () {
     return {
       curId: null, // 当前数据id
@@ -166,6 +229,7 @@ export default {
       menuForm: {
         menuName: '',
         parentId: '',
+        icon: '',
         menuIdArr: []
       },
       menuFormRules: {
@@ -196,6 +260,10 @@ export default {
     this.getData()
   },
   methods: {
+    // 选择图标
+    selected(name) {
+      this.menuForm.icon = name;
+    },
     addFisrtLevel (menuType) { // 显示 目录 新增操作弹窗
       if (menuType === 'M') {
         this.isTrue(['isAdd', 'isFirstLevel'])
@@ -213,6 +281,7 @@ export default {
         }
         this.menuForm = {
           parentId: '0',
+          icon: '',
           menuType: menuType,
           levelNum: 1,
           visible: true
@@ -236,6 +305,7 @@ export default {
           this.$refs.menuForm3.resetFields();
           this.menuForm = {
             menuType: 'F',
+            icon: '',
             levelNum: row.levelNum + 1
           }
           row.parentId == 0
@@ -246,6 +316,7 @@ export default {
           this.menuForm = {
             parentId: row.menuId,
             menuType: 'C',
+            icon: '',
             visible: true,
             levelNum: row.levelNum + 1
           }
