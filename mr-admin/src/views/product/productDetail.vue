@@ -1,5 +1,5 @@
 <template>
-  <div :class="{fullscreen:fullscreen}" class="tinymce-container" :style="{width:containerWidth}">
+  <div :class="{fullscreen:fullscreen}" v-loading="loading" class="tinymce-container" :style="{width:containerWidth}">
     <div class="product-detail-title">
       <span class="product-detail-text">编辑商品详情 【商品名称：{{productInfo.productName}}】</span>
       <el-button size="small" @click="$router.go(-1)">返回商品管理</el-button>
@@ -53,6 +53,7 @@ export default {
   },
   data() {
     return {
+      loading: true,
       value: '',
       productInfo: {},
       productId: this.$route.params.id || '0',
@@ -79,9 +80,13 @@ export default {
   },
   watch: {
     productInfo(val) {
-        this.$nextTick(() =>{
+      this.$nextTick(() =>{
+        setTimeout(() => {
+          // TODO:得优化
+          this.loading = false
           window.tinymce.get(this.tinymceId).setContent(val.productDetail || '')
-        })
+        }, 800)
+      })
     }
   },
   created () {
