@@ -25,15 +25,13 @@
         </el-table-column>
         <el-table-column align="center" prop="redirectUrl" label="跳转地址"></el-table-column>
         <el-table-column align="center" prop="carouselRank" label="展示顺序" width="100"></el-table-column>
-        <el-table-column align="center" prop="isShow" label="是否展示" width="150">
+        <el-table-column align="center" prop="isShow" label="是否展示">
           <template slot-scope="scope">
-            <!-- TODO:无厘头的bug -->
             <el-switch
               v-model="scope.row.isShow"
               :active-value="true"
               :inactive-value="false"
-              @change="isShowChange($event, scope.row)"
-              >
+              @change="isShowChange(scope.row)">
             </el-switch>
           </template>
         </el-table-column>
@@ -78,8 +76,7 @@
             <el-switch
               v-model="carouselForm.isShow"
               :active-value="true"
-              :inactive-value="false"
-              >
+              :inactive-value="false">
             </el-switch>
           </el-form-item>
           <el-form-item label="轮播图" prop="carouselUrl">
@@ -89,6 +86,7 @@
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :file-list="fileList"
+              :disabled="this.fileList.length > 0"
               :auto-upload="true">
                 <i slot="default" class="el-icon-plus"></i>
                 <div slot="file" slot-scope="{file}" style="height: 100%;">
@@ -112,7 +110,7 @@
                     </span>
                   </span>
                 </div>
-                <!-- <div slot="tip" class="el-upload__tip">只能上传一张商品图片，如需更改，删除已有再次添加!</div> -->
+                <div slot="tip" class="el-upload__tip">只能上传一张图片，如需更改，删除已有图片再次添加!</div>
             </el-upload>
           </el-form-item>
         </el-form>
@@ -295,7 +293,6 @@ export default {
       }).then(res => {
         if (res.code === 200) {
           this.tableData = res.data.map(item => {
-            item.isShow = item.isShow ? '是' : '否'
             item.createTime = this.dateFormat(item, 'createTime')
             item.updateTime = this.dateFormat(item, 'updateTime')
             return item
