@@ -122,6 +122,7 @@
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :file-list="fileList"
+              :disabled="this.fileList.length > 0"
               :auto-upload="true">
                 <i slot="default" class="el-icon-plus"></i>
                 <div slot="file" slot-scope="{file}" style="height: 100%;">
@@ -145,7 +146,7 @@
                     </span>
                   </span>
                 </div>
-                <!-- <div slot="tip" class="el-upload__tip">只能上传一张商品图片，如需更改，删除已有再次添加!</div> -->
+                <div slot="tip" class="el-upload__tip">只能上传一张图片，如需更改，删除已有图片再次添加!</div>
             </el-upload>
           </el-form-item>
         </el-form>
