@@ -15,7 +15,7 @@
         row-key="menuId"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         :cell-style="{padding: '2px 0'}">
-        <el-table-column align="center" prop="menuName" label="菜单名称"></el-table-column>
+        <el-table-column align="left" prop="menuName" label="菜单名称"></el-table-column>
         <el-table-column align="center" prop="icon" label="图标" width="80">
           <template slot-scope="scope">
             <svg-icon
@@ -28,6 +28,7 @@
           </template>
         </el-table-column>
         <el-table-column align="center" prop="menuTypeToText" label="菜单类别" width="100"></el-table-column>
+        <el-table-column align="center" prop="orderNum" label="菜单排序" width="80"></el-table-column>
         <el-table-column align="center" prop="path" label="路由地址"></el-table-column>
         <el-table-column align="center" prop="component" label="组件路径"></el-table-column>
         <el-table-column align="center" prop="perms" label="权限标识"></el-table-column>
@@ -52,6 +53,9 @@
             </el-form-item>
             <el-form-item label="路由地址" prop="path">
               <el-input v-model="menuForm.path" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单排序" prop="orderNum">
+              <el-input-number v-model="menuForm.orderNum" :min="1" :max="10"></el-input-number>
             </el-form-item>
             <el-form-item label="图标" prop="icon">
               <el-popover
@@ -104,6 +108,9 @@
             </el-form-item>
             <el-form-item label="权限标识" prop="perms">
               <el-input v-model="menuForm.perms" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="菜单排序" prop="orderNum">
+              <el-input-number v-model="menuForm.orderNum" :min="1" :max="10"></el-input-number>
             </el-form-item>
             <el-form-item label="显示状态" prop="visible">
               <el-switch
@@ -231,6 +238,7 @@ export default {
         menuName: '',
         parentId: '',
         icon: '',
+        orderNum: '',
         menuIdArr: []
       },
       menuFormRules: {
@@ -285,6 +293,7 @@ export default {
           icon: '',
           menuType: menuType,
           levelNum: 1,
+          orderNum: 1,
           visible: true
         }
       })
@@ -319,6 +328,7 @@ export default {
             menuType: 'C',
             icon: '',
             visible: true,
+            orderNum: 1,
             levelNum: row.levelNum + 1
           }
         }
@@ -376,6 +386,7 @@ export default {
             perms: row.perms,
             icon: row.icon,
             visible: row.visible,
+            orderNum: row.orderNum,
             remark: row.remark,
             levelNum: row.levelNum,
             menuType: row.menuType
@@ -390,6 +401,7 @@ export default {
             path: row.path,
             remark: row.remark,
             parentId: row.parentId,
+            orderNum: row.orderNum,
             levelNum: row.levelNum,
             menuType: row.menuType
           }
