@@ -52,7 +52,6 @@ export default {
       div {
         height: 30px;
         line-height: 30px;
-        margin-bottom: -5px;
         cursor: pointer;
         width: 33%;
         float: left;
