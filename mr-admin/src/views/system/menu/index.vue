@@ -11,12 +11,12 @@
       <el-table
         :data="tableData"
         border size="mini"
-        default-expand-all
+        :default-expand-all="false"
         row-key="menuId"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         :cell-style="{padding: '2px 0'}">
         <el-table-column align="center" prop="menuName" label="菜单名称"></el-table-column>
-        <el-table-column align="center" prop="icon" label="图标">
+        <el-table-column align="center" prop="icon" label="图标" width="80">
           <template slot-scope="scope">
             <svg-icon
               v-if="scope.row.icon"
@@ -27,10 +27,11 @@
             />
           </template>
         </el-table-column>
+        <el-table-column align="center" prop="menuTypeToText" label="菜单类别" width="100"></el-table-column>
         <el-table-column align="center" prop="path" label="路由地址"></el-table-column>
         <el-table-column align="center" prop="component" label="组件路径"></el-table-column>
         <el-table-column align="center" prop="perms" label="权限标识"></el-table-column>
-        <el-table-column align="center" prop="menuTypeToText" label="菜单类别"></el-table-column>
+        <el-table-column align="center" prop="remark" label="备注"></el-table-column>
         <el-table-column fixed="right" label="操作" width="140">
           <template slot-scope="scope">
             <el-button v-if="scope.row.menuType !== 'F'" @click="addSecondOrThirdLevel(scope)" type="text" size="small">新增</el-button>
