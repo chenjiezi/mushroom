@@ -1,6 +1,6 @@
 import {constantRoutes} from '@/router'
 import Layout from '@/layout/index'
-import {getRouters} from '@/views/system/menu/api'
+import {getRouters} from '@/api/menu'
 
 const state = {
   routes: [],
