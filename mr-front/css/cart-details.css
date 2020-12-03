@@ -1,0 +1,109 @@
+.my-cart {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.my-cart-container {
+    min-height: 550px;
+    background-color: #fff;
+    padding-top: 12px;
+}
+
+.my-cart-title tr,
+.my-cart-title th,
+.my-cart-body td,
+.my-cart-total td,
+.my-cart-pay td {
+    width: 180px;
+    text-align: center;
+}
+
+.my-cart-title {
+    margin-bottom: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.my-cart-title tr,
+.my-cart-total tr {
+    height: 35px;
+    background-color: rgba(0,0,0,.05);
+}
+
+.my-cart-body {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.my-cart-total {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.my-cart-total .my-cart-total-group .label {
+    color: #555;
+    font-size: 16px;
+    display: inline-block;
+    height: 27px;
+    line-height: 27px;
+}
+.my-cart-total .my-cart-total-group .price {
+    font-size: 20px;
+    display: inline-block;
+}
+.my-cart-body,
+.my-cart-total {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.my-cart-body a {
+    color: red;
+}
+
+.my-cart-body img{
+    width: 80px;
+    height: 80px;
+    margin-bottom: 5px;
+}
+.my-cart-body tr {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.my-cart-body .product-quantity-group {
+    padding-left: 50px;
+}
+
+.my-cart-body .product-quantity-group .reduce
+ {
+    float: left;
+    width: 25px;
+    height:24px;
+}
+
+.my-cart-body .product-quantity-group .quantity {
+    float: left;
+    width: 25px;
+    height: 24px;
+    text-align: center;
+}
+
+.my-cart-body .product-quantity-group .increase {
+    float: left;
+    width: 25px;
+    height: 24px;
+}
+
+.my-cart-total input {
+    padding-left: 20px;
+}
+
+.my-cart-total-group .price {
+    font-weight: bold;
+    color: red;
+}
+
+.my-cart-pay {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}

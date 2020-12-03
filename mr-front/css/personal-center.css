@@ -1,0 +1,116 @@
+.container,
+.personal-info .personal-container,
+.order-container,
+.footer .footer-container {
+    width: 1266px;
+    margin: 0px auto;
+}
+
+.order-container {
+    background-color: #fff;
+    min-height: 550px;
+}
+
+.personal-info  .personal-container {
+    background-color: #fff;
+    height: 200px;
+}
+
+.personal-info {
+    margin-top: 20px;
+    color: #333;
+    font-size: 16px;
+}
+
+.personal-info .head-portrait {
+    width: 200px;
+    float: left;
+}
+
+.personal-info .head-portrait img{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #333;
+    margin: 20px;
+}
+
+.personal-info .info-content {
+    width: 880px;
+    float: left;
+    padding-left: 30px;
+}
+
+.info-content .personal-name .name,
+.info-content .personal-name .account {
+    margin-top: 30px;
+}
+
+.info-content .personal-name .name {
+    float: left;
+    
+}
+
+.info-content .personal-name .account {
+    float: left;
+}
+
+.info-content .personal-name .change {
+    float: left;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 3px;
+    background-color:#fff;
+    border-color: rgba(0,0,0,.2);
+    outline: 0;
+    margin-top: 20px;
+}
+
+.info-content .personal-name .name,
+.info-content .personal-name .account {
+    margin-right: 60px;
+}
+
+.info-content .person-address {
+    width: 350px;
+    margin-top: 20px;
+}
+
+.info-content .tips {
+    margin-top: 50px;
+    font-size: 12px;
+    color: #888;
+}
+
+.my-order .my-order-title {
+    border: 1px solid rgba(0,0, 0,.1);
+    font-size: 15px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding:10px 5px;
+}
+
+.my-order .order-table tr,
+.my-order .order-table th,
+.my-order .order-table td {
+    width: 180px;
+    height: 40px;
+    border: 1px solid rgba(0,0, 0,.1)
+}
+
+.my-order {
+    margin-bottom: 20px;
+}
+
+.my-order .order-table {
+    text-align: center;
+    border-spacing: 0;
+}
+
+.my-order .order-table .order-details {
+    width: 103px;
+    height: 27px;
+    background-color: #fff;
+    border-radius: 3px;
+    border-color: rgba(0,0,0,.2);
+}
