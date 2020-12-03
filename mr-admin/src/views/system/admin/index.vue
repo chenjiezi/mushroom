@@ -86,8 +86,8 @@
 </template>
 
 <script>
-import * as api from './api'
-import * as roleApi from '../role/api'
+import * as api from '@/api/admin'
+import * as roleApi from '@/api/role'
 
 export default {
   data () {

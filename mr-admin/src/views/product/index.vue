@@ -167,8 +167,8 @@
 </template>
 
 <script>
-import * as api from './api'
-import * as categoryApi from '../category/api'
+import * as api from '@/api/product'
+import * as categoryApi from '@/api/category'
 
 export default {
   data () {

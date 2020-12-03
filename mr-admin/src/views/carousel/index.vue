@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import * as api from './api'
+import * as api from '@/api/carousel'
 
 export default {
   data () {

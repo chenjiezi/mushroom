@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import * as api from './api'
+import * as api from '@/api/member'
 
 export default {
   data () {

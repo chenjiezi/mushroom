@@ -17,7 +17,7 @@ import editorImage from './EditorImage/index'
 import plugins from './EditorImage/plugins'
 import toolbar from './EditorImage/toolbar'
 import load from './EditorImage/dynamicLoadScript'
-import * as api from './api'
+import * as api from '@/api/product'
 const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
 
 export default {

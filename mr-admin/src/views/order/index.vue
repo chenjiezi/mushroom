@@ -21,10 +21,44 @@
       </div>
     </div>
     <div class="main">
-      <el-table :data="tableData" border size="mini" :cell-style="{padding: '2px 0'}">
+      <el-table :data="tableData"  border size="mini"  :cell-style="{padding: '2px 0'}">
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <div class="detail-container" style="padding:10px">
+              <h2>订单详情：</h2>
+              <el-table
+                size="mini"
+                :cell-style="{padding: '2px 0',border: 'none'}"
+                :header-cell-style="{border: 'none'}"
+                :data="props.row.orderItemList"
+                style="width: 60%;">
+                <el-table-column
+                  label="商品图片"
+                  prop="productImg"
+                  width="180">
+                  <template slot-scope="scope">
+                    <template v-if="scope.row.productImg">
+                      <el-image 
+                        style="width: 30px; height: 30px"
+                        :src="scope.row.productImg" 
+                        :preview-src-list="[scope.row.productImg]"
+                        >
+                      </el-image>
+                    </template>
+                    <template v-else>
+                      无
+                    </template>
+                  </template>
+                </el-table-column>
+                <el-table-column label="单价" prop="productPrice"></el-table-column>
+                <el-table-column label="购买数量" prop="productCount"></el-table-column>
+              </el-table>
+            </div>
+          </template>
+        </el-table-column>
         <el-table-column align="center" prop="orderNo" label="订单号" width="180"></el-table-column>
-        <el-table-column align="center" prop="payStatusText" label="订单状态" width="80"></el-table-column>
-        <el-table-column align="center" prop="orderStatusText" label="购买状态" width="80"></el-table-column>
+        <el-table-column align="center" prop="orderStatusText" label="订单状态" width="80"></el-table-column>
+        <el-table-column align="center" prop="payStatusText" label="购买状态" width="80"></el-table-column>
         <el-table-column align="center" prop="totalPrice" label="订单总价(元)" width="100"></el-table-column>
         <el-table-column align="center" prop="payTime" label="下单时间"></el-table-column>
         <el-table-column align="center" prop="userName" label="用户昵称"></el-table-column>
@@ -32,7 +66,8 @@
         <el-table-column align="center" prop="userAddress" label="送货地址"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
-            <el-button @click="info(scope)" :disabled="editBtnloading" type="text" size="small">订单详情</el-button>
+            <!-- <el-button @click="info(scope)" :disabled="editBtnloading" type="text" size="small">订单详情</el-button> -->
+            <el-button @click="closeOrder(scope)" type="text" size="small">关闭订单</el-button>
             <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
             <el-button @click="del(scope)" type="text" size="small">删除</el-button>
           </template>
@@ -109,7 +144,7 @@
 </template>
 
 <script>
-import * as api from './api'
+import * as api from '@/api/order'
 
 export default {
   data () {
@@ -169,6 +204,17 @@ export default {
       this.page.currentPage = 1
       this.searchForm = {}
       this.getData()
+    },
+    // 关闭订单
+    closeOrder({row}) {
+      this.$alert('是否关闭该订单', '操作', {
+          confirmButtonText: '确定',
+          callback: action => {
+            if (action === 'confirm') {
+              this.closeOrderFunc(row.orderId)
+            }
+          }
+        })
     },
     // 查看订单详情
     info (scope) {
@@ -239,6 +285,17 @@ export default {
         this.delData() // 发送删除数据请求
       }
     },
+    closeOrderFunc (orderId) {
+      api.closeOrderByOrderId(orderId).then(res => {
+        if (res.code === 200) {
+          this.$message.success(res.message)
+        } else {
+          this.$message.error(res.message)
+        }
+      }).finally(() => {
+        this.getData()
+      })
+    },
     getData () {
       api.getOrderList({
         ...this.searchForm,
@@ -248,13 +305,17 @@ export default {
           this.tableData = res.data.resultList.map(item => {
             if (item.payStatus == 1) {
               item.payStatusText = '已支付'
-            } else if (item.payStatus == 0) {
+            }  else if (item.payStatus == 0) {
               item.payStatusText = '未支付'
             } else {
               item.payStatusText = '-'
             }
             if (item.orderStatus == 1) {
               item.orderStatusText = '已提交'
+            } else if (item.orderStatus == 0) {
+              item.orderStatusText = '未支付'
+            }  else if (item.orderStatus == -2) {
+              item.orderStatusText = '商家关闭'
             } else if (item.orderStatus == 0) {
               item.orderStatusText = '未提交'
             } else {
@@ -324,5 +385,10 @@ export default {
 .pagination {
   display: flex;
   justify-content: center;
+}
+.main {
+  ::v-deep  .el-table__expanded-cell {
+    padding: 10px;
+  }
 }
 </style>

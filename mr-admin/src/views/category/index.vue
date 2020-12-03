@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import * as api from './api'
+import * as api from '@/api/category'
 
 export default {
   data () {

@@ -89,8 +89,8 @@
 </template>
 
 <script>
-import * as api from './api'
-import * as menuApi from '../menu/api'
+import * as api from '@/api/role'
+import * as menuApi from '@/api/menu'
 
 export default {
   data () {

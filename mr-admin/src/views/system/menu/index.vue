@@ -15,7 +15,7 @@
         row-key="menuId"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         :cell-style="{padding: '2px 0'}">
-        <el-table-column align="left" prop="menuName" label="菜单名称"></el-table-column>
+        <el-table-column align="left" prop="menuName" label="菜单名称" width="200"></el-table-column>
         <el-table-column align="center" prop="icon" label="图标" width="80">
           <template slot-scope="scope">
             <svg-icon
@@ -213,7 +213,7 @@
 </template>
 
 <script>
-import * as api from './api'
+import * as api from '@/api/menu'
 import IconSelect from "@/components/IconSelect";
 
 export default {
