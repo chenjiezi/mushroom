@@ -50,6 +50,13 @@ export default {
 }
 </script>
 
+<style>
+.el-icon-circle-close,.el-image-viewer__actions__inner{
+  color: #ffffff;
+}
+
+</style>
+
 <style lang="scss" scoped>
   @import "~@/styles/mixin.scss";
   @import "~@/styles/variables.scss";
@@ -90,4 +97,6 @@ export default {
   .mobile .fixed-header {
     width: 100%;
   }
+
+
 </style>

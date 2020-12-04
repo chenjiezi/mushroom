@@ -1,4 +1,4 @@
-import request from '@/utils/axiosConfig.js'
+import request from '@/utils/request'
 
 // GET根据orderId查询订单详细信息
 export const getOrderInfoByOrderId = (orderId) => {

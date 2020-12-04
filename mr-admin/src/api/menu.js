@@ -1,4 +1,4 @@
-import request from '@/utils/axiosConfig.js'
+import request from '@/utils/request'
 
 // GET根据menuId查询菜单信息
 export const getMenuInfoByMenuId = (menuId) => {

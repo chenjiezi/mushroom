@@ -9,8 +9,7 @@
     </div>
     <div class="main">
       <el-table
-        :data="tableData"
-        border size="mini"
+        :data="tableData" size="mini"
         :default-expand-all="false"
         row-key="menuId"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
@@ -465,7 +464,7 @@ export default {
                   item2.menuTypeToText = this.menuTypeFormat(item2.menuType)
                   item2.createTime = this.dateFormat(item2, 'createTime')
                   item2.updateTime = this.dateFormat(item2, 'updateTime')
-                  return item2 
+                  return item2
                 })
               }
               return item1

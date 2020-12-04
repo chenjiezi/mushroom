@@ -1,4 +1,4 @@
-import request from '@/utils/axiosConfig.js'
+import request from '@/utils/request'
 
 // POST根据商品名称或分类id获取商品列表
 export const getProductList = (data = {}) => {

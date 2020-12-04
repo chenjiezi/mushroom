@@ -59,8 +59,8 @@ export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('请正确输入账号!'))
+      if (value.length<5) {
+        callback(new Error('用户名必须为5个字符'))
       } else {
         callback()
       }

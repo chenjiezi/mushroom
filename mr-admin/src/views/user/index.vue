@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="main">
-      <el-table :data="tableData" border size="mini" :cell-style="{padding: '2px 0'}">
+      <el-table :data="tableData" size="mini" :cell-style="{padding: '2px 0'}">
         <el-table-column align="center" prop="userId" label="ID" width="100"></el-table-column>
         <el-table-column align="center" prop="loginName" label="账号"></el-table-column>
         <el-table-column align="center" prop="nickName" label="昵称" width="100"></el-table-column>

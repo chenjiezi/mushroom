@@ -26,17 +26,16 @@
       </div>
     </div>
     <div class="main">
-      <el-table :data="tableData" border size="mini" style="" :header-cell-style="{'background-color': '#fff'}" :cell-style="{padding: '2px 0'}">
-        <el-table-column align="center" prop="productId" label="ID" width="100"></el-table-column>
-        <el-table-column align="center" prop="productName" label="商品名称"></el-table-column>
-        <el-table-column align="center" prop="productImg" label="商品图片" width="80">
+      <el-table :data="tableData" size="mini"  style="" :header-cell-style="{'background-color': '#fff'}" :cell-style="{padding: '2px 0'}">
+        <el-table-column align="center" prop="productId" label="ID" ></el-table-column>
+        <el-table-column align="center" prop="productImg" label="商品图片" width="90">
           <template slot-scope="scope">
             <template v-if="scope.row.productImg">
-              <el-image 
-                style="width: 30px; height: 30px"
-                :src="scope.row.productImg" 
+              <el-image
+                style="width: 100%;padding: 2px"
+                :src="scope.row.productImg"
                 :preview-src-list="[scope.row.productImg]"
-                >
+              >
               </el-image>
             </template>
             <template v-else>
@@ -44,10 +43,11 @@
             </template>
           </template>
         </el-table-column>
-        <el-table-column align="center" prop="productPrice" label="单价" width="100"></el-table-column>
+        <el-table-column align="center" prop="productName" label="商品名称" width="200"></el-table-column>
+        <el-table-column align="center" prop="productPrice" label="单价" width="100" ></el-table-column>
         <el-table-column align="center" prop="stockNum" label="库存" width="100"></el-table-column>
-        <el-table-column align="center" prop="categoryName" label="商品分类" width="100"></el-table-column>
-        <el-table-column align="center" prop="productStatusName" label="商品状态" width="150">
+        <el-table-column align="center" prop="categoryName" label="商品分类"  width="100"></el-table-column>
+        <el-table-column align="center" prop="productStatusName" label="商品状态" width="250">
           <template slot-scope="scope">
             <el-switch
               v-model="scope.row.productStatus"
@@ -59,6 +59,8 @@
             </el-switch>
           </template>
         </el-table-column>
+        <el-table-column align="center" prop="createTime" label="创建时间" width="250"></el-table-column>
+        <el-table-column align="center" prop="updateTime" label="编辑时间" width="250"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
             <el-button @click="productDetailFunc(scope)" type="text" size="small">商品详情</el-button>
@@ -93,10 +95,10 @@
             <el-input v-model="productForm.productName" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="商品单价" prop="productPrice">
-            <el-input v-model="productForm.productPrice" type="number" autocomplete="off"></el-input>
+            <el-input-number size="small" v-model="productForm.productPrice"></el-input-number>
           </el-form-item>
           <el-form-item label="商品库存" prop="stockNum">
-            <el-input v-model="productForm.stockNum" type="number" autocomplete="off"></el-input>
+            <el-input-number size="small" v-model="productForm.stockNum" :precision="0"></el-input-number>
           </el-form-item>
           <el-form-item label="商品分类" prop="cascaderCategoryId">
             <el-cascader
@@ -122,6 +124,7 @@
               :on-success="handleSuccess"
               :on-remove="handleRemove"
               :file-list="fileList"
+              :headers="headers"
               :disabled="this.fileList.length > 0"
               :auto-upload="true">
                 <i slot="default" class="el-icon-plus"></i>
@@ -169,10 +172,11 @@
 <script>
 import * as api from '@/api/product'
 import * as categoryApi from '@/api/category'
-
+import { getToken } from '@/utils/auth'
 export default {
   data () {
     return {
+      headers: {Authorization: `Bearer ${getToken()}`},
       fileList: [],
       dialogImageUrl: '',
       dialogVisible: false,
@@ -231,8 +235,6 @@ export default {
         this.$message.closeAll()
         if (res.code === 200) {
           this.$message.success(res.message)
-        } else {
-          this.$message.error(res.message)
         }
       }).finally(() => {
         this.getData()
@@ -249,8 +251,6 @@ export default {
       if (response.code === 200) {
         this.$message.success(response.message)
         this.productForm.productImg = response.data
-      } else {
-        this.$message.error(response.message)
       }
     },
     // 移除图片
@@ -334,7 +334,7 @@ export default {
     getCascaderCategoryId (idx) {
       /**
        * 联动下拉框需要一二三级分类商品的id的数组
-       * 通过 三级商品分类categoryId 去找他的一级二级的 categoryId 
+       * 通过 三级商品分类categoryId 去找他的一级二级的 categoryId
        */
       let temp = []
       this.categoryList.forEach(item1 => {
@@ -430,9 +430,10 @@ export default {
       api.saveProduct(this.productForm).then(res => {
         if (res.code === 200) {
           this.$message.success(res.message)
-        } else {
-          this.$message.error(res.message)
         }
+        /*else {
+          this.$message.error(res.message)
+        }*/
       }).finally(() => {
         this.getData()
         this.saveBtnLoading = false
@@ -443,8 +444,6 @@ export default {
       api.updateProduct(this.productForm).then(res => {
         if (res.code === 200) {
           this.$message.success(res.message)
-        } else {
-          this.$message.error(res.message)
         }
       }).finally(() => {
         this.getData()
@@ -456,8 +455,6 @@ export default {
       api.deleteProductInfoByProductId(this.curProductId).then(res => {
         if (res.code === 200) {
           this.$message.success(res.message)
-        } else {
-          this.$message.error(res.message)
         }
       }).finally(() => {
         this.getData()

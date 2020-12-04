@@ -21,38 +21,26 @@
       </div>
     </div>
     <div class="main">
-      <el-table :data="tableData"  border size="mini"  :cell-style="{padding: '2px 0'}">
+      <el-table :data="tableData" size="mini" default-expand-all :cell-style="{padding: '2px 0'}">
         <el-table-column type="expand">
           <template slot-scope="props">
-            <div class="detail-container" style="padding:10px">
-              <h2>订单详情：</h2>
-              <el-table
-                size="mini"
-                :cell-style="{padding: '2px 0',border: 'none'}"
-                :header-cell-style="{border: 'none'}"
-                :data="props.row.orderItemList"
-                style="width: 60%;">
-                <el-table-column
-                  label="商品图片"
-                  prop="productImg"
-                  width="180">
-                  <template slot-scope="scope">
-                    <template v-if="scope.row.productImg">
-                      <el-image 
-                        style="width: 30px; height: 30px"
-                        :src="scope.row.productImg" 
-                        :preview-src-list="[scope.row.productImg]"
-                        >
-                      </el-image>
-                    </template>
-                    <template v-else>
-                      无
-                    </template>
-                  </template>
-                </el-table-column>
-                <el-table-column label="单价" prop="productPrice"></el-table-column>
-                <el-table-column label="购买数量" prop="productCount"></el-table-column>
-              </el-table>
+            <div class="detail-container">
+              <el-row :gutter="12">
+                <el-col :span="6" v-for="(orderItem,index) in props.row.orderItemList" :key="index">
+                  <el-card shadow="never">
+                    <el-row :gutter="12">
+                      <el-col :span="6">
+                        <el-image style="width: 100%;" :src="orderItem.productImg" fit="container"></el-image>
+                      </el-col>
+                      <el-col :span="18">
+                        <h4 v-text="orderItem.productName"></h4>
+                        <p>价格: <span v-text="orderItem.productPrice"></span></p>
+                        <p>数量: <span v-text="'x'+orderItem.productCount"></span></p>
+                      </el-col>
+                    </el-row>
+                  </el-card>
+                </el-col>
+              </el-row>
             </div>
           </template>
         </el-table-column>
@@ -61,8 +49,8 @@
         <el-table-column align="center" prop="payStatusText" label="购买状态" width="80"></el-table-column>
         <el-table-column align="center" prop="totalPrice" label="订单总价(元)" width="100"></el-table-column>
         <el-table-column align="center" prop="payTime" label="下单时间"></el-table-column>
-        <el-table-column align="center" prop="userName" label="用户昵称"></el-table-column>
-        <el-table-column align="center" prop="userPhone" label="用户手机号" width="140"></el-table-column>
+        <el-table-column align="center" prop="userName" label="收货联系人"></el-table-column>
+        <el-table-column align="center" prop="userPhone" label="联系方式" width="140"></el-table-column>
         <el-table-column align="center" prop="userAddress" label="送货地址"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
@@ -82,9 +70,9 @@
         :current-page="page.currentPage"
         :pageSize="page.pageSize"
         layout="sizes, prev, pager, next, total"
-        :pageSizes="[10, 15, 20, 30, 50]"
+        :pageSizes="[5,10, 15, 20, 30]"
         background
-        >
+      >
       </el-pagination>
     </div>
     <el-dialog :title="dialogTitle" :visible.sync="DialogVisible" :close-on-click-modal="false">
@@ -93,19 +81,19 @@
         <!-- 编辑 -->
         <template v-if="isEdit">
           <el-form ref="orderForm" :model="orderForm" :rules="orderFormRules" label-width="100px">
-          <el-form-item label="订单总价" prop="totalPrice">
-            <el-input v-model="orderForm.totalPrice" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="用户名" prop="userName">
-            <el-input v-model="orderForm.userName" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="用户手机号" prop="userPhone">
-            <el-input v-model="orderForm.userPhone" autocomplete="off"></el-input>
-          </el-form-item>
-          <el-form-item label="送货地址" prop="userAddress">
-            <el-input v-model="orderForm.userAddress" autocomplete="off"></el-input>
-          </el-form-item>
-        </el-form>
+            <el-form-item label="订单总价" prop="totalPrice">
+              <el-input-number size="small"  v-model="orderForm.totalPrice"></el-input-number>
+            </el-form-item>
+            <el-form-item label="用户名" prop="userName">
+              <el-input v-model="orderForm.userName" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="用户手机号" prop="userPhone">
+              <el-input v-model="orderForm.userPhone" autocomplete="off"></el-input>
+            </el-form-item>
+            <el-form-item label="送货地址" prop="userAddress">
+              <el-input v-model="orderForm.userAddress" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
         </template>
         <!-- 订单详情 -->
         <template v-else>
@@ -114,11 +102,11 @@
             <el-table-column align="center" prop="productImg" label="商品图片">
               <template slot-scope="scope">
                 <template v-if="scope.row.productImg">
-                  <el-image 
+                  <el-image
                     style="width: 30px; height: 30px"
-                    :src="scope.row.productImg" 
+                    :src="scope.row.productImg"
                     :preview-src-list="[scope.row.productImg]"
-                    >
+                  >
                   </el-image>
                 </template>
                 <template v-else>
@@ -147,7 +135,7 @@
 import * as api from '@/api/order'
 
 export default {
-  data () {
+  data() {
     return {
       dialogTitle: '弹窗',
       DialogVisible: false,
@@ -170,25 +158,25 @@ export default {
         dateTimeRange: []
       },
       page: {
-        pageSize: 10,
+        pageSize: 5,
         currentPage: 1,
         total: 10
       },
       orderFormRules: {
         totalPrice: [
-          { required: true, message: '必填项', trigger: 'blur'}
+          {required: true, message: '必填项', trigger: 'blur'}
         ],
         userName: [
-          { required: true, message: '必填项', trigger: 'blur'}
+          {required: true, message: '必填项', trigger: 'blur'}
         ]
       }
     }
   },
-  created () {
+  created() {
     this.getData()
   },
   methods: {
-    submitForm () {
+    submitForm() {
       if (!this.searchForm.dateTimeRange || this.searchForm.dateTimeRange.length <= 0) {
         this.$message.closeAll()
         this.$message.warning('请选择日期!')
@@ -199,7 +187,7 @@ export default {
       this.searchForm.endTime = this.searchForm.dateTimeRange[1]
       this.getData()
     },
-    resetForm () {
+    resetForm() {
       this.$refs.searchForm.resetFields()
       this.page.currentPage = 1
       this.searchForm = {}
@@ -208,16 +196,16 @@ export default {
     // 关闭订单
     closeOrder({row}) {
       this.$alert('是否关闭该订单', '操作', {
-          confirmButtonText: '确定',
-          callback: action => {
-            if (action === 'confirm') {
-              this.closeOrderFunc(row.orderId)
-            }
+        confirmButtonText: '确定',
+        callback: action => {
+          if (action === 'confirm') {
+            this.closeOrderFunc(row.orderId)
           }
-        })
+        }
+      })
     },
     // 查看订单详情
-    info (scope) {
+    info(scope) {
       this.isInfo = true
       this.isEdit = false
       this.isDel = false
@@ -238,7 +226,7 @@ export default {
         this.editBtnloading = false
       })
     },
-    edit (scope) {
+    edit(scope) {
       this.isEdit = true
       this.isInfo = false
       this.isDel = false
@@ -258,7 +246,7 @@ export default {
       })
       this.editBtnloading = false
     },
-    del (scope) {
+    del(scope) {
       this.isEdit = false
       this.isInfo = false
       this.isDel = true
@@ -267,7 +255,7 @@ export default {
       this.dialogTitle = `删除订单 [订单号：${scope.row.orderNo || '-'}]`
       this.DialogVisible = true
     },
-    save () {
+    save() {
       this.saveBtnLoading = true
       if (!this.isDel) {
         this.$refs.orderForm.validate((valid) => {
@@ -285,7 +273,7 @@ export default {
         this.delData() // 发送删除数据请求
       }
     },
-    closeOrderFunc (orderId) {
+    closeOrderFunc(orderId) {
       api.closeOrderByOrderId(orderId).then(res => {
         if (res.code === 200) {
           this.$message.success(res.message)
@@ -296,7 +284,7 @@ export default {
         this.getData()
       })
     },
-    getData () {
+    getData() {
       api.getOrderList({
         ...this.searchForm,
         ...this.page
@@ -305,7 +293,7 @@ export default {
           this.tableData = res.data.resultList.map(item => {
             if (item.payStatus == 1) {
               item.payStatusText = '已支付'
-            }  else if (item.payStatus == 0) {
+            } else if (item.payStatus == 0) {
               item.payStatusText = '未支付'
             } else {
               item.payStatusText = '-'
@@ -314,14 +302,14 @@ export default {
               item.orderStatusText = '已提交'
             } else if (item.orderStatus == 0) {
               item.orderStatusText = '未支付'
-            }  else if (item.orderStatus == -2) {
+            } else if (item.orderStatus == -2) {
               item.orderStatusText = '商家关闭'
             } else if (item.orderStatus == 0) {
               item.orderStatusText = '未提交'
             } else {
               item.orderStatusText = '-'
             }
-            
+
             item.payTime = this.dateFormat(item, 'payTime')
             return item
           })
@@ -331,7 +319,7 @@ export default {
         }
       })
     },
-    editData () {
+    editData() {
       api.updateOrder(this.orderForm).then(res => {
         if (res.code === 200) {
           this.$message.success(res.message)
@@ -344,7 +332,7 @@ export default {
         this.DialogVisible = false
       })
     },
-    delData () {
+    delData() {
       api.deleteOrderByOrderId(this.curId).then(res => {
         if (res.code === 200) {
           this.$message.success(res.message)
@@ -357,16 +345,19 @@ export default {
         this.DialogVisible = false
       })
     },
-    changePage (currentPage) {
+    changePage(currentPage) {
       this.page.currentPage = currentPage
       this.getData()
     },
-    changeSize (pageSize) {
+    changeSize(pageSize) {
       this.page.pageSize = pageSize
       this.getData()
     },
-    dateFormat (item, time) {
+    dateFormat(item, time) {
       return item[time] ? item[time].replace('T', ' ') : item[time]
+    },
+    updateOrderItem(orderItem){
+      console.log(orderItem);
     }
   }
 }
@@ -375,20 +366,32 @@ export default {
 .container {
   padding: 12px;
 }
+
 .container .main {
   margin-bottom: 10px;
 }
+
 .top_bar {
   display: flex;
   justify-content: space-between;
 }
+
 .pagination {
   display: flex;
   justify-content: center;
 }
+
 .main {
-  ::v-deep  .el-table__expanded-cell {
+  ::v-deep .el-table__expanded-cell {
     padding: 10px;
   }
 }
+.detail-container{
+  padding:10px;
+}
+.detail-container h4{
+  padding: 0;
+  margin: 0;
+}
+
 </style>

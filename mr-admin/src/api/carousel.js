@@ -1,4 +1,4 @@
-import request from '@/utils/axiosConfig.js'
+import request from '@/utils/request'
 
 // GET根据carouselId查询轮播图信息
 export const getCarouselInfoByCarouselId = (carouselId) => {

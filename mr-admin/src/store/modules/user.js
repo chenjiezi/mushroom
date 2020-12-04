@@ -6,7 +6,8 @@ const state = {
   token: getToken(),
   name: '',
   avatar: '',
-  roles: []
+  roles: [],
+  permissions:[]
 }
 
 const mutations = {
@@ -21,6 +22,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_PERMISSIONS: (state, permissions) => {
+    state.permissions = permissions
   }
 }
 
@@ -52,11 +56,11 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, admin } = data
+        const {admin, roles,permissions} = data
 
         if (roles && roles.length > 0) { // 验证返回的roles是否是一个非空数组
           commit('SET_ROLES', roles)
-          // commit('SET_PERMISSIONS', res.permissions)
+          commit('SET_PERMISSIONS',permissions)
         } else {
           commit('SET_ROLES', ['ROLE_DEFAULT'])
         }

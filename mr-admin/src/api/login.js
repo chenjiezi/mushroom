@@ -1,4 +1,4 @@
-import request from '@/utils/axiosConfig.js'
+import request from '@/utils/request'
 
 // POST保存添加商品
 export const login = (data = {}) => {

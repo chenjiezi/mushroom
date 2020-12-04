@@ -12,6 +12,7 @@
         :on-success="handleSuccess"
         :on-remove="handleRemove"
         :before-upload="beforeUpload"
+        :headers="headers"
         class="editor-slide-upload"
         list-type="picture-card"
       >
@@ -31,6 +32,7 @@
 
 <script>
 // import { getToken } from 'api/qiniu'
+import { getToken } from '@/utils/auth'
 
 export default {
   name: 'EditorSlideUpload',
@@ -42,6 +44,7 @@ export default {
   },
   data() {
     return {
+      headers: {Authorization: `Bearer ${getToken()}`},
       dialogVisible: false,
       listObj: {},
       fileList: []

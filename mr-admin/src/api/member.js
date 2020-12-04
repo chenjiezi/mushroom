@@ -1,4 +1,4 @@
-import request from '@/utils/axiosConfig.js'
+import request from '@/utils/request'
 
 // GET根据userId获取用户信息
 export const getUserInfoByUserId = (userId) => {

@@ -1,4 +1,4 @@
-import request from '@/utils/axiosConfig.js'
+import request from '@/utils/request'
 
 // GET根据adminId查询管理员信息
 export const getAdminInfoByAdminId = (adminId) => {

@@ -1,4 +1,4 @@
-import request from '@/utils/axiosConfig.js'
+import request from '@/utils/request'
 
 // GET根据categoryId查询商品分类信息
 export const getCategoryInfoByCategoryId = (categoryId) => {

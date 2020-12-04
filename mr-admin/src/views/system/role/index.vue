@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="main">
-      <el-table :data="tableData" border size="mini" :cell-style="{padding: '2px 0'}">
+      <el-table :data="tableData" size="mini" :cell-style="{padding: '2px 0'}">
         <el-table-column align="center" prop="roleId" label="ID" width="50"></el-table-column>
         <el-table-column align="center" prop="roleName" label="角色名称" width="100"></el-table-column>
         <el-table-column align="center" prop="roleKey" label="roleKey"></el-table-column>

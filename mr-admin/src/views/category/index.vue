@@ -9,8 +9,8 @@
     <div class="main">
       <el-table
         :data="tableData"
-        border size="mini"
-        default-expand-all
+        size="mini"
+        :default-expand-all="false"
         row-key="categoryId"
         :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
         :cell-style="{padding: '2px 0'}">
@@ -26,7 +26,9 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="140">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.levelNum !== 3" @click="addSecondOrThirdLevel(scope)" type="text" size="small">新增</el-button>
+            <el-button v-if="scope.row.levelNum !== 3" @click="addSecondOrThirdLevel(scope)" type="text" size="small">
+              新增
+            </el-button>
             <el-button :disabled="editBtnLoading" @click="edit(scope)" type="text" size="small">编辑</el-button>
             <el-button @click="del(scope)" type="text" size="small">删除</el-button>
           </template>
@@ -54,7 +56,7 @@
                   :key="item.categoryId"
                   :label="item.categoryName"
                   :value="item.categoryId"
-                  >
+                >
                 </el-option>
               </el-select>
             </el-form-item>
@@ -72,7 +74,7 @@
                 :options="firstAndSecondList"
                 :props="{ value: 'categoryId', label: 'categoryName', children: 'children' }"
                 :disabled="firstAndSecondDisabled"
-                ></el-cascader>
+              ></el-cascader>
             </el-form-item>
             <el-form-item label="三级商品分类名称" prop="categoryName">
               <el-input v-model="categoryForm.categoryName" autocomplete="off"></el-input>
@@ -96,7 +98,7 @@
 import * as api from '@/api/category'
 
 export default {
-  data () {
+  data() {
     return {
       curId: null, // 当前数据id
       dialogTitle: '弹窗',
@@ -119,24 +121,24 @@ export default {
       },
       categoryFormRules: {
         categoryName: [
-          { required: true, message: '必填项', trigger: 'blur'}
+          {required: true, message: '必填项', trigger: 'blur'}
         ],
         parentId: [
-          { required: true, message: '必填项', trigger: 'blur'}
+          {required: true, message: '必填项', trigger: 'blur'}
         ],
         categoryIdArr: [
-          { required: true, message: '必填项', trigger: 'blur'}
+          {required: true, message: '必填项', trigger: 'blur'}
         ]
       },
       firstList: [],
       firstAndSecondList: []
     }
   },
-  created () {
+  created() {
     this.getData()
   },
   methods: {
-    addFisrtLevel () { // 显示 一级 新增操作弹窗
+    addFisrtLevel() { // 显示 一级 新增操作弹窗
       this.isTrue(['isAdd', 'isFirstLevel'])
       this.dialogTitle = '新增一级商品分类'
       this.DialogVisible = true
@@ -149,12 +151,12 @@ export default {
         }
       })
     },
-    addSecondOrThirdLevel ({row}) { // 显示 一/二级 新增操作弹窗
+    addSecondOrThirdLevel({row}) { // 显示 一/二级 新增操作弹窗
       if (row.levelNum === 2) {
         this.isTrue(['isAdd', 'isThirdLevel'])
         this.dialogTitle = '新增三级商品分类'
         this.firstAndSecondDisabled = true
-      } else if (row.levelNum === 1){
+      } else if (row.levelNum === 1) {
         this.isTrue(['isAdd', 'isSecondLevel'])
         this.dialogTitle = '新增二级商品分类'
         this.firstDisabled = true
@@ -176,7 +178,7 @@ export default {
         }
       })
     },
-    edit ({row}) { // 显示 一/二/三级 编辑操作弹窗
+    edit({row}) { // 显示 一/二/三级 编辑操作弹窗
       this.editBtnLoading = true
       if (row.levelNum === 3) {
         this.isTrue(['isEdit', 'isThirdLevel'])
@@ -212,7 +214,7 @@ export default {
             levelNum: row.levelNum,
             categoryIdArr: [ppId, row.parentId]
           }
-        } else if (row.levelNum === 2){
+        } else if (row.levelNum === 2) {
           this.categoryForm = {
             categoryId: row.categoryId,
             categoryName: row.categoryName,
@@ -230,10 +232,10 @@ export default {
         this.editBtnLoading = false
       })
     },
-    del ({row}) { // 显示 一/二/三级 删除操作弹窗
+    del({row}) { // 显示 一/二/三级 删除操作弹窗
       if (row.levelNum === 3) {
         this.dialogTitle = `删除三级商品分类：${row.categoryName}`
-      } else if (row.levelNum === 2){
+      } else if (row.levelNum === 2) {
         this.dialogTitle = `删除二级商品分类：${row.categoryName}`
       } else {
         this.dialogTitle = `删除一级商品分类：${row.categoryName}`
@@ -242,7 +244,7 @@ export default {
       this.isTrue(['isDel'])
       this.DialogVisible = true
     },
-    save () {
+    save() {
       this.saveBtnLoading = true
       if (!this.isDel) {
 
@@ -265,7 +267,7 @@ export default {
         this.delData() // 发送删除数据请求 delete
       }
     },
-    getData () {
+    getData() {
       api.getCategorylist().then(res => {
         this.tableData = res.data.map(item => {
           item.levelNumToText = this.levelNumFormat(item.levelNum)
@@ -281,7 +283,7 @@ export default {
                   item2.levelNumToText = this.levelNumFormat(item2.levelNum)
                   item2.createTime = this.dateFormat(item2, 'createTime')
                   item2.updateTime = this.dateFormat(item2, 'updateTime')
-                  return item2 
+                  return item2
                 })
               }
               return item1
@@ -294,7 +296,7 @@ export default {
 
         let temp = JSON.parse(JSON.stringify(res.data))
         this.firstAndSecondList = temp.map(item => {
-          if(item.children) {
+          if (item.children) {
             item.children.map(item1 => {
               if (item1.children) delete item1.children
               return item1
@@ -304,7 +306,7 @@ export default {
         })
       })
     },
-    saveData () {
+    saveData() {
       api.saveCategory(this.categoryForm).then(res => {
         if (res.code === 200) {
           this.$message.success(res.message)
@@ -317,7 +319,7 @@ export default {
         this.saveBtnLoading = false
       })
     },
-    editData () {
+    editData() {
       api.updateCategory(this.categoryForm).then(res => {
         if (res.code === 200) {
           this.$message.success(res.message)
@@ -330,7 +332,7 @@ export default {
         this.saveBtnLoading = false
       })
     },
-    delData () {
+    delData() {
       api.deleteCategoryBycategoryId(this.curId).then(res => {
         if (res.code === 200) {
           this.$message.success(res.message)
@@ -343,7 +345,7 @@ export default {
         this.saveBtnLoading = false
       })
     },
-    isTrue (arr) { 
+    isTrue(arr) {
       // TODO: 待优化
       const t = [
         'isAdd',
@@ -352,7 +354,7 @@ export default {
         'isFirstLevel',
         'isSecondLevel',
         'isThirdLevel'
-        ]
+      ]
       for (let key of t) {
         this[key] = false
       }
@@ -360,10 +362,10 @@ export default {
         this[key] = true
       }
     },
-    dateFormat (item, time) {
+    dateFormat(item, time) {
       return item[time] ? item[time].split('.')[0].replace('T', ' ') : item[time]
     },
-    levelNumFormat (levelNum) {
+    levelNumFormat(levelNum) {
       const t = ['一级', '二级', '三级']
       return t[levelNum - 1]
     }
@@ -374,9 +376,11 @@ export default {
 .container {
   padding: 12px;
 }
+
 .top_bar {
   display: flex;
 }
+
 .tool_bar {
   margin-bottom: 10px;
 }

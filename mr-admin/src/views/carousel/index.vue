@@ -6,14 +6,14 @@
       </div>
     </div>
     <div class="main">
-      <el-table :data="tableData" border size="mini" style="" :header-cell-style="{'background-color': '#fff'}" :cell-style="{padding: '2px 0'}">
+      <el-table :data="tableData" size="mini" style="" :header-cell-style="{'background-color': '#fff'}" :cell-style="{padding: '2px 0'}">
         <el-table-column align="center" prop="carouselId" label="ID"></el-table-column>
-        <el-table-column align="center" prop="carouselUrl" label="轮播图" width="60">
+        <el-table-column align="center" prop="carouselUrl" label="轮播图" width="200">
           <template slot-scope="scope">
             <template v-if="scope.row.carouselUrl">
-              <el-image 
-                style="width: 30px; height: 30px"
-                :src="scope.row.carouselUrl" 
+              <el-image
+                style="width: 100%;padding: 2px"
+                :src="scope.row.carouselUrl"
                 :preview-src-list="[scope.row.carouselUrl]"
                 >
               </el-image>
@@ -58,7 +58,7 @@
         >
       </el-pagination>
     </div>
-    <el-dialog 
+    <el-dialog
       :title="dialogTitle"
       :visible.sync="DialogVisible"
       @close="closeDialog"
@@ -70,7 +70,7 @@
             <el-input v-model="carouselForm.redirectUrl" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="展示顺序" prop="carouselRank">
-            <el-input v-model="carouselForm.carouselRank" autocomplete="off"></el-input>
+            <el-input-number v-model="carouselForm.carouselRank" size="mini"  label="描述文字"></el-input-number>
           </el-form-item>
           <el-form-item label="是否展示" prop="isShow">
             <el-switch
@@ -85,6 +85,7 @@
               list-type="picture-card"
               :on-success="handleSuccess"
               :on-remove="handleRemove"
+              :headers="headers"
               :file-list="fileList"
               :disabled="this.fileList.length > 0"
               :auto-upload="true">
@@ -129,10 +130,11 @@
 
 <script>
 import * as api from '@/api/carousel'
-
+import { getToken } from '@/utils/auth'
 export default {
   data () {
     return {
+      headers: {Authorization: `Bearer ${getToken()}`},
       fileList: [],
       dialogImageUrl: '',
       dialogVisible: false,
@@ -218,6 +220,7 @@ export default {
       this.$nextTick(() => {
         this.$refs.carouselForm.resetFields()
         this.carouselForm = {
+          carouselRank:0,
           isShow: false
         }
         this.fileList = []
