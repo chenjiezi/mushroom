@@ -20,7 +20,7 @@ body {
     align-items: center;
     width: 220px;
     height: 450px;
-    background-color:rgba(215, 131, 236, 0.788);
+    background-color: rgba(0,0,0,.5);
     z-index: 999;
 }
 
@@ -32,7 +32,7 @@ body {
 
  .main-promote .side-bar .item:hover,
  .search-card .item:hover {
-    background-color:rgba(185, 70, 214, 0.788);
+    background-color:rgba(0,0,0,.6);
 
 }
 
@@ -42,7 +42,7 @@ body {
 
  .car-promote .title {
     padding: 5px;
-    font-size: 22px;
+    font-size: 30px;
 }
 
  .car-promote .item {
@@ -70,9 +70,7 @@ body {
 
  .car-promote  .card .card-img {
     height: 250px;
-    padding-top: 5px;
-    padding-left: 10px;
-    padding: 10px;
+    padding: 10px 40px;
 }
 
  .car-promote  .card-content .status,
@@ -96,13 +94,14 @@ body {
 }
 
 .main-promote .wrap {
+    /* 浏览器bug? */
     width: 1226px;
     height: 450px;
     position: relative;
 }
 
 .main-promote .wrap .list {
-    width: 1226px;
+    width: 1270px;
     height: 450px;
     list-style: none;
     position: relative;

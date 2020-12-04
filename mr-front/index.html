@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="favicon.ico">
     <title>蘑菇街 - 你的剁手街</title>
     <link rel="stylesheet" href="./css/bootstrap.css">
     <link rel="stylesheet" href="./css/common.css">
@@ -14,26 +15,31 @@
     <div class="top-nav">
         <div class="container clearf">
             <div class="fl">
-                <a class="item" href="#">首页</a>
+                <a class="item" href="index.html">首页</a>
             </div>
             <div class="fr">
-                <a class="item" href="#">订单</a>
-                <a class="item" href="#">登录</a>
-                <a class="item" href="#">注册</a>
+                <!-- <div class="isLogin">
+                    <a class="item" href="#">个人中心</a>
+                    <a class="item" href="#">退出登录</a>
+                </div> -->
+                <div class="noLogin">
+                    <a class="item" href="login.html">登录</a>
+                    <a class="item" href="register.html">注册</a>
+                </div>
             </div>
         </div>
     </div>
     <div class="header">
         <div class="container clearf">
             <div class="col-2 title">
-                蘑菇街
+                <img src="./images/logo.png" alt="logo">
             </div>
             <div class="col-5 search-bar">
                 <input type="text">
                 <button>搜索</button>
             </div>
             <div class="col-3 cart">
-                <a href="#">我的购物车</a>
+                <a href="cart.html">我的购物车</a>
             </div>
         </div>
     </div>
@@ -81,11 +87,11 @@
                     <div class="col-md-3 item">
                         <div class="card">
                             <div class="card-img">
-                                <a href="#"><img src="https://dummyimage.com/1000x1000/666/ccc" alt=""></a>
+                                <a href="detail.html"><img src="https://dummyimage.com/1000x1000/666/ccc" alt=""></a>
                             </div>
                             <div class="card-content">
                                 <div class="status">
-                                    <a href="#">纯棉加厚四件套100全棉亲肤床单被套秋冬床上用品单人床三件套4</a>
+                                    <a href="detail.html">纯棉加厚四件套100全棉亲肤床单被套秋冬床上用品单人床三件套4</a>
                                 </div>
                                 <div class="price">99.00</div>
                             </div>
@@ -144,7 +150,13 @@
             <p>Copyright © 2020-2021 蘑菇街 Rights Reserved.  |   粤ICP备17008806号-5</p>
         </div>
     </div>
+    <script src="./js/sweetalert.min.js"></script>
     <script src="./js/carousel.js"></script>
+    <script>
+        // swal("Hello world!");
+        // swal("Good job!", "You clicked the button!", "info");
+        // swal("Good job!", "You clicked the button!", "error");
+    </script>
 </body>
 
 </html>

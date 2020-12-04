@@ -10,6 +10,8 @@ body {
 
 .container,
 .my-cart-container,
+.info-container,
+.info-container,
 .search-container
 {
     width: 1266px;
@@ -109,18 +111,23 @@ img {
 }
 /* header */
 
-.header {
-    padding: 35px 0;
-}
-
 .header .title {
     font-size: 30px;
     letter-spacing: 8px;
 }
 
+.header .title img {
+    width: 220px;
+    height: 155px;
+}
+
+.header .search-bar,
+.header .cart {
+    margin-top: 56px;
+}
 .header .search-bar {
-    border: 2px solid  rgb(241, 69, 190);
-    background-color: rgb(241, 69, 190);
+    border: 2px solid  #FF4466;
+    background-color: #FF4466;
 }
 
 .header .search-bar input ,
@@ -143,12 +150,12 @@ img {
 
 .header .search-bar button {
     width: 20%;
-    background-color: rgb(241, 69, 190);
+    background-color: #FF4466;
     color: #fff;
 }
 
 .header .search-bar button:hover {
-    background-color: rgb(224, 30, 166);
+    background-color: #f82b51;
 }
 
 .header .cart a {
@@ -157,12 +164,25 @@ img {
     text-align: center;
     font-size: 16px;
     padding: 10px;
-    border: 2px solid rgb(241, 69, 190);
-    color: rgb(241, 69, 190);
+    border: 2px solid #FF4466;
+    color: #FF4466;
 }
 
 .header .cart a:hover {
     color:  rgb(224, 60, 74);
+}
+/* header-title */
+.header-title {
+    height: 150px;
+    background-image: url(../images/header.png);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    color: #fff;
+}
+.header-title h1 {
+    height: 150px;
+    line-height: 150px;
+    margin: 0;
 }
 /* footer */
 .footer {

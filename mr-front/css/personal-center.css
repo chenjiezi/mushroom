@@ -1,116 +1,92 @@
-.container,
-.personal-info .personal-container,
-.order-container,
-.footer .footer-container {
-    width: 1266px;
-    margin: 0px auto;
+.personal {
+    background: #f5f5f5;
+    overflow: hidden;
+}
+.personal .container {
+    min-height: 600px;
+    padding: 10px;
+    margin: 20px auto;
 }
 
-.order-container {
-    background-color: #fff;
-    min-height: 550px;
-}
-
-.personal-info  .personal-container {
-    background-color: #fff;
-    height: 200px;
-}
-
-.personal-info {
-    margin-top: 20px;
-    color: #333;
-    font-size: 16px;
-}
-
-.personal-info .head-portrait {
+.personal .sidebar {
+    float: left;
     width: 200px;
-    float: left;
+    min-height: 450px;
+    background: #fff;
 }
 
-.personal-info .head-portrait img{
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background-color: #333;
-    margin: 20px;
+.personal .sidebar .item {
+    text-align: center;
+    padding: 10px 0;
+    cursor: pointer;
+    display: block;
+    color: #000;
 }
 
-.personal-info .info-content {
-    width: 880px;
-    float: left;
-    padding-left: 30px;
+.personal .sidebar .item.acitve {
+    font-size: 18px;
+    background: rgba(204,239,234);
+    color: #fff;
 }
 
-.info-content .personal-name .name,
-.info-content .personal-name .account {
-    margin-top: 30px;
+.personal .content {
+    padding: 10px;
+    background: #fff;
+    float: right;
+    width: 1030px;
+    min-height: 500px;
 }
 
-.info-content .personal-name .name {
-    float: left;
-    
-}
-
-.info-content .personal-name .account {
-    float: left;
-}
-
-.info-content .personal-name .change {
-    float: left;
-    padding: 5px 10px;
-    font-size: 14px;
-    border-radius: 3px;
-    background-color:#fff;
-    border-color: rgba(0,0,0,.2);
-    outline: 0;
-    margin-top: 20px;
-}
-
-.info-content .personal-name .name,
-.info-content .personal-name .account {
-    margin-right: 60px;
-}
-
-.info-content .person-address {
-    width: 350px;
-    margin-top: 20px;
-}
-
-.info-content .tips {
-    margin-top: 50px;
-    font-size: 12px;
-    color: #888;
-}
-
-.my-order .my-order-title {
-    border: 1px solid rgba(0,0, 0,.1);
-    font-size: 15px;
-    margin-top: 20px;
-    margin-bottom: 10px;
-    padding:10px 5px;
-}
-
-.my-order .order-table tr,
-.my-order .order-table th,
-.my-order .order-table td {
-    width: 180px;
-    height: 40px;
-    border: 1px solid rgba(0,0, 0,.1)
-}
-
-.my-order {
+.personal .content h1 {
+    color: #757575;
     margin-bottom: 20px;
 }
 
-.my-order .order-table {
-    text-align: center;
-    border-spacing: 0;
+.personal .info {
+    margin-top: 20px;
+    font-size: 16px;
 }
 
-.my-order .order-table .order-details {
-    width: 103px;
-    height: 27px;
-    background-color: #fff;
-    border-radius: 3px;
-    border-color: rgba(0,0,0,.2);
+.personal .info .item {
+    padding: 13px;
+    border: 1px solid #000;
+    margin-bottom: 12px;
+}
+
+.personal .order .item {
+    margin-bottom: 12px;
+}
+
+.personal .order .item .base_info,
+.personal .order .item .detail_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #000;
+    padding: 20px;
+}
+
+.personal .order .item .detail_info {
+    border-top: none;
+}
+
+.base_info .base_info_l .status {
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+.base_info .money .value {
+    font-size: 22px;
+    font-weight: bold;
+    color: #c50606;
+}
+
+.detail_info .detial_btn {
+    cursor: pointer;
+    padding: 10px 30px;
+}
+
+.detail_info .detial_btn:hover {
+    background-color: rgba(0,0,0,.1);
+    color: #757575;
 }
