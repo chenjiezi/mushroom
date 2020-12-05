@@ -59,14 +59,15 @@
       </el-col>
     </el-row>
     <div ref="categoryData"></div>
-    <PieChart></PieChart>
+    <div class="chart-wrapper">
+      <PieChart/>
+    </div>
   </div>
 </template>
 
 <script>
 import * as api from '@/api/dashboard'
 
-import {mapGetters} from 'vuex'
 import CountTo from 'vue-count-to'
 import PieChart from './components/PieChart'
 
@@ -124,6 +125,15 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+
+
+}
+.chart-wrapper {
+  background: #ffffff;
+  padding: 16px 16px 0;
+  border-radius: 4px;
+  box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
+  margin-bottom: 32px;
 }
 
 .panel-group {
@@ -143,7 +153,7 @@ export default {
     background: #fff;
     box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
     border-radius: 4px;
-    border: 1px solid #dcdde1;
+    //border: 1px solid #dcdde1;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -210,6 +220,13 @@ export default {
         font-size: 20px;
       }
     }
+  }
+
+}
+
+@media (max-width:1024px) {
+  .chart-wrapper {
+    padding: 8px;
   }
 }
 </style>

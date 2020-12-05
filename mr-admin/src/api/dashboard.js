@@ -20,3 +20,11 @@ export const getProductData = () => {
     url: `/dashboard/product`
   })
 }
+
+
+export const getCategoryData = () => {
+  return request({
+    method: 'get',
+    url: `/dashboard/category`
+  })
+}

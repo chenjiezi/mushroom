@@ -6,6 +6,8 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
+import * as api from '@/api/dashboard'
+
 
 export default {
   mixins: [resize],
@@ -32,6 +34,7 @@ export default {
     this.$nextTick(() => {
       this.initChart()
     })
+    this.getCategoryData();
   },
   beforeDestroy() {
     if (!this.chart) {
@@ -42,7 +45,6 @@ export default {
   },
   methods: {
     initChart() {
-      console.log(echarts);
       this.chart = echarts.init(this.$el, 'macarons')
 
       this.chart.setOption({
@@ -75,7 +77,11 @@ export default {
         ]
       })
     },
-
+    getCategoryData(){
+      api.getCategoryData().then(res=>{
+        this.chart.setOption({ legend:{data:res.data},series: [ { data: res.data } ] })
+      })
+    }
   }
 }
 </script>
