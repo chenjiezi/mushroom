@@ -2,7 +2,7 @@
   <div class='container'>
     <div class="top_bar">
       <div class="search_bar"></div>
-      <div class="tool_bar">
+      <div class="tool_bar" v-hasPermi="['system:menu:save']">
         <el-button type="primary" size="mini" @click="addFisrtLevel('M')">新增目录</el-button>
         <el-button type="primary" style="margin-left:12px;" size="mini" @click="addFisrtLevel('C')">新增菜单</el-button>
       </div>
@@ -34,9 +34,9 @@
         <el-table-column align="center" prop="remark" label="备注"></el-table-column>
         <el-table-column fixed="right" label="操作" width="140">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.menuType !== 'F'" @click="addSecondOrThirdLevel(scope)" type="text" size="small">新增</el-button>
-            <el-button :disabled="editBtnLoading" @click="edit(scope)" type="text" size="small">编辑</el-button>
-            <el-button @click="del(scope)" type="text" size="small">删除</el-button>
+            <el-button v-if="scope.row.menuType !== 'F'" @click="addSecondOrThirdLevel(scope)" type="text" size="small" v-hasPermi="['system:menu:save']">新增</el-button>
+            <el-button :disabled="editBtnLoading" @click="edit(scope)" type="text" size="small" v-hasPermi="['system:menu:info']">编辑</el-button>
+            <el-button @click="del(scope)" type="text" size="small" v-hasPermi="['system:menu:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

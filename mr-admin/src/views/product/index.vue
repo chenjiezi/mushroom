@@ -2,7 +2,7 @@
   <div class='container'>
     <div class="top_bar">
       <div class="search_bar">
-        <el-form :inline="true" size="mini" :model="searchForm" ref="searchForm" class="demo-ruleForm">
+        <el-form :inline="true" size="mini" :model="searchForm" ref="searchForm" class="demo-ruleForm" v-hasPermi="['product:list']">
           <el-form-item label="商品名称" prop="productName">
             <el-input type="text" v-model="searchForm.productName" autocomplete="off"></el-input>
           </el-form-item>
@@ -22,7 +22,7 @@
         </el-form>
       </div>
       <div class="tool_bar">
-        <el-button type="primary" size="mini" @click="add()">新增</el-button>
+        <el-button type="primary" size="mini" @click="add()"  v-hasPermi="['product:save']">新增</el-button>
       </div>
     </div>
     <div class="main">
@@ -63,9 +63,9 @@
         <el-table-column align="center" prop="updateTime" label="编辑时间" width="250"></el-table-column>
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
-            <el-button @click="productDetailFunc(scope)" type="text" size="small">商品详情</el-button>
-            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
-            <el-button @click="del(scope)" type="text" size="small">删除</el-button>
+            <el-button @click="productDetailFunc(scope)" type="text" size="small" v-hasPermi="['product:info']">商品详情</el-button>
+            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small" v-hasPermi="['product:info']">编辑</el-button>
+            <el-button @click="del(scope)" type="text" size="small" v-hasPermi="['product:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

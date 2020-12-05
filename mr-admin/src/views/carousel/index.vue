@@ -2,7 +2,7 @@
   <div class='container'>
     <div class="top_bar">
       <div class="tool_bar">
-        <el-button type="primary" size="mini" @click="add()">新增</el-button>
+        <el-button type="primary" size="mini" @click="add()"  v-hasPermi="['carousel:save']">新增</el-button>
       </div>
     </div>
     <div class="main">
@@ -27,7 +27,7 @@
         <el-table-column align="center" prop="carouselRank" label="展示顺序" width="100"></el-table-column>
         <el-table-column align="center" prop="isShow" label="是否展示">
           <template slot-scope="scope">
-            <el-switch
+            <el-switch v-hasPermi="['carousel:update']"
               v-model="scope.row.isShow"
               :active-value="true"
               :inactive-value="false"
@@ -39,8 +39,8 @@
         <el-table-column align="center" prop="updateTime" label="编辑时间"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
-            <el-button @click="del(scope)" type="text" size="small">删除</el-button>
+            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small" v-hasPermi="['carousel:info']">编辑</el-button>
+            <el-button @click="del(scope)" type="text" size="small" v-hasPermi="['carousel:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

@@ -2,7 +2,7 @@
   <div class='container'>
     <div class="top_bar">
       <div class="search_bar">
-        <el-form :inline="true" size="mini" :model="searchForm" ref="searchForm" class="demo-ruleForm">
+        <el-form :inline="true" size="mini" :model="searchForm" ref="searchForm" class="demo-ruleForm" v-hasPermi="['user:list']">
           <el-form-item label="搜索" prop="keyWord">
             <el-input type="text" v-model="searchForm.keyWord" autocomplete="off" placeholder="账号/昵称"></el-input>
           </el-form-item>
@@ -23,8 +23,8 @@
         <el-table-column align="center" prop="updateTime" label="更新时间" width="140"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
-            <el-button @click="del(scope)" type="text" size="small">删除</el-button>
+            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small"  v-hasPermi="['user:info']">编辑</el-button>
+            <el-button @click="del(scope)" type="text" size="small"  v-hasPermi="['user:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

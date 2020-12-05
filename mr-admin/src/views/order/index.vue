@@ -2,7 +2,7 @@
   <div class='container'>
     <div class="top_bar">
       <div class="search_bar">
-        <el-form :inline="true" size="small" :model="searchForm" ref="searchForm" class="demo-ruleForm">
+        <el-form :inline="true" size="small" :model="searchForm" ref="searchForm" class="demo-ruleForm" v-hasPermi="['order:list']">
           <el-form-item label="下单时间范围" prop="dateTimeRange">
             <el-date-picker
               v-model="searchForm.dateTimeRange"
@@ -55,13 +55,14 @@
         <el-table-column fixed="right" label="操作" width="150">
           <template slot-scope="scope">
             <!-- <el-button @click="info(scope)" :disabled="editBtnloading" type="text" size="small">订单详情</el-button> -->
-            <el-button @click="closeOrder(scope)" type="text" size="small">关闭订单</el-button>
-            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
-            <el-button @click="del(scope)" type="text" size="small">删除</el-button>
+            <el-button @click="closeOrder(scope)" type="text" size="small"  v-hasPermi="['order:close']">关闭订单</el-button>
+            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small"  v-hasPermi="['order:info']">编辑</el-button>
+            <el-button @click="del(scope)" type="text" size="small"  v-hasPermi="['order:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
+
     <div class="pagination">
       <el-pagination
         @current-change="changePage"

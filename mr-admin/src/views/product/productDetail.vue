@@ -3,7 +3,7 @@
     <div class="product-detail-title">
       <span class="product-detail-text">编辑商品详情 【商品名称：{{productInfo.productName}}】</span>
       <el-button size="small" @click="$router.go(-1)">返回商品管理</el-button>
-      <el-button size="mini" class="edit-btn" type="primary" @click="getContent">提交</el-button>
+      <el-button size="mini" class="edit-btn" type="primary" @click="getContent" v-hasPermi="['product:save']">提交</el-button>
     </div>
     <textarea :id="tinymceId" class="tinymce-textarea" />
     <div class="editor-custom-btn-container">

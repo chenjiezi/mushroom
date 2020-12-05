@@ -3,7 +3,7 @@
     <div class="top_bar">
       <div class="search_bar"></div>
       <div class="tool_bar">
-        <el-button type="primary" size="mini" @click="addFisrtLevel()">新增一级商品分类</el-button>
+        <el-button type="primary" size="mini" @click="addFisrtLevel()"  v-hasPermi="['category:save']">新增一级商品分类</el-button>
       </div>
     </div>
     <div class="main">
@@ -26,11 +26,11 @@
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="140">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.levelNum !== 3" @click="addSecondOrThirdLevel(scope)" type="text" size="small">
+            <el-button v-if="scope.row.levelNum !== 3" @click="addSecondOrThirdLevel(scope)" type="text" size="small"  v-hasPermi="['category:save']">
               新增
             </el-button>
-            <el-button :disabled="editBtnLoading" @click="edit(scope)" type="text" size="small">编辑</el-button>
-            <el-button @click="del(scope)" type="text" size="small">删除</el-button>
+            <el-button :disabled="editBtnLoading" @click="edit(scope)" type="text" size="small"  v-hasPermi="['category:info']">编辑</el-button>
+            <el-button @click="del(scope)" type="text" size="small"  v-hasPermi="['category:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -88,7 +88,7 @@
       </template>
       <div slot="footer" class="dialog-footer" style="display:flex;justify-content:center;">
         <el-button @click="DialogVisible = false">取 消</el-button>
-        <el-button type="primary" :loading="saveBtnLoading" @click="save()">确 定</el-button>
+        <el-button type="primary" :loading="saveBtnLoading" @click="save()"  v-hasPermi="['category:delete']">确 定</el-button>
       </div>
     </el-dialog>
   </div>

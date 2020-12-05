@@ -62,6 +62,26 @@
     <div class="chart-wrapper">
       <PieChart/>
     </div>
+    <div class="chart-wrapper">
+      <CategoryBar/>
+    </div>
+    <div class="info ">
+      <p>此电商系统包括 mr-front 商城系统及 mr-admin 商城后台管理系统 <br>
+        基于 Spring Boot 2.X 及相关技术栈开发。<br>
+        后台管理系统基于RBAC权限管理模型前后端分离开发，包含角色权限管理，<br>
+        菜单管理，管理员管理数据面板、轮播图管理、商品管理、订单管理、会员管理、分类管理、设置等模块。</p>
+      <ul>
+        <li>此电商系统 还有一些不完善的地方，鄙人不才，见谅</li>
+        <li>有任何问题都可以反馈给我，我会尽量完善该项目。</li>
+      </ul>
+
+      <p>开发人员</p>
+      <ul>
+        <li>林俊豪</li>
+        <li>陈杰子</li>
+        <li>陈敏</li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -70,6 +90,7 @@ import * as api from '@/api/dashboard'
 
 import CountTo from 'vue-count-to'
 import PieChart from './components/PieChart'
+import CategoryBar from './components/CategoryBar'
 
 
 export default {
@@ -83,7 +104,8 @@ export default {
   },
   components: {
     CountTo,
-    PieChart
+    PieChart,
+    CategoryBar
   },
   mounted() {
     this.getUserData();
@@ -128,12 +150,29 @@ export default {
 
 
 }
+
 .chart-wrapper {
   background: #ffffff;
   padding: 16px 16px 0;
   border-radius: 4px;
   box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
   margin-bottom: 32px;
+}
+
+.info {
+  color: #5a5e66;
+  background: #ffffff;
+  padding: 16px 16px 20px;
+  line-height: 30px;
+  border-radius: 4px;
+  box-shadow: 4px 4px 40px rgba(0, 0, 0, .05);
+  margin-bottom: 32px;
+}
+
+.info ul, .info ul li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .panel-group {
@@ -224,7 +263,7 @@ export default {
 
 }
 
-@media (max-width:1024px) {
+@media (max-width: 1024px) {
   .chart-wrapper {
     padding: 8px;
   }

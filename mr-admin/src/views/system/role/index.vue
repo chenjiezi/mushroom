@@ -6,14 +6,14 @@
           <el-form-item label="角色名称" prop="roleName">
             <el-input type="text" v-model="searchForm.roleName" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item v-hasPermi="['system:role:list']">
             <el-button type="primary" @click="submitForm()">查询</el-button>
             <el-button @click="resetForm()">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
       <div class="tool_bar">
-        <el-button type="primary" size="mini" @click="add()">新增角色</el-button>
+        <el-button type="primary" size="mini" @click="add()" v-hasPermi="['system:role:save']">新增角色</el-button>
       </div>
     </div>
     <div class="main">
@@ -26,8 +26,8 @@
         <el-table-column align="center" prop="updateTime" label="更新时间"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
-            <el-button @click="del(scope)" type="text" size="small">删除</el-button>
+            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small" v-hasPermi="['system:role:info']">编辑</el-button>
+            <el-button @click="del(scope)" type="text" size="small" v-hasPermi="['system:role:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

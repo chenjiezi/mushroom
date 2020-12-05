@@ -2,7 +2,7 @@
   <div class='container'>
     <div class="top_bar">
       <div class="search_bar">
-        <el-form :inline="true" size="mini" :model="searchForm" ref="searchForm" class="demo-ruleForm">
+        <el-form :inline="true" size="mini" :model="searchForm" ref="searchForm" class="demo-ruleForm" v-hasPermi="['system:admin:list']">
           <el-form-item label="搜索" prop="keyWord">
             <el-input type="text" v-model="searchForm.keyWord" autocomplete="off" placeholder="账号/昵称"></el-input>
           </el-form-item>
@@ -13,7 +13,7 @@
         </el-form>
       </div>
       <div class="tool_bar">
-        <el-button type="primary" size="mini" @click="add()">新增管理员</el-button>
+        <el-button type="primary" size="mini" @click="add()" v-hasPermi="['system:admin:save']">新增管理员</el-button>
       </div>
     </div>
     <div class="main">
@@ -26,8 +26,8 @@
         <el-table-column align="center" prop="email" label="邮箱"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small">编辑</el-button>
-            <el-button @click="del(scope)" type="text" size="small">删除</el-button>
+            <el-button @click="edit(scope)" :disabled="editBtnloading" type="text" size="small" v-hasPermi="['system:admin:info']">编辑</el-button>
+            <el-button @click="del(scope)" type="text" size="small" v-hasPermi="['system:admin:delete']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
