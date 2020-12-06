@@ -48,3 +48,7 @@
     color: red;
 }
 
+.pagination {
+    display: flex;
+    justify-content: space-between;
+}
