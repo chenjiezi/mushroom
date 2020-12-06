@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="./resource/favicon.ico">
+	<title>我的订单</title>
+	<link href="./resource/css/normalize.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./resource/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./resource/css/common.css">
+	<link rel="stylesheet" href="./resource/css/personal-common.css">
+	<link rel="stylesheet" href="./resource/css/personal-order-list.css">
+
+</head>
+
+<body>
+	<div class="top-nav">
+		<div class="container">
+			<div class="fl">
+				<a class="item" href="index.html">首页</a>
+			</div>
+			<div class="fr">
+				<a class="item" href="personal-order-list.html" id="order-nav-btn">订单</a>
+				<a class="item" href="personal-center.html" id="personal-nav-btn">个人中心</a>
+				<a class="item" href="login.html" id="login-nav-btn">登录</a>
+				<a class="item" href="register.html" id="register-nav-btn">注册</a>
+				<a class="item shopping-cart" href="cart.html" id="cart-nav-btn">购物车</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="header">
+		<div class="container">
+			<div class="header-wrapper">
+				<div class="logo">
+					<img src="https://s10.mogucdn.com/mlcdn/c45406/190102_088f4i166l4gkl08k297h5kk8690i_260x200.png" alt="">
+				</div>
+				<div class="search-form">
+					<input type="text" autocomplete="off" placeholder="搜索商品" />
+					<button class="search-btn">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="personal">
+		<div class="container">
+			<div class="content-warp">
+				<div class="sidebar">
+					<h3>个人中心</h3>
+					<ul>
+						<li><a href="personal-center.html">个人资料</a></li>
+						<li><a href="personal-order-list.html">我的订单</a></li>
+						<li><a href="javascript:void(0)" id="log-out">退出登录</a></li>
+					</ul>
+				</div>
+				<div class="content">
+					<h3>我的订单</h3>
+					<ul class="order-list">
+						<li>
+							<div class="order-info">
+								<div>
+									<p><span>订单状态:</span>待支付</p>
+									<p><span>创建日期:</span>2020-12-05 11:52:14</p>
+								</div>
+								<div>
+									<p class="price"><span>应付金额:</span>22283.00元</p>
+									<a href="personal-order.html">查看订单</a>
+								</div>
+							</div>
+							<div class="order-items">
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+
+							</div>
+						</li>
+						<li>
+							<div class="order-info">
+								<div>
+									<p><span>订单状态:</span>待支付</p>
+									<p><span>创建日期:</span>2020-12-05 11:52:14</p>
+								</div>
+								<div>
+									<p class="price"><span>应付金额:</span>22283.00元</p>
+								</div>
+							</div>
+							<div class="order-items">
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+
+							</div>
+						</li>
+						<li>
+							<div class="order-info">
+								<div>
+									<p><span>订单状态:</span>待支付</p>
+									<p><span>创建日期:</span>2020-12-05 11:52:14</p>
+								</div>
+								<div>
+									<p class="price"><span>应付金额:</span>22283.00元</p>
+								</div>
+							</div>
+							<div class="order-items">
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="container">
+			<div class="item-warp">
+				<div class="item">
+					<h4 class="title">关于我们</h4>
+					<div class="content">
+						<span>
+							我们的软件开发专注于为企业打造全新服务体系的全智能云客服平台，
+							采用世界前沿的人工智能技术，提升企业客服工作效率、降低管理成本，让企业的服务真正发挥商业价值。
+						</span>
+					</div>
+				</div>
+				<div class="item">
+					<h4 class="title">联系我们</h4>
+					<div class="content">
+						<ul>
+							<li>咨询电话 : 4000-000-100</li>
+							<li>商务合作 : ab@abcdef.com</li>
+							<li>联系我们 : abcd@abcdef.com</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="link">
+				<h4>友情链接</h4>
+				<ul>
+					<li><a href="">后台管理系统</a></li>
+					<li><a href="">蘑菇街</a></li>
+					<li><a href="">问题反馈</a></li>
+					<li><a href="">github地址</a></li>
+					<li><a href="">码云地址</a></li>
+				</ul>
+			</div>
+
+			<div class="logo">
+				<div class="item">
+					<div class="school-logo">
+						<img src="./resource/images/logo_footer.png" alt="">
+					</div>
+				</div>
+				<div class="item">
+					<h4 class="title">微信公众号</h4>
+					<div class="school-wx">
+						<img src="./resource/images/gzh.jpg" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./resource/js/jquery.min.js"></script>
+	<script src="./resource/bootstrap/js/bootstrap.min.js"></script>
+	<script src="./resource/util/myStorage.js"></script>
+	<script src="./resource/js/isLogin.js"></script>
+	<script src="./resource/js/log-out.js"></script>
+</body>
+
+</html>

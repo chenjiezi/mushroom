@@ -2,161 +2,235 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="favicon.ico">
-    <title>蘑菇街 - 你的剁手街</title>
-    <link rel="stylesheet" href="./css/bootstrap.css">
-    <link rel="stylesheet" href="./css/common.css">
-    <link rel="stylesheet" href="./css/main.css">
+	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="./resource/favicon.ico">
+	<title>蘑菇街 - 你的剁手街</title>
+	<link href="./resource/css/normalize.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="./resource/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./resource/css/common.css">
+	<link rel="stylesheet" href="./resource/css/index.css">
 </head>
 
 <body>
-    <div class="top-nav">
-        <div class="container clearf">
-            <div class="fl">
-                <a class="item" href="index.html">首页</a>
-            </div>
-            <div class="fr">
-                <!-- <div class="isLogin">
-                    <a class="item" href="#">个人中心</a>
-                    <a class="item" href="#">退出登录</a>
-                </div> -->
-                <div class="noLogin">
-                    <a class="item" href="login.html">登录</a>
-                    <a class="item" href="register.html">注册</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="header">
-        <div class="container clearf">
-            <div class="col-2 title">
-                <img src="./images/logo.png" alt="logo">
-            </div>
-            <div class="col-5 search-bar">
-                <input type="text">
-                <button>搜索</button>
-            </div>
-            <div class="col-3 cart">
-                <a href="cart.html">我的购物车</a>
-            </div>
-        </div>
-    </div>
-    <div class="main-promote">
-        <div class="search-container clearf">
-            <div class="side-bar">
-                <a href="#" class="item">item / item / item</a>
-                <a href="#" class="item">item / item / item</a>
-                <a href="#" class="item">item / item / item</a>
-                <a href="#" class="item">item / item / item</a>
-                <a href="#" class="item">item / item / item</a>
-                <a href="#" class="item">item / item / item</a>
-                <a href="#" class="item">item / item / item</a>
-                <a href="#" class="item">item / item / item</a>
-                <a href="#" class="item">item / item / item</a>
-            </div>
-            <div class="wrap">
-                <ul class="list">
-                    <li class="carousel-item active"><img src="./images/1.jpg"></li>
-                    <li class="carousel-item"><img src="./images/2.jpg"></li>
-                    <li class="carousel-item"><img src="./images/3.jpg"></li>
-                    <li class="carousel-item"><img src="./images/4.jpg"></li>
-                    <li class="carousel-item"><img src="./images/5.jpg"></li>
-                </ul>
-                <ul class="pointList">
-                    <div class="point active" data-index='0'></div>
-                    <div class="point" data-index='1'></div>
-                    <div class="point" data-index='2'></div>
-                    <div class="point" data-index='3'></div>
-                    <div class="point" data-index='4'></div>
-                </ul>
-                <div class="carousel-btn" id="goPre"></div>
-                <div class="carousel-btn" id="goNext"></div>
-            </div>
-        </div>
-    </div>
+	<div class="top-nav">
+		<div class="container">
+			<div class="fl">
+				<a class="item" href="index.html">首页</a>
+			</div>
+			<div class="fr">
+				<a class="item" href="personal-order-list.html" id="order-nav-btn">订单</a>
+				<a class="item" href="personal-center.html" id="personal-nav-btn">个人中心</a>
+				<a class="item" href="login.html" id="login-nav-btn">登录</a>
+				<a class="item" href="register.html" id="register-nav-btn">注册</a>
+				<a class="item shopping-cart" href="cart.html" id="cart-nav-btn">购物车</a>
+			</div>
+		</div>
+	</div>
 
-    <div class="car-promote clearf">
-        <div class="search-container">
-            <div class="card-list">
-                <div class="title">
-                    床上用品
-                </div>
-                <div class="row">
-                    <div class="col-md-3 item">
-                        <div class="card">
-                            <div class="card-img">
-                                <a href="detail.html"><img src="https://dummyimage.com/1000x1000/666/ccc" alt=""></a>
-                            </div>
-                            <div class="card-content">
-                                <div class="status">
-                                    <a href="detail.html">纯棉加厚四件套100全棉亲肤床单被套秋冬床上用品单人床三件套4</a>
-                                </div>
-                                <div class="price">99.00</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 item">
-                        <div class="card"></div>
+	<div class="header">
+		<div class="container">
+			<div class="header-wrapper">
+				<div class="logo">
+					<img src="https://s10.mogucdn.com/mlcdn/c45406/190102_088f4i166l4gkl08k297h5kk8690i_260x200.png" alt="">
+				</div>
+				<div class="search-form">
+					<input type="text" autocomplete="off" placeholder="搜索商品" />
+					<button class="search-btn">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                    </div>
-                    <div class="col-md-3 item">
-                        <div class="card"></div>
+	<div class="main-promote">
+		<div class="container">
+			<div class="category-bar">
+				<a href="#" class="item">女装 男装 穿搭</a>
+				<a href="#" class="item">家具 家饰 家纺</a>
+				<a href="#" class="item">运动 户外 乐器</a>
+				<a href="#" class="item">游戏 动漫 影视</a>
+				<a href="#" class="item">美妆 清洁 宠物</a>
+				<a href="#" class="item">工具 装修 建材</a>
+				<a href="#" class="item">鞋靴 箱包 配件</a>
+				<a href="#" class="item">sada</a>
+				<a href="#" class="item">玩具 孕产 用品</a>
+			</div>
 
-                    </div>
-                    <div class="col-md-3 item">
-                        <div class="card"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="card-list">
-                <div class="title">
-                    女装
-                </div>
-                <div class="row">
-                    <div class="col-md-3 item">
-                        <div class="card">
-                            <div class="card-img">
-                                <a href="#"><img src="https://dummyimage.com/1000x1000/666/ccc" alt=""></a>
-                            </div>
-                            <div class="card-content">
-                                <div class="status">
-                                    <a href="#">针织毛衣连衣裙假两件套裙子秋冬大码女装mm显瘦减龄时尚潮流气质/a>
-                                </div>
-                                <div class="price">98.00</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 item">
-                        <div class="card"></div>
+			<div id="carousel-example" class="carousel slide" data-ride="carousel">
+				<ol class="carousel-indicators">
+					<li data-target="#carousel-example" data-slide-to="0" class="active"></li>
+					<li data-target="#carousel-example" data-slide-to="1"></li>
+					<li data-target="#carousel-example" data-slide-to="2"></li>
+				</ol>
 
-                    </div>
-                    <div class="col-md-3 item">
-                        <div class="card"></div>
+				<div class="carousel-inner" role="listbox">
+					<div class="item active">
+						<a href="product-detail.html">
+							<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d01b4f4d20d1c909454b296f34143004.jpg"></a>
+					</div>
+					<div class="item">
+						<a href="product-detail.html">
+							<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/64485128ae7c0bfd980c694f092fe25f.jpg">
+						</a>
+					</div>
+					<div class="item">
+						<a href="product-detail.html">
+							<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/d00e132d1b4fd7a796b35bcfe54bc2c8.jpg">
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-                    </div>
-                    <div class="col-md-3 item">
-                        <div class="card"></div>
+	<!--最新商品-->
+	<div class="new-product">
+		<div class="container">
+			<div class="title">
+				<h3 class="types-title">
+					<span>新品上线</span>
+				</h3>
+			</div>
+			<div class="product-list">
+				<div class="product-card-warp">
+					<div class="product-card">
+						<img src="//cdn.cnbj1.fds.api.mi-img.com/mi-mall/bb93febdb5b56fd328d27c54513163b8.png" alt="">
+						<p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
+						<p class="price">149元</p>
+					</div>
+				</div>
+				<div class="product-card-warp">
+					<div class="product-card">
+						<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/4e75e528fb468aee107f551179aa0799.jpg" alt="">
+						<p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
+						<p class="price">149元</p>
+					</div>
+				</div>
 
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+				<div class="product-card-warp">
+					<div class="product-card">
+						<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/13f10e47913f9dc82e6c6a6199f413cd.jpg" alt="">
+						<p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
+						<p class="price">149元</p>
+					</div>
+				</div>
 
-    <div class="footer clearf">
-        <div class="footer-container">
-            <p>Copyright © 2020-2021 蘑菇街 Rights Reserved.  |   粤ICP备17008806号-5</p>
-        </div>
-    </div>
-    <script src="./js/sweetalert.min.js"></script>
-    <script src="./js/carousel.js"></script>
-    <script>
-        // swal("Hello world!");
-        // swal("Good job!", "You clicked the button!", "info");
-        // swal("Good job!", "You clicked the button!", "error");
-    </script>
+				<div class="product-card-warp">
+					<div class="product-card">
+						<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c892a7640f58032489cbff8a948b50f9.jpg" alt="">
+						<p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
+						<p class="price">149元</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="product">
+		<div class="container">
+			<div class="title">
+				<h3 class="types-title">
+					<span>女装 男装 穿搭</span>
+				</h3>
+			</div>
+			<div class="product-list">
+				<div class="product-card-warp">
+					<div class="product-card">
+						<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ef4c68fed730ec26bf2fa0ff620975c5.jpg" alt="">
+						<p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
+						<p class="price">149元</p>
+					</div>
+				</div>
+				<div class="product-card-warp">
+					<div class="product-card">
+						<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ef6b4e9b9151849b3b1fb1dbf069c6ed.jpg" alt="">
+						<p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
+						<p class="price">149元</p>
+					</div>
+				</div>
+
+				<div class="product-card-warp">
+					<div class="product-card">
+						<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/b8c63a2024528fe5410ebe669b7d2407.jpg" alt="">
+						<p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
+						<p class="price">149元</p>
+					</div>
+				</div>
+
+				<div class="product-card-warp">
+					<div class="product-card">
+						<img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/321610e787393c42e5cb2e5730a7681d.jpg"
+							alt="">
+						<p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
+						<p class="price">149元</p>
+					</div>
+				</div>
+				<div class="product-card-warp">
+					<div class="product-card">
+						<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/1f32af53d1ad60f4980146f6a2b81019.jpg" alt="">
+						<p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
+						<p class="price">149元</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="container">
+			<div class="item-warp">
+				<div class="item">
+					<h4 class="title">关于我们</h4>
+					<div class="content">
+						<span>
+							我们的软件开发专注于为企业打造全新服务体系的全智能云客服平台，
+							采用世界前沿的人工智能技术，提升企业客服工作效率、降低管理成本，让企业的服务真正发挥商业价值。
+						</span>
+					</div>
+				</div>
+				<div class="item">
+					<h4 class="title">联系我们</h4>
+					<div class="content">
+						<ul>
+							<li>咨询电话 : 4000-000-100</li>
+							<li>商务合作 : ab@abcdef.com</li>
+							<li>联系我们 : abcd@abcdef.com</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="link">
+				<h4>友情链接</h4>
+				<ul>
+					<li><a href="">后台管理系统</a></li>
+					<li><a href="">蘑菇街</a></li>
+					<li><a href="">问题反馈</a></li>
+					<li><a href="">github地址</a></li>
+					<li><a href="">码云地址</a></li>
+				</ul>
+			</div>
+
+			<div class="logo">
+				<div class="item">
+					<div class="school-logo">
+						<img src="./resource/images/logo_footer.png" alt="">
+					</div>
+				</div>
+				<div class="item">
+					<h4 class="title">微信公众号</h4>
+					<div class="school-wx">
+						<img src="./resource/images/gzh.jpg" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="./resource/js/jquery.min.js"></script>
+	<script src="./resource/bootstrap/js/bootstrap.min.js"></script>
+	<script src="./resource/util/myStorage.js"></script>
+	<script src="./resource/js/isLogin.js"></script>
 </body>
 
 </html>

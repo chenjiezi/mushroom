@@ -4,11 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <link rel="shortcut icon" href="./resource/favicon.ico">
-  <title>登录</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>商品详情</title>
   <link href="./resource/css/normalize.min.css" rel="stylesheet">
   <link rel="stylesheet" href="./resource/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./resource/css/common.css">
-  <link rel="stylesheet" href="./resource/css/login.css">
+  <link rel="stylesheet" href="./resource/css/details.css">
 </head>
 
 <body>
@@ -18,6 +19,11 @@
         <a class="item" href="index.html">首页</a>
       </div>
       <div class="fr">
+				<a class="item" href="personal-order-list.html" id="order-nav-btn">订单</a>
+				<a class="item" href="personal-center.html" id="personal-nav-btn">个人中心</a>
+				<a class="item" href="login.html" id="login-nav-btn">登录</a>
+				<a class="item" href="register.html" id="register-nav-btn">注册</a>
+				<a class="item shopping-cart" href="cart.html" id="cart-nav-btn">购物车</a>
       </div>
     </div>
   </div>
@@ -28,42 +34,65 @@
         <div class="logo">
           <img src="https://s10.mogucdn.com/mlcdn/c45406/190102_088f4i166l4gkl08k297h5kk8690i_260x200.png" alt="">
         </div>
+        <div class="search-form">
+          <input type="text" autocomplete="off" placeholder="搜索商品" />
+          <button class="search-btn">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="login-form">
+  <div style="background: #f5f5f5;height: 90px">
     <div class="container">
-      <div class="login-warp">
-        <div class="login">
-          <div class="form">
-            <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active">
-                <a href="#login" aria-controls="home" role="tab" data-toggle="tab">
-                  <h4 class="title"> 登录 </h4>
-                </a>
-              </li>
-            </ul>
+      <h4 style="line-height: 90px;padding: 0;margin: 0;font-weight: bold;font-size: 20px">商品详情</h4>
+    </div>
+  </div>
 
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="login">
-                <div class="form-group">
-                  <label for="loginname">账号</label>
-                  <input type="text" class="form-control" id="loginname" placeholder="账号">
-                </div>
-                <div class="form-group">
-                  <label for="password">密码</label>
-                  <input type="password" class="form-control" id="password" placeholder="密码">
-                </div>
-                <!-- 错误提示 -->
-                <div id="err-tips"></div>
-                <button class="btn btn-info btn-block" id="login-btn">登录</button>
-                <a href="register.html">没有账号？点击注册 >></a>
-              </div>
-            </div>
-          </div>
+  <div class="product-info">
+
+    <div class="container">
+      <div class="info-img">
+        <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/c892a7640f58032489cbff8a948b50f9.jpg" alt="">
+      </div>
+      <div class="info-content">
+        <div class="info-content-title">HUAWEI Mate 30 Pro 双4000万徕卡电影四摄</div>
+        <div class="info-content-price">￥99.00</div>
+        <div class="tb-extra">
+          <dl>
+            <dt>承诺</dt>
+            <dd>
+              <img src="http://mall.newbee.ltd/mall/image/7d.jpg">7天无理由
+            </dd>
+          </dl>
+          <dl>
+            <dt>支付</dt>
+            <dd>
+              <img src="http://mall.newbee.ltd/mall/image/hua.png">蚂蚁花呗
+            </dd>
+          </dl>
+          <dl>
+            <dt>支持</dt>
+            <dd>折旧变现，买新更省钱。<a style="float:none;text-decoration: underline;" href="##">详情</a></dd>
+          </dl>
+
+        </div>
+        <div class="product-select-group">
+          <button class="btn  btn-lg  btn-block btn-success product-cart">加入购物车</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="product-details">
+    <div class="container">
+      <div class="details-content-title">
+        商品介绍
+      </div>
+    </div>
+    <div class="container">
+
     </div>
   </div>
 
@@ -119,9 +148,8 @@
 
   <script src="./resource/js/jquery.min.js"></script>
   <script src="./resource/bootstrap/js/bootstrap.min.js"></script>
-  <script src="./resource/js/sweetalert.min.js"></script>
-  <script src="./resource/util/myStorage.js"></script>
-  <script src="./resource/js/login.js"></script>
+	<script src="./resource/util/myStorage.js"></script>
+	<script src="./resource/js/isLogin.js"></script>
 </body>
 
 </html>

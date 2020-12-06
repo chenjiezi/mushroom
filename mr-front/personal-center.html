@@ -4,15 +4,17 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="./resource/favicon.ico">
-	<title>我的购物车</title>
+	<link rel="shortcut icon" href="favicon.ico">
+	<title>个人中心</title>
 	<link href="./resource/css/normalize.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="./resource/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="./resource/css/common.css">
-	<link rel="stylesheet" href="./resource/css/cart.css">
-
+	<link rel="stylesheet" href="./resource/css/personal-common.css">
+	<link rel="stylesheet" href="./resource/css/personal-center.css">
 </head>
 
 <body>
+
 	<div class="top-nav">
 		<div class="container">
 			<div class="fl">
@@ -44,38 +46,46 @@
 		</div>
 	</div>
 
-	<div class="cart">
+	<div class="personal">
 		<div class="container">
-			<div class="cart-wrap">
-				<div class="thead">
-					<div class="row">
-						<div class="col-xs-1">
-							<input type="checkbox" name="all-check">
+			<div class="content-warp">
+				<div class="sidebar">
+					<h3>个人中心</h3>
+					<ul>
+						<li><a href="personal-center.html">个人资料</a></li>
+						<li><a href="personal-order-list.html">我的订单</a></li>
+						<li><a href="javascript:void(0)" id="log-out">退出登录</a></li>
+					</ul>
+				</div>
+
+				<div class="content">
+					<h3>我的资料</h3>
+					<div class="info">
+
+						<div class="item-warp">
+							<div class="item">
+								<span class="key">昵称：</span>
+								<span class="value">德鲁叔叔</span>
+							</div>
+							<div class="item">
+								<span class="key">账号：</span>
+								<span class="value">Esummer</span>
+							</div>
+							<div class="item">
+								<span class="key">手机：</span>
+								<span class="value">12312312312</span>
+							</div>
+							<div class="item">
+								<span class="key">收获地址：</span>
+								<span class="value">广东省汕头市潮阳区</span>
+							</div>
 						</div>
-						<div class="col-xs-3">商品名称</div>
-						<div class="col-xs-2">商品图片</div>
-						<div class="col-xs-1">单价（元）</div>
-						<div class="col-xs-2">数量</div>
-						<div class="col-xs-1">单品总计</div>
-						<div class="col-xs-2">操作</div>
+
+						<img src="https://portrait.gitee.com/uploads/avatars/user/1596/4789802_Esummer-Amnesia_1600241304.png"
+							class="img-circle">
+
 					</div>
 				</div>
-				<div class="tbody" id="product-list">
-				</div>
-				<div class="tfooter">
-					<div class="row">
-						<div class="col-xs-1">
-							<input type="checkbox" name="all-check">
-						</div>
-						<div class="col-xs-3" id="select-del-btn">
-							删除选中
-						</div>
-						<div class="col-xs-8">
-							<div style="float: right;padding-right: 20px;">合计：<span id="total">0</span> 元</div>
-						</div>
-					</div>
-				</div>
-				<button type="button" class="btn btn-primary btn-buy" id="buy">支付下单</button>
 			</div>
 		</div>
 	</div>
@@ -134,8 +144,7 @@
 	<script src="./resource/bootstrap/js/bootstrap.min.js"></script>
 	<script src="./resource/util/myStorage.js"></script>
 	<script src="./resource/js/isLogin.js"></script>
-	<script src="./resource/js/sweetalert.min.js"></script>
-	<script src="./resource/js/cart.js"></script>
+	<script src="./resource/js/log-out.js"></script>
 </body>
 
 </html>

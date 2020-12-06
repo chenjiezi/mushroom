@@ -1,0 +1,81 @@
+
+.order_detail{
+    margin:0 30px  0 30px;
+}
+
+.order_detail .order_detail_base,
+.order_detail .order_detail_product > * {
+    padding: 10px;
+}
+
+.order_detail .order_detail_base .btn{
+    outline: none;
+    border: none;
+    background: #f46;
+    transition: 1s;
+}
+
+.order_detail .order_detail_base .btn:hover{
+    background: #ff4466bf;
+    transition: 1s;
+}
+
+.order_detail_base,
+.address_c {
+    display: flex;
+    justify-content: space-between;
+}
+
+.order_detail_product .main_info .order_status,
+.order_detail_product .main_info .order_text {
+    margin-bottom: 12px;
+}
+
+.order_detail_product .main_info .order_status {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.order_detail_product .main_info .product_info {
+    border-radius: 10px ;
+    padding: 10px;
+    background: #f5f5f57d;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.address_info .address_title,
+.pay_way .pay_way_title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.product_info,
+.address_c,
+.pay_way_content {
+    margin-bottom: 20px;
+}
+
+.total_money {
+    width: 100%;
+}
+
+.total_money > * {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 0;
+    height: 35px;
+    line-height: 35px;
+}
+
+.total_money .value {
+    font-size: 22px;
+    font-weight: bold;
+    padding: 0 10px;
+}
+
+.address_info .address_c .btn{
+    outline: none;
+}

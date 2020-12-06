@@ -4,15 +4,19 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="./resource/favicon.ico">
-	<title>我的购物车</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>个人中心</title>
 	<link href="./resource/css/normalize.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="./resource/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="./resource/css/common.css">
-	<link rel="stylesheet" href="./resource/css/cart.css">
-
+	<link rel="stylesheet" href="./resource/css/personal-common.css">
+	<!--    <link rel="stylesheet" href="./resource/css/personal.css">-->
+	<link rel="stylesheet" href="./resource/css/personal-order.css">
 </head>
 
 <body>
+
+
 	<div class="top-nav">
 		<div class="container">
 			<div class="fl">
@@ -44,38 +48,65 @@
 		</div>
 	</div>
 
-	<div class="cart">
+	<div class="personal">
 		<div class="container">
-			<div class="cart-wrap">
-				<div class="thead">
-					<div class="row">
-						<div class="col-xs-1">
-							<input type="checkbox" name="all-check">
+			<div class="content-warp">
+				<div class="sidebar">
+					<h3>个人中心</h3>
+					<ul>
+						<li><a href="personal-center.html">个人资料</a></li>
+						<li><a href="personal-order-list.html">我的订单</a></li>
+						<li><a href="javascript:void(0)" id="log-out">退出登录</a></li>
+					</ul>
+				</div>
+				<div class="content">
+					<h3>我的订单</h3>
+					<!-- <h1 id="order_title">填写并核对订单信息</h1> -->
+					<!-- FIXME: 订单详情 -->
+					<div class="order_detail">
+						<div class="order_detail_base">
+							<div class="order_id" id="order_id">
+								订单编号：12345678912123
+							</div>
+							<button class="btn btn-success" type="button">确认订单</button>
 						</div>
-						<div class="col-xs-3">商品名称</div>
-						<div class="col-xs-2">商品图片</div>
-						<div class="col-xs-1">单价（元）</div>
-						<div class="col-xs-2">数量</div>
-						<div class="col-xs-1">单品总计</div>
-						<div class="col-xs-2">操作</div>
+						<div class="order_detail_product">
+							<div class="main_info">
+								<div class="order_status">待支付</div>
+								<div class="order_text">赶紧去支付呀~</div>
+								<div class="product_info">
+									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
+										style="width: 100px;height: 100px;" alt="">
+									<div>Apple iPhone XR (A2108)</div>
+									<div>5099元 x 1</div>
+								</div>
+							</div>
+							<div class="address_info">
+								<div class="address_title">收货信息</div>
+								<div class="address_c">
+									<div class="address">广州市白云区江高镇学苑路1号</div>
+									<button class="btn btn-default" type="button">修改地址</button>
+								</div>
+							</div>
+							<div class="pay_way">
+								<div class="pay_way_title">支付方式</div>
+								<div class="pay_way_content">支付方式：支付宝</div>
+							</div>
+							<div class="total_money">
+								<div class="yun_fee">
+									<div class="key">运费：</div>
+									<div class="value">0</div>
+									<span> 元</span>
+								</div>
+								<div class="total">
+									<div class="key">商品总价：</div>
+									<div class="value">5099.00</div>
+									<span> 元</span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="tbody" id="product-list">
-				</div>
-				<div class="tfooter">
-					<div class="row">
-						<div class="col-xs-1">
-							<input type="checkbox" name="all-check">
-						</div>
-						<div class="col-xs-3" id="select-del-btn">
-							删除选中
-						</div>
-						<div class="col-xs-8">
-							<div style="float: right;padding-right: 20px;">合计：<span id="total">0</span> 元</div>
-						</div>
-					</div>
-				</div>
-				<button type="button" class="btn btn-primary btn-buy" id="buy">支付下单</button>
 			</div>
 		</div>
 	</div>
@@ -134,8 +165,7 @@
 	<script src="./resource/bootstrap/js/bootstrap.min.js"></script>
 	<script src="./resource/util/myStorage.js"></script>
 	<script src="./resource/js/isLogin.js"></script>
-	<script src="./resource/js/sweetalert.min.js"></script>
-	<script src="./resource/js/cart.js"></script>
+	<script src="./resource/js/log-out.js"></script>
 </body>
 
 </html>
