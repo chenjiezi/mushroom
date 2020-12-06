@@ -1,34 +1,35 @@
 "use strict";
 
-$(function ($) {
-  // 1.加载数据 TODO: 异步
-  load_data();
-  // 2.监听事件
-  // "+"按钮
-  $('.increase').each(function () {
-    $(this).click(increase_count)
-  })
-  // "-"按钮
-  $('.reduce').each(function () {
-    $(this).click(reduce_count)
-  })
-  // 单选框
-  $('input[name="single-check"]').each(function () {
-    $(this).click(single_check)
-  })
-  // 多选框
-  $('input[name="all-check"]').each(function () {
-    $(this).click(all_check)
-  })
-  // "下单支付"按钮
-  $('#buy').click(order_payment)
-  // "删除"按钮
-  $('.del-btn').each(function () {
-    $(this).click(del_data)
-  })
-  // "删除选中"按钮
-  $('#select-del-btn').click(select_del_btn)
-});
+// 1.加载数据 TODO: 异步
+load_data();
+
+// 2.监听事件
+// "+"按钮
+$('.increase').each(function () {
+  $(this).click(increase_count)
+})
+// "-"按钮
+$('.reduce').each(function () {
+  $(this).click(reduce_count)
+})
+// 单选框
+$('input[name="single-check"]').each(function () {
+  $(this).click(single_check)
+})
+// 多选框
+$('input[name="all-check"]').each(function () {
+  $(this).click(all_check)
+})
+// "下单支付"按钮
+$('#buy').click(order_payment)
+// "删除"按钮
+$('.del-btn').each(function () {
+  $(this).click(del_data)
+})
+// "删除选中"按钮
+$('#select-del-btn').click(select_del_btn)
+
+
 
 // 下单支付 TODO:
 function order_payment() {
@@ -82,6 +83,7 @@ function load_data() {
   }]
   // 重置容器
   $('#product-list').empty()
+  // 无数据渲染
   if (!dataList || dataList.length === 0) {
     $('#product-list').append(render_no_data_html_template())
     return false
