@@ -43,9 +43,10 @@
 .cart .btn-buy {
   float: right;
   margin-top: 20px;
-  margin-right: 20px;
   width: 150px;
   height: 40px;
+  background-color: #f46;
+  border-color: #f46;
 }
 
 .product-item .reduce,

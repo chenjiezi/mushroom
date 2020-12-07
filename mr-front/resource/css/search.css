@@ -28,6 +28,7 @@
     background: #fafafa;
     transition: 1s;
     border-top: 2px solid #ff4466;
+    cursor: pointer;
 }
 
 .product-card:hover {
@@ -39,9 +40,17 @@
     text-align: center;
 }
 
+.product-card .product-img {
+    width: 280px;
+    height: 280px;
+}
 .product-card .product-name {
     margin-top: 10px;
     font-weight: bold;
+    width: 280px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .product-card .price {

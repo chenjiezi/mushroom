@@ -129,3 +129,8 @@
     line-height: 300px;
     font-size: 18px;
 }
+
+#info-img {
+    width: 450px;
+    height: 450px;
+}
