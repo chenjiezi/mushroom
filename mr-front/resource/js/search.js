@@ -1,21 +1,41 @@
 "use strict";
 
 
+// 搜索内容
+var UrlParams = _util.getUrlParams()
+var page = {
+  currentPage: 1,
+  pageSize: 10,
+  totalPage: 1,
+  total: 10,
+}
+
 // 初始化
 init()
 
-// 搜索
+// 初始化
+function init () {
+  // 查询商品名称，显示输入框里
+  if (UrlParams['productName']) {
+    $('#search-ipt').val(UrlParams['productName'])
+  }
+  
+  // 向服务端请求数据
+  getData()
+}
+
+// 搜索按钮操作
 $('#search-btn').click(function () {
-  var searchContent = $('#search-ipt').val().trim()
-  window.location.href = `search.html?search=${searchContent}`
+  var productName = $('#search-ipt').val().trim()
+  window.location.href = `search.html?productName=${productName}`
 })
 
 // 上一页
 $('#prev').click(function () {
   var hasPage = !$(this).hasClass('disabled')
   if(hasPage) {
-    page.curPage -= 1
-    pageChange(page)
+    page.currentPage -= 1
+    getData()
   }
 })
 
@@ -23,36 +43,30 @@ $('#prev').click(function () {
 $('#next').click(function () {
   var hasPage = !$(this).hasClass('disabled')
   if(hasPage) {
-    page.curPage += 1
-    pageChange(page)
+    page.currentPage += 1
+    getData()
   }
 })
 
-
-// 初始化
-function init () {
-  // 查询内容
-  var c = window.location.search
-    ? decodeURIComponent(window.location.search.split('=')[1])
-    : ''
-  $('#search-ipt').val(c)
-
+// 加载数据
+function getData () {
   var params = {
-    search: c,
-    curPage: 1,
-    pgaeSize: 10,
-    total: 10
+    categoryId: UrlParams['categoryId'],
+    productName: UrlParams['productName'],
+    ...page
   }
-  // 向服务端请求数据
-  getData (params, function (res) {
+  _productApi.productSearch(params, function (res) {
     if (res.code === 200) {
-      var dataList = res.data.dataList
-      var page = {
-        curPage: res.data.curPage,
-        pgaeSize: res.data.pgaeSize,
+      var dataList = res.data.resultList
+      page = {
+        currentPage: res.data.currentPage,
+        pageSize: res.data.pageSize,
         total: res.data.total,
+        totalPage: res.data.totalPage,
       }
       pageChange(page)
+      // 重置容器
+      $('#product-list').empty()
       // 查找不到数据
       if (dataList.length === 0) {
         $('#product-list').html('<div style="text-align: center;">搜索不到任何商品~</div>')
@@ -64,49 +78,29 @@ function init () {
       })
     }
   })
-  
-  
-}
-
-// TODO: 请求数据
-function getData (params, callback) {
-  var res = {
-    code: 200,
-    data: {
-      dataList: [
-        {
-          id: 1,
-          img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ef4c68fed730ec26bf2fa0ff620975c5.jpg',
-          title: '小米有线耳机（K歌版） 白色',
-          price: 149
-        }, {
-          id: 1,
-          img: 'https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ef4c68fed730ec26bf2fa0ff620975c5.jpg',
-          title: '小米有线耳机（K歌版） 白色',
-          price: 149
-        }
-      ],
-      curPage: 1,
-      pgaeSize: 10,
-      total: 10
-    }
-  }
-  callback && callback(res)
 }
 
 // 分页参数变化
 function pageChange(page) {
   /* 
-  1.curPage不等于1时，可以点击上一页
-  2.curPage * pageSize < total,可以点击下一页
+  1.currentPage不等于1时，可以点击上一页
+  2.currentPage * pageSize < total,可以点击下一页
   */
-  if (page.curPage === 1) {
+
+ // 当前页码
+ $('#current-page').html(page.currentPage)
+ // 总页码
+ $('#total-page').html(page.totalPage)
+ // 总数据
+ $('#total').html(page.total)
+
+  if (page.currentPage === 1) {
     $('#prev').addClass('disabled')
   } else {
     $('#prev').removeClass('disabled')
   }
 
-  if (page.curPage * page.pageSize >= page.total) {
+  if (page.currentPage * page.pageSize >= page.total) {
     $('#next').addClass('disabled')
   } else {
     $('#next').removeClass('disabled')
@@ -116,12 +110,13 @@ function pageChange(page) {
 // 渲染商品模板
 function render_product_html_template (data) {
   return `
-  <div class="product-card-warp" id="${data.id}">
-    <div class="product-card">
-      <img id="product-img" src="${data.img}" alt="">
-      <p class="product-name" id="product-name">${data.title}</p>
-      <p class="price"> <span id="product-price">${data.price}</span> 元</p>
-    </div>
-  </div>
+    <a target="_blank" href="product-detail.html?productId=${data.productId}" class="product-card-warp" id="${data.productId}">
+      <div class="product-card">
+        <img class="product-img" id="product-img" src="${data.productImg}" alt="">
+        <p class="product-name" id="product-name" title="${data.productName}">${data.productName}</p>
+        <p class="price"> <span id="product-price">${data.productPrice || '-'}</span> 元</p>
+      </div>
+    </a>
   `
 }
+
