@@ -10,7 +10,8 @@
 	<link rel="stylesheet" href="./resource/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="./resource/css/common.css">
 	<link rel="stylesheet" href="./resource/css/personal-common.css">
-	<!--    <link rel="stylesheet" href="./resource/css/personal.css">-->
+	<link rel="stylesheet" href="./resource/css/bootstrap-modal.css">
+	<link rel="stylesheet" href="./resource/css/personal-common.css">
 	<link rel="stylesheet" href="./resource/css/personal-order.css">
 </head>
 
@@ -79,7 +80,7 @@
 								<div class="address_title">收货信息</div>
 								<div class="address_c">
 									<div class="address" id="address">-</div>
-									<button class="btn btn-default" type="button" id="update_address_btn" style="display: none;">修改地址</button>
+									<button class="btn btn-default" type="button" id="show_address_modal" style="display: none;">修改地址</button>
 								</div>
 							</div>
 							<div class="pay_way">
@@ -155,6 +156,35 @@
 		</div>
 	</div>
 
+	<!-- 修改地址弹窗 -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						地址修改
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<input type="hidden" id="userId" value="730">
+						<label for="address" class="control-label">收货地址:</label>
+						<input type="text" class="form-control" id="address-ipt" name="address" placeholder="请输入收货地址">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+					</button>
+					<button type="button" class="btn btn-primary" id="update_address_btn">
+						确定
+					</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+
 	<script src="./resource/js/jquery.min.js"></script>
 	<script src="./resource/bootstrap/js/bootstrap.min.js"></script>
 	<script src="./resource/util/myStorage.js"></script>
@@ -162,6 +192,7 @@
 	<script src="./resource/js/isLogin.js"></script>
 	<script src="./resource/js/log-out.js"></script>
 	<script src="./resource/js/api.js"></script>
+	<script src="./resource/js/sweetalert.min.js"></script>
 	<script src="./resource/js/personal-order.js"></script>
 </body>
 

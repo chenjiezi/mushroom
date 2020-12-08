@@ -152,12 +152,12 @@
 }
 
 .product-img {
-    width: 280px;
-    height: 280px;
+    width: 200px;
+    height: 200px;
 }
 
 .product-name {
-    width: 280px;
+    width: 215px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

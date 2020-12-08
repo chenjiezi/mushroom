@@ -60,3 +60,7 @@
     font-size: 30px;
     padding: 30px;
 }
+/* bs-modal弹窗样式 */
+.modal.fade.in {
+    top: 20%;
+}

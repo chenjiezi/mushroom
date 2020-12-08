@@ -37,3 +37,8 @@
     color: #f46;
     transition: 1s;
 }
+
+.header {
+    display: flex;
+    align-items: center;
+}
