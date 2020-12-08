@@ -74,8 +74,13 @@ function order_payment() {
           icon: 'warning'
         })
       } else {
-        // TODO:
-        console.log('cartIds：', cartIds)
+        // console.log('cartIds：', cartIds)
+        // 生成订单, 跳转到订单详情页面
+        _orderApi.addOrder({cartIds}, function (res) {
+          if (res.code === 200) {
+            window.location.href = 'personal-order.html?orderNo=' + res.data
+          }
+        })
       }
     }
   })

@@ -54,32 +54,32 @@
 					</ul>
 				</div>
 				<div class="content">
-					<h3>我的订单</h3>
-					<!-- <h1 id="order_title">填写并核对订单信息</h1> -->
-					<!-- FIXME: 订单详情 -->
+					<!-- 订单标题 -->
+					<h3 id="order_title"></h3>
 					<div class="order_detail">
 						<div class="order_detail_base">
-							<div class="order_id" id="order_id">
-								订单编号：12345678912123
+							<div class="order_id" >
+								订单编号： <span id="order_No"></span>
 							</div>
-							<button class="btn btn-success" type="button">确认订单</button>
+							<!-- 订单按钮 -->
+							<button class="btn btn-success" type="button" id="order_btn" style="display: none;"></button>
 						</div>
 						<div class="order_detail_product">
 							<div class="main_info">
-								<div class="order_status">待支付</div>
-								<div class="order_text">赶紧去支付呀~</div>
-								<div class="product_info">
-									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
-										style="width: 100px;height: 100px;" alt="">
-									<div>Apple iPhone XR (A2108)</div>
-									<div>5099元 x 1</div>
+								<!-- 订单状态 -->
+								<div class="order_status" id="order_status"></div>
+								<!-- 订单状态文本 -->
+								<div class="order_text" id="order_text"></div>
+								<!-- 商品列表 -->
+								<div id="product_list">
+									
 								</div>
 							</div>
 							<div class="address_info">
 								<div class="address_title">收货信息</div>
 								<div class="address_c">
-									<div class="address">广州市白云区江高镇学苑路1号</div>
-									<button class="btn btn-default" type="button">修改地址</button>
+									<div class="address" id="address">-</div>
+									<button class="btn btn-default" type="button" id="update_address_btn" style="display: none;">修改地址</button>
 								</div>
 							</div>
 							<div class="pay_way">
@@ -94,7 +94,7 @@
 								</div>
 								<div class="total">
 									<div class="key">商品总价：</div>
-									<div class="value">5099.00</div>
+									<div class="value" id="total">0</div>
 									<span> 元</span>
 								</div>
 							</div>
@@ -158,8 +158,11 @@
 	<script src="./resource/js/jquery.min.js"></script>
 	<script src="./resource/bootstrap/js/bootstrap.min.js"></script>
 	<script src="./resource/util/myStorage.js"></script>
+	<script src="./resource/util/util.js"></script>
 	<script src="./resource/js/isLogin.js"></script>
 	<script src="./resource/js/log-out.js"></script>
+	<script src="./resource/js/api.js"></script>
+	<script src="./resource/js/personal-order.js"></script>
 </body>
 
 </html>

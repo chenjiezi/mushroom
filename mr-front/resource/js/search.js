@@ -88,11 +88,11 @@ function pageChange(page) {
   */
 
  // 当前页码
- $('#current-page').html(page.currentPage)
+ $('#current-page').text(page.currentPage)
  // 总页码
- $('#total-page').html(page.totalPage)
+ $('#total-page').text(page.totalPage)
  // 总数据
- $('#total').html(page.total)
+ $('#total').text(page.total)
 
   if (page.currentPage === 1) {
     $('#prev').addClass('disabled')

@@ -8,14 +8,41 @@ localStorage工具类 已完成
 isLogin // 未登录，跳转到登录页 已完成
 
 
-1.首页 差商品列表渲染
+1.首页 已完成
 2.商品详情 已完成
-3.购物车 未对接接口
+3.购物车 已完成
 4.个人中心
     个人信息 未对接接口
-    订单列表 未对接接口
+    订单列表 已完成
     退出登录 未对接接口
 5.登录 未对接接口
 6.注册 未对接接口
 7.订单确认-待支付-已支付-关闭订单 未对接接口
 8.搜索结果 已完成
+
+
+/**
+ * 未提交
+ */
+public final static Integer NOT_SUBMIT=0;
+
+/**
+ * 已提交
+ */
+public final static Integer ON_SUBMIT=1;
+
+/**
+ * 已支付
+ */
+public final static Integer SUCCESS_PAY=2;
+
+/**
+ * 手动关闭（即用户关闭）
+ */
+public final static Integer CLOSE_MANUAL=-1;
+
+/**
+ * 商家关闭
+ */
+public final static Integer CLOSE_BUSINESS=-2;
+

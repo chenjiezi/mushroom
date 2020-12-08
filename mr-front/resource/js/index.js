@@ -34,8 +34,15 @@ _productApi.getNewProduct(4, function (res) {
   }
 })
 
-// TODO:渲染商品模板
-$('#product-list').append(render_product_list_html_template())
+// 请求分类商品模板
+_productApi.getHomeCategory(4, function (res) {
+  if (res.code === 200) {
+    res.data.forEach(item => {
+      // 渲染商品模板
+      $('#home-category').append(render_product_list_html_template(item))
+    })
+  }
+})
 
 // 分类栏模板
 function render_category_bar_html_template(data) {
@@ -144,50 +151,33 @@ function render_new_product_html_template (data) {
 }
 
 // 商品模板
-function render_product_list_html_template () {
+function render_product_list_html_template (data) {
+  var productCardWarp = ``
+
+  data.productList.forEach(item => {
+    productCardWarp += `
+      <a href="product-detail.html?productId=${item.productId}" class="product-card-warp">
+        <div class="product-card">
+          <img src="${item.productImg}" alt="">
+          <p class="product-name"><strong>${item.productName}</strong></p>
+          <p class="price">${item.productPrice}元</p>
+        </div>
+      </a>
+    `
+  })
+
   return `
-  
-  <div class="product">
-    <div class="container">
-      <div class="title">
-        <h3 class="types-title">
-          <span>女装 男装 穿搭</span>
-        </h3>
-      </div>
-      <div class="product-list">
-        <div class="product-card-warp">
-          <div class="product-card">
-            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/ef4c68fed730ec26bf2fa0ff620975c5.jpg" alt="">
-            <p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
-            <p class="price">149元</p>
-          </div>
+    <div class="product">
+      <div class="container">
+        <div class="title">
+          <h3 class="types-title">
+            <span>${data.categoryName}</span>
+          </h3>
         </div>
-
-        <div class="product-card-warp">
-          <div class="product-card">
-            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/b8c63a2024528fe5410ebe669b7d2407.jpg" alt="">
-            <p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
-            <p class="price">149元</p>
-          </div>
-        </div>
-
-        <div class="product-card-warp">
-          <div class="product-card">
-            <img src="https://cdn.cnbj0.fds.api.mi-img.com/b2c-mimall-media/321610e787393c42e5cb2e5730a7681d.jpg"
-              alt="">
-            <p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
-            <p class="price">149元</p>
-          </div>
-        </div>
-        <div class="product-card-warp">
-          <div class="product-card">
-            <img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/1f32af53d1ad60f4980146f6a2b81019.jpg" alt="">
-            <p class="product-name"><strong>小米有线耳机（K歌版） 白色</strong></p>
-            <p class="price">149元</p>
-          </div>
+        <div class="product-list">
+          ${productCardWarp}
         </div>
       </div>
     </div>
-  </div>
   `
 }

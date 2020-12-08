@@ -52,43 +52,21 @@
 				</div>
 				<div class="content">
 					<h3>我的订单</h3>
-					<ul class="order-list">
-						<li>
-							<div class="order-info">
-								<div>
-									<p><span>订单状态:</span>待支付</p>
-									<p><span>创建日期:</span>2020-12-05 11:52:14</p>
-								</div>
-								<div>
-									<p class="price"><span>应付金额:</span>22283.00元</p>
-									<a href="personal-order.html">查看订单</a>
-								</div>
-							</div>
-							<div class="order-items">
-								<div class="product_info">
-									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
-										style="width: 100px;height: 100px;" alt="">
-									<div>Apple iPhone XR (A2108)</div>
-									<div>5099元 x 1</div>
-								</div>
-
-								<div class="product_info">
-									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
-										style="width: 100px;height: 100px;" alt="">
-									<div>Apple iPhone XR (A2108)</div>
-									<div>5099元 x 1</div>
-								</div>
-
-								<div class="product_info">
-									<img src="https://cdn.cnbj1.fds.api.mi-img.com/mi-mall/de2f71a797a74e1ca70f1fb4570bc026.jpg"
-										style="width: 100px;height: 100px;" alt="">
-									<div>Apple iPhone XR (A2108)</div>
-									<div>5099元 x 1</div>
-								</div>
-
-							</div>
-						</li>
+					<!-- 订单列表 -->
+					<ul class="order-list" id="order-list">
+						
 					</ul>
+
+					<!-- 分页 -->
+					<div class="pagination">
+						<button class="btn btn-default" id="prev">上一页</button>
+						<div>
+							<span>总数据： <span id="total"></span> </span> |
+							<span>总页码： <span id="total-page"></span> </span> |
+							<span>当前页码： <span id="current-page">1</span> </span>
+						</div>
+						<button class="btn btn-default" id="next">下一页</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -148,7 +126,10 @@
 	<script src="./resource/bootstrap/js/bootstrap.min.js"></script>
 	<script src="./resource/util/myStorage.js"></script>
 	<script src="./resource/js/isLogin.js"></script>
+	<script src="./resource/js/api.js"></script>
 	<script src="./resource/js/log-out.js"></script>
+	<script src="./resource/js/personal-order-list.js"></script>
+
 </body>
 
 </html>
