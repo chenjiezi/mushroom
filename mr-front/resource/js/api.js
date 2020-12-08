@@ -36,6 +36,21 @@ var _userApi = {
       }
     })
   },
+  // 会员退出登录
+  logout: function (resolve, reject) {
+    $.ajax({
+      type: 'GET',
+      url: baseUrl + '/logout',
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
   // 注册会员用户
   registerUser: function (params, resolve, reject) {
     $.ajax({
