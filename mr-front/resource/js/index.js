@@ -27,7 +27,7 @@ _productApi.getCarouselList(function (res) {
 })
 
 // 请求最新商品数据
-_productApi.getNewProduct(5, function (res) {
+_productApi.getNewProduct(4, function (res) {
   if (res.code === 200) {
     // 渲染最新商品模板
     $('#new-product').append(render_new_product_html_template(res.data))
@@ -57,12 +57,12 @@ function render_category_bar_html_template(data) {
     item.children.forEach(item2 => {
       if (item2.children) {
         var categoryHideItem = ``
-  
+
         // 三级
         item2.children.forEach(item3 => {
           categoryHideItem += `<a target="_blank" href="search.html?categoryId=${item3.categoryId}">${item3.categoryName}</a>`
         })
-  
+
         categoryHide += `
             <div class="category">${item2.categoryName}</div>
             <div class="list">
@@ -119,7 +119,7 @@ function render_carousel_html_template (dataList) {
     <div class="carousel-inner" role="listbox">
       ${carouselItem}
     </div>
-  ` 
+  `
 }
 
 // 最新商品模板

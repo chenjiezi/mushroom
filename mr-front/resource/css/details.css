@@ -38,6 +38,9 @@
     padding: 10px 15px;
 }
 
+.product-info{
+    margin-top: 20px;
+}
 .product-info .container{
     display: flex;
     justify-content: space-between;
@@ -107,7 +110,7 @@
 .info-content .product-select-group .product-cart{
     border: none;
     outline: none;
-    background: #1baeae;
+    background: #ff4466;
 }
 
 .product-details .details-content-title {

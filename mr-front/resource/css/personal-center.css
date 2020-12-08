@@ -42,3 +42,28 @@
     display: flex;
     align-items: center;
 }
+
+.content .header .btn,.modal-footer .btn-primary{
+    background: #f46;
+    border: none;
+    float: right;
+}
+
+.content .header .btn:hover,.modal-footer .btn-primary:hover{
+    background: #ff4466bd;
+}
+
+.modal-footer .btn{
+    border: none;
+}
+
+.modal-content{
+    box-shadow: none;
+}
+
+.modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 0.7;
+    filter: alpha(opacity=70);
+    background: #000;
+}
+
