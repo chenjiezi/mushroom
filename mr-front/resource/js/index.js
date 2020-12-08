@@ -63,13 +63,11 @@ function render_category_bar_html_template(data) {
           categoryHideItem += `<a target="_blank" href="search.html?categoryId=${item3.categoryId}">${item3.categoryName}</a>`
         })
   
-        categoryHide = `
-          <div class="category-hide-item">
+        categoryHide += `
             <div class="category">${item2.categoryName}</div>
             <div class="list">
               ${categoryHideItem}
             </div>
-          </div>
         `
       }
     })
@@ -77,8 +75,10 @@ function render_category_bar_html_template(data) {
     categoryItem = `
       <div class="category-item">
         <a href="javaScript:void(0);" class="item">${item.categoryName}</a>
-        ${categoryHide}
-      </div>
+          <div class="category-hide-item">
+            ${categoryHide}
+          </div>
+      </div>  
     `
     categoryContent += categoryItem
   })
