@@ -20,6 +20,70 @@ var _userApi = {
       }
     })
   },
+  // 会员登录
+  login: function (params, resolve, reject) {
+    $.ajax({
+      type: 'POST',
+      url: baseUrl + '/login',
+      data: JSON.stringify(params),
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
+  // 注册会员用户
+  registerUser: function (params, resolve, reject) {
+    $.ajax({
+      type: 'POST',
+      url: baseUrl + '/user/register',
+      data: JSON.stringify(params),
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
+  // 更新用户个人信息
+  updateUserInfo: function (params, resolve, reject) {
+    $.ajax({
+      type: 'POST',
+      url: baseUrl + '/user/updateInfo',
+      data: JSON.stringify(params),
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
+  // 用户修改登录密码
+  updateUserPassword: function (password, resolve, reject) {
+    $.ajax({
+      type: 'PUT',
+      url: baseUrl + '/user/checkPass',
+      data: `password=${password}`,
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
 }
 
 /**

@@ -56,7 +56,8 @@
 				<div class="content">
 					<div class="header">
 						<h3>我的资料</h3>
-						<button type="button" class="btn btn-primary" id="show_user_info_modal" style="display: none;">修改</button>
+						<button type="button" class="btn btn-primary" id="show_user_info_modal" style="display: none;">修改用户信息</button>
+						<button type="button" class="btn btn-primary" style="margin-left: 12px;" id="show_password_modal" style="display: none;">修改密码</button>
 					</div>
 					<div class="info" id="info-container">
 
@@ -129,23 +130,38 @@
 					</h4>
 				</div>
 				<div class="modal-body">
-					<div class="form-group">
-						<label for="nick-name" class="control-label">昵称:</label>
-						<input type="text" class="form-control" id="nick-name-ipt" name="nick-name" placeholder="请输入昵称">
+					<!-- 修改用户信息弹窗内容 -->
+					<div id="user-info-content-modal" style="display: none;">
+						<div class="form-group">
+							<label for="nick-name" class="control-label">昵称:</label>
+							<input type="text" class="form-control" id="nick-name-ipt" name="nick-name" placeholder="请输入昵称">
+						</div>
+						<div class="form-group">
+							<label for="phone" class="control-label">手机号码:</label>
+							<input type="text" class="form-control" id="phone-ipt" name="phone" placeholder="请输入手机号码">
+						</div>
+						<div class="form-group">
+							<label for="address" class="control-label">收货地址:</label>
+							<input type="text" class="form-control" id="address-ipt" name="address" placeholder="请输入收货地址">
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="phone" class="control-label">手机号码:</label>
-						<input type="text" class="form-control" id="phone-ipt" name="phone" placeholder="请输入手机号码">
+					<!-- 修改密码弹窗内容 -->
+					<div id="password-content-modal" style="display: none;">
+						<div class="form-group">
+							<label for="password" class="control-label">密码:</label>
+							<input type="text" class="form-control" id="password-ipt" name="password" placeholder="请输入密码">
+						</div>
+						<div class="form-group">
+							<label for="again-password" class="control-label">再次输入密码:</label>
+							<input type="text" class="form-control" id="again-password-ipt" name="again-password" placeholder="再次输入密码">
+						</div>
 					</div>
-					<div class="form-group">
-						<label for="address" class="control-label">收货地址:</label>
-						<input type="text" class="form-control" id="address-ipt" name="address" placeholder="请输入收货地址">
-					</div>
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 					</button>
-					<button type="button" class="btn btn-primary" id="update_user_info_btn">
+					<button type="button" class="btn btn-primary" id="update_btn">
 						确定
 					</button>
 				</div>
@@ -157,6 +173,7 @@
 	<script src="./resource/util/myStorage.js"></script>
 	<script src="./resource/js/isLogin.js"></script>
 	<script src="./resource/js/log-out.js"></script>
+	<script src="./resource/js/sweetalert.min.js"></script>
 	<script src="./resource/js/api.js"></script>
 	<script src="./resource/js/personal-center.js"></script>
 </body>
