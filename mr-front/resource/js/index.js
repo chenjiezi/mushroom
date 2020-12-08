@@ -27,7 +27,7 @@ _productApi.getCarouselList(function (res) {
 })
 
 // 请求最新商品数据
-_productApi.getNewProduct(4, function (res) {
+_productApi.getNewProduct(5, function (res) {
   if (res.code === 200) {
     // 渲染最新商品模板
     $('#new-product').append(render_new_product_html_template(res.data))
@@ -35,7 +35,7 @@ _productApi.getNewProduct(4, function (res) {
 })
 
 // 请求分类商品模板
-_productApi.getHomeCategory(4, function (res) {
+_productApi.getHomeCategory(5, function (res) {
   if (res.code === 200) {
     res.data.forEach(item => {
       // 渲染商品模板
@@ -154,11 +154,13 @@ function render_new_product_html_template (data) {
 function render_product_list_html_template (data) {
   var productCardWarp = ``
 
+  if (!data.productList) return false
+
   data.productList.forEach(item => {
     productCardWarp += `
       <a href="product-detail.html?productId=${item.productId}" class="product-card-warp">
         <div class="product-card">
-          <img src="${item.productImg}" alt="">
+          <img src="${item.productImg}" class="product-img">
           <p class="product-name"><strong>${item.productName}</strong></p>
           <p class="price">${item.productPrice}元</p>
         </div>

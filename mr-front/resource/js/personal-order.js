@@ -34,8 +34,8 @@ if(orderNo) {
         order_btn = '提交订单'
         order_status = '未提交'
         order_text = '请尽快提交订单哦~'
-        // 显示修改地址按钮
-        $('#update_address_btn').show()
+        // 显示修改地址弹窗按钮
+        $('#show_address_modal').show()
         // 显示确认订单按钮
         $('#order_btn').show()
       } else if (orderStatus === 1) { // 已提交
@@ -71,24 +71,47 @@ if(orderNo) {
       // 订单总价
       $('#total').text(data.totalPrice)
       
-      // 修改地址按钮操作 TODO:
-      $('#update_address_btn').click(function () {
-        console.log('修改地址~~~')
+      // 显示修改地址弹窗
+      $('#show_address_modal').on('click', function () {
+        $('#address-ipt').val(data.userAddress)
+        $('#myModal').modal('show')
+      })
+      // 修改地址按钮操作
+      $('#update_address_btn').on('click', function () {
+        var address = $('#address-ipt').val().trim()
+
+        if (!address) {
+          swal({ icon: 'warning', text: '收获地址不能为空~' })
+          return false
+        }
+        // 修改地址没提交请求，只有提交订单才会修改地址
+        $('#address').text(address)
+        $('#myModal').modal('hide')
       })
 
       var orderNo = data.orderNo
       // 订单按钮操作
       $('#order_btn').click(function () {
         if (orderStatus === 0) { // 未提交
-          // FIXME:请求：提交订单
-          _orderApi.SubmitOrder({orderNo}, function(res) {
+          var address = $('#address').text().trim()
+
+          // 下订单，地址不能为空
+          if (!address) {
+            swal({ icon: 'warning', text: '收获地址不能为空~' })
+            return false
+          }
+
+          // 请求：提交订单
+          _orderApi.SubmitOrder({orderNo, address}, function(res) {
             if (res.code === 200) {
               // 提交订单成功，刷新页面
               window.location.reload()
             }
           })
+
         } else if (orderStatus === 1) { // 已提交
-          // FIXME:请求：去支付
+
+          // 请求：去支付
           _payApi.pay({orderNo}, function(res) {
             if (res.code === 200) {
               var form_html = res.data
@@ -96,14 +119,17 @@ if(orderNo) {
               $('body').html(form_html)
             }
           })
+
         } else if (orderStatus === 2) { // 已支付
-          // FIXME:请求：取消订单
+
+          // 请求：取消订单
           _orderApi.cancelOrder({orderNo}, function(res) {
             if (res.code === 200) {
               // 提交订单成功，刷新页面
               window.location.reload()
             }
           })
+          
         }
       })
     }

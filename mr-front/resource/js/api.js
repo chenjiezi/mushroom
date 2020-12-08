@@ -23,116 +23,6 @@ var _userApi = {
 }
 
 /**
- * 订单接口
- */
-var _orderApi = {
-  // 获取订单状态
-  getOrderStatusText: function (orderStatus) {
-    var orderStatusText = {
-      '0': '未提交',
-      '1': '已提交',
-      '2': '已支付',
-      '-1': '手动关闭',
-      '-2': '商家关闭'
-    }
-    return orderStatusText[`${orderStatus}`]
-  },
-  // 购物车添加到订单，返回OrderNo(订单号)
-  addOrder: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/order/addOrder',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
-  },
-  // 提交订单
-  SubmitOrder: function (params, resolve, reject) {
-    $.ajax({
-      type: 'PUT',
-      url: baseUrl + '/order/submit',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
-  },
-  // 获取当前登录用户的订单列表
-  getOrderList: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/order/list',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
-  },
-  // 根据orderNo(订单号)查询到订单详情
-  getOrderInfo: function (orderNo, resolve, reject) {
-    $.ajax({
-      type: 'GET',
-      url: baseUrl + '/order/info/' + orderNo,
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
-  },
-  // 取消当前用户的订单
-  cancelOrder: function (orderNo, resolve, reject) {
-    $.ajax({
-      type: 'PUT',
-      url: baseUrl + '/order/cancel/' + orderNo,
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
-  },
-  // 删除当前登录用户的订单
-  deleteOrder: function (orderNo, resolve, reject) {
-    $.ajax({
-      type: 'DELETE',
-      url: baseUrl + '/order/delete/' + orderNo,
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
-  }
-}
-
-/**
  * 支付接口
  */
 var _payApi = {
@@ -312,6 +202,116 @@ var _productApi = {
     $.ajax({
       type: 'get',
       url: baseUrl + '/product/info/' + productId,
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  }
+}
+
+/**
+ * 订单接口
+ */
+var _orderApi = {
+  // 获取订单状态
+  getOrderStatusText: function (orderStatus) {
+    var orderStatusText = {
+      '0': '未提交',
+      '1': '已提交',
+      '2': '已支付',
+      '-1': '手动关闭',
+      '-2': '商家关闭'
+    }
+    return orderStatusText[`${orderStatus}`]
+  },
+  // 购物车添加到订单，返回OrderNo(订单号)
+  addOrder: function (params, resolve, reject) {
+    $.ajax({
+      type: 'POST',
+      url: baseUrl + '/order/addOrder',
+      data: JSON.stringify(params),
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
+  // 提交订单
+  SubmitOrder: function (params, resolve, reject) {
+    $.ajax({
+      type: 'PUT',
+      url: baseUrl + '/order/submit',
+      data: JSON.stringify(params),
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
+  // 获取当前登录用户的订单列表
+  getOrderList: function (params, resolve, reject) {
+    $.ajax({
+      type: 'POST',
+      url: baseUrl + '/order/list',
+      data: JSON.stringify(params),
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
+  // 根据orderNo(订单号)查询到订单详情
+  getOrderInfo: function (orderNo, resolve, reject) {
+    $.ajax({
+      type: 'GET',
+      url: baseUrl + '/order/info/' + orderNo,
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
+  // 取消当前用户的订单
+  cancelOrder: function (orderNo, resolve, reject) {
+    $.ajax({
+      type: 'PUT',
+      url: baseUrl + '/order/cancel/' + orderNo,
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        resolve && resolve(res)
+      },
+      error: function (err) {
+        reject && reject(err)
+      }
+    })
+  },
+  // 删除当前登录用户的订单
+  deleteOrder: function (orderNo, resolve, reject) {
+    $.ajax({
+      type: 'DELETE',
+      url: baseUrl + '/order/delete/' + orderNo,
       dataType: 'json',
       contentType: 'application/json;charset=UTF-8',
       success: function (res) {

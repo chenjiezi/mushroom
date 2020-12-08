@@ -1,7 +1,7 @@
 // 分页参数
 var page = {
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 4,
   totalPage: 1,
   total: 10,
 }
@@ -12,6 +12,9 @@ getData()
 function getData () {
   _orderApi.getOrderList(page, function (res) {
     if (res.code === 200) {
+
+      // 重置容器
+      $('#order-list').empty()
 
       // 订单模板渲染
       res.data.resultList.forEach(item => {
