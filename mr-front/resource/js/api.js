@@ -37,7 +37,7 @@ var _userApi = {
 
   // 用户修改登录密码
   updateUserPassword: function (password, resolve, reject) {
-    _http.put({ url: '/user/checkPass', data: 'password='+ password }, resolve, reject)
+    _http.put({ url: '/user/checkPass', data: JSON.stringify({password}) }, resolve, reject)
   },
 }
 

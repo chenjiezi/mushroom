@@ -65,10 +65,11 @@ $('#update_btn').click(function () {
 		}
 		
 
-		// 请求： 修改密码 TODO:
+		// 请求： 修改密码
 		_userApi.updateUserPassword(password, function (res) {
 			if (res.code === 200) {
-				window.location.reload()
+				swal({ icon: 'success', text: '密码修改成功~'})
+				$('#myModal').modal('hide')
 			}
 		})
 
