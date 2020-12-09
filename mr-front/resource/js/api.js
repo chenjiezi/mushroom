@@ -36,8 +36,8 @@ var _userApi = {
   },
 
   // 用户修改登录密码
-  updateUserPassword: function (data, resolve, reject) {
-    _http.put({ url: '/user/checkPass', data }, resolve, reject)
+  updateUserPassword: function (password, resolve, reject) {
+    _http.put({ url: '/user/checkPass', data: 'password='+ password }, resolve, reject)
   },
 }
 
@@ -62,7 +62,7 @@ var _cartApi = {
 
   // 更新购物项数量
   cartUpdateCount: function (data, resolve, reject) {
-    _http.put({ url: '/cart/updateCount', data }, resolve, reject)
+    _http.put({ url: '/cart/updateCount', data: JSON.stringify(data) }, resolve, reject)
   },
 
   // 将商品添加购物车
@@ -134,7 +134,7 @@ var _orderApi = {
 
   // 提交订单
   SubmitOrder: function (data, resolve, reject) {
-    _http.put({ url: '/order/submit', data }, resolve, reject)
+    _http.put({ url: '/order/submit', data: JSON.stringify(data) }, resolve, reject)
   },
 
   // 获取当前登录用户的订单列表
@@ -226,7 +226,7 @@ _http = {
       type: 'PUT',
       url: baseUrl + config.url,
       headers: { Authorization: `Bearer` + token }, // http header 带token请求
-      data: `password=${config.data}`,
+      data: config.data,
       dataType: 'json',
       contentType: 'application/json;charset=UTF-8',
       success: function (res) {
