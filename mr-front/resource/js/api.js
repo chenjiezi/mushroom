@@ -53,7 +53,7 @@ var _payApi = {
 
 /**
  * 购物车接口
- */ 
+ */
 var _cartApi = {
   // 获取当前登录用户的购物车列表
   getCartList: function (resolve, reject) {
@@ -69,7 +69,7 @@ var _cartApi = {
   cartSave: function (data, resolve, reject) {
     _http.post({ url: '/cart/save', data }, resolve, reject)
   },
-  
+
   // 删除当前登录用户的购物车项
   deleteCartByCartId: function (cartId, resolve, reject) {
     _http.delete({ url: '/cart/delete/' + cartId }, resolve, reject)
@@ -89,7 +89,7 @@ var _productApi = {
   getCarouselList: function (resolve, reject) {
     _http.get({ url: '/carousel/list' }, resolve, reject)
   },
-  
+
   // 查询商品列表
   productSearch: function (data, resolve, reject) {
     _http.post({ url: '/product/search', data }, resolve, reject)
@@ -126,7 +126,7 @@ var _orderApi = {
     }
     return orderStatusText[`${orderStatus}`]
   },
-  
+
   // 购物车添加到订单，返回OrderNo(订单号)
   addOrder: function (data, resolve, reject) {
     _http.post({ url: '/order/addOrder', data }, resolve, reject)
@@ -174,7 +174,7 @@ _http = {
     $.ajax({
       type: 'GET',
       url: baseUrl + config.url,
-      headers: { Authorization: `Bearer` + token }, // http header 带token请求
+      headers: { Authorization: `Bearer ` + token }, // http header 带token请求
       dataType: 'json',
       contentType: 'application/json;charset=UTF-8',
       success: function (res) {
@@ -199,12 +199,12 @@ _http = {
     $.ajax({
       type: 'POST',
       url: baseUrl + config.url,
-      headers: { Authorization: `Bearer` + token }, // http header 带token请求
+      headers: { Authorization: `Bearer ` + token }, // http header 带token请求
       data: JSON.stringify(config.data),
       dataType: 'json',
       contentType: 'application/json;charset=UTF-8',
       success: function (res) {
-        
+
         responseInterceptor(res.code) // 响应拦截器
 
         success && success(res)
@@ -214,7 +214,7 @@ _http = {
       }
     })
   },
-  
+
   /**
    * PUT请求
    * @param {Object} config { url, data }
@@ -225,12 +225,12 @@ _http = {
     $.ajax({
       type: 'PUT',
       url: baseUrl + config.url,
-      headers: { Authorization: `Bearer` + token }, // http header 带token请求
+      headers: { Authorization: `Bearer ` + token }, // http header 带token请求
       data: config.data,
       dataType: 'json',
       contentType: 'application/json;charset=UTF-8',
       success: function (res) {
-        
+
         responseInterceptor(res.code) // 响应拦截器
 
         success && success(res)
@@ -240,7 +240,7 @@ _http = {
       }
     })
   },
-  
+
   /**
    * DELETE请求
    * @param {Object} config { url, data }
@@ -251,11 +251,11 @@ _http = {
     $.ajax({
       type: 'DELETE',
       url: baseUrl + config.url,
-      headers: { Authorization: `Bearer` + token }, // http header 带token请求
+      headers: { Authorization: `Bearer ` + token }, // http header 带token请求
       dataType: 'json',
       contentType: 'application/json;charset=UTF-8',
       success: function (res) {
-        
+
         responseInterceptor(res.code) // 响应拦截器
 
         success && success(res)

@@ -86,10 +86,10 @@ function checkRegister () {
 
 // 提交登录请求
 function handleLoginSubmit () {
-  var loginname = $('#loginname').val().trim();
+  var loginName = $('#loginname').val().trim();
   var password = $('#password').val().trim();
 
-  _userApi.login({loginname, password}, function (res) {
+  _userApi.login({loginName, password}, function (res) {
     if (res.code === 200) {
       // 登录成功
 
@@ -109,13 +109,13 @@ function handleLoginSubmit () {
 
 // 提交注册请求
 function handleRegisterSubmit () {
-  var loginname = $('#loginname').val().trim();
+  var loginName = $('#loginname').val().trim();
   var password = $('#password').val().trim();
   var nickname = $('#nickname').val().trim();
   var userphone = $('#userphone').val().trim();
 
   var data = {
-    loginname: loginname,
+    loginName: loginName,
     password: password,
     nickname: nickname,
     userphone: userphone,
@@ -141,6 +141,6 @@ function handleRegisterSubmit () {
       })
     }
   })
-  
+
 }
 
