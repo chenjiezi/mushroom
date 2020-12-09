@@ -123,7 +123,7 @@ if(orderNo) {
         } else if (orderStatus === 2) { // 已支付
 
           // 请求：取消订单
-          _orderApi.cancelOrder({orderNo}, function(res) {
+          _orderApi.cancelOrder(orderNo, function(res) {
             if (res.code === 200) {
               // 提交订单成功，刷新页面
               window.location.reload()
