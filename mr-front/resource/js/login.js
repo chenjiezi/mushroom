@@ -111,14 +111,14 @@ function handleLoginSubmit () {
 function handleRegisterSubmit () {
   var loginName = $('#loginname').val().trim();
   var password = $('#password').val().trim();
-  var nickname = $('#nickname').val().trim();
-  var userphone = $('#userphone').val().trim();
+  var nickName = $('#nickname').val().trim();
+  var userPhone = $('#userphone').val().trim();
 
   var data = {
     loginName: loginName,
     password: password,
-    nickname: nickname,
-    userphone: userphone,
+    nickName: nickName,
+    userPhone: userPhone,
   }
 
   _userApi.registerUser(data, function (res) {
