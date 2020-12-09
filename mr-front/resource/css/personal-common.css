@@ -42,7 +42,6 @@
 
 .personal .sidebar ul li a:hover {
     color: #ffffff;
-    padding-left: 40px;
     background: #ff4466bf;
     transition: 1s;
 }

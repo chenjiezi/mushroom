@@ -33,7 +33,6 @@
 }
 
 .personal .content .info .item .value:hover {
-    padding-left: 60px;
     color: #f46;
     transition: 1s;
 }
