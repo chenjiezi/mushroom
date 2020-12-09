@@ -1,5 +1,10 @@
 // 服务端api地址
 var baseUrl = 'http://10.65.41.1:9091'
+// token（登录令牌）
+var token = _ms.get('token') || ''
+// get post put delete 请求封装
+var _http = {}
+
 
 /**
  * 用户接口
@@ -7,97 +12,32 @@ var baseUrl = 'http://10.65.41.1:9091'
 var _userApi = {
   // 用户信息
   getUserInfo: function (resolve, reject) {
-    $.ajax({
-      type: 'GET',
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      url: baseUrl + '/getInfo',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.get({ url: '/getInfo' }, resolve, reject)
   },
+
   // 会员登录
-  login: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/login',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  login: function (data, resolve, reject) {
+    _http.post({ url: '/login', data }, resolve, reject)
   },
+
   // 会员退出登录
   logout: function (resolve, reject) {
-    $.ajax({
-      type: 'GET',
-      url: baseUrl + '/logout',
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.get({ url: '/logout' }, resolve, reject)
   },
+
   // 注册会员用户
-  registerUser: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/user/register',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  registerUser: function (data, resolve, reject) {
+    _http.post({ url: '/user/register', data }, resolve, reject)
   },
+
   // 更新用户个人信息
-  updateUserInfo: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/user/updateInfo',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  updateUserInfo: function (data, resolve, reject) {
+    _http.post({ url: '/user/updateInfo', data }, resolve, reject)
   },
+
   // 用户修改登录密码
-  updateUserPassword: function (password, resolve, reject) {
-    $.ajax({
-      type: 'PUT',
-      url: baseUrl + '/user/checkPass',
-      data: `password=${password}`,
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  updateUserPassword: function (data, resolve, reject) {
+    _http.put({ url: '/user/checkPass', data }, resolve, reject)
   },
 }
 
@@ -106,20 +46,8 @@ var _userApi = {
  */
 var _payApi = {
   // 去支付
-  pay: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/pay',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  pay: function (data, resolve, reject) {
+    _http.post({ url: '/pay', data }, resolve, reject)
   },
 }
 
@@ -129,65 +57,22 @@ var _payApi = {
 var _cartApi = {
   // 获取当前登录用户的购物车列表
   getCartList: function (resolve, reject) {
-    $.ajax({
-      type: 'GET',
-      url: baseUrl + '/cart/list',
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.get({ url: '/cart/list' }, resolve, reject)
   },
+
   // 更新购物项数量
-  cartUpdateCount: function (params, resolve, reject) {
-    $.ajax({
-      type: 'PUT',
-      url: baseUrl + '/cart/updateCount',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  cartUpdateCount: function (data, resolve, reject) {
+    _http.put({ url: '/cart/updateCount', data }, resolve, reject)
   },
+
   // 将商品添加购物车
-  cartSave: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/cart/save',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  cartSave: function (data, resolve, reject) {
+    _http.post({ url: '/cart/save', data }, resolve, reject)
   },
+  
   // 删除当前登录用户的购物车项
   deleteCartByCartId: function (cartId, resolve, reject) {
-    $.ajax({
-      type: 'DELETE',
-      url: baseUrl + '/cart/delete/' + cartId,
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.delete({ url: '/cart/delete/' + cartId }, resolve, reject)
   }
 }
 
@@ -197,99 +82,32 @@ var _cartApi = {
 var _productApi = {
   // 首页分类栏数据
   getCategoryList: function (resolve, reject) {
-    $.ajax({
-      type: 'GET',
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      url: baseUrl + '/category/list',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.get({ url: '/category/list' }, resolve, reject)
   },
 
   // 首页轮播图数据
   getCarouselList: function (resolve, reject) {
-    $.ajax({
-      type: 'GET',
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      url: baseUrl + '/carousel/list',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.get({ url: '/carousel/list' }, resolve, reject)
   },
   
   // 查询商品列表
-  productSearch: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/product/search',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  productSearch: function (data, resolve, reject) {
+    _http.post({ url: '/product/search', data }, resolve, reject)
   },
 
   // 查询最新商品
   getNewProduct: function (count, resolve, reject) {
-    $.ajax({
-      type: 'get',
-      url: baseUrl + '/product/new/' + count,
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.get({ url: '/product/new/' + count }, resolve, reject)
   },
 
   // 首页下分类商品内容的显示
   getHomeCategory: function (count, resolve, reject)  {
-    $.ajax({
-      type: 'get',
-      url: baseUrl + '/product/homeCategory/' + count,
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.get({ url: '/product/homeCategory/' + count }, resolve, reject)
   },
 
   // 根据商品id获取商品详情
   getProductInfo: function (productId, resolve, reject) {
-    $.ajax({
-      type: 'get',
-      url: baseUrl + '/product/info/' + productId,
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.get({ url: '/product/info/' + productId }, resolve, reject)
   }
 }
 
@@ -308,97 +126,153 @@ var _orderApi = {
     }
     return orderStatusText[`${orderStatus}`]
   },
+  
   // 购物车添加到订单，返回OrderNo(订单号)
-  addOrder: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/order/addOrder',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  addOrder: function (data, resolve, reject) {
+    _http.post({ url: '/order/addOrder', data }, resolve, reject)
   },
+
   // 提交订单
-  SubmitOrder: function (params, resolve, reject) {
-    $.ajax({
-      type: 'PUT',
-      url: baseUrl + '/order/submit',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  SubmitOrder: function (data, resolve, reject) {
+    _http.put({ url: '/order/submit', data }, resolve, reject)
   },
+
   // 获取当前登录用户的订单列表
-  getOrderList: function (params, resolve, reject) {
-    $.ajax({
-      type: 'POST',
-      url: baseUrl + '/order/list',
-      data: JSON.stringify(params),
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+  getOrderList: function (data, resolve, reject) {
+    _http.post({ url: '/order/list', data }, resolve, reject)
   },
+
   // 根据orderNo(订单号)查询到订单详情
   getOrderInfo: function (orderNo, resolve, reject) {
-    $.ajax({
-      type: 'GET',
-      url: baseUrl + '/order/info/' + orderNo,
-      dataType: 'json',
-      contentType: 'application/json;charset=UTF-8',
-      success: function (res) {
-        resolve && resolve(res)
-      },
-      error: function (err) {
-        reject && reject(err)
-      }
-    })
+    _http.get({ url: '/order/info/' + orderNo }, resolve, reject)
   },
+
   // 取消当前用户的订单
   cancelOrder: function (orderNo, resolve, reject) {
+    _http.put({ url: '/order/cancel/' + orderNo }, resolve, reject)
+  },
+
+  // 删除当前登录用户的订单
+  deleteOrder: function (orderNo, resolve, reject) {
+    _http.delete({ url: '/cart/delete/' + orderNo }, resolve, reject)
+  }
+}
+
+
+/**
+ * ajax 二次封装
+ */
+
+_http = {
+  /**
+   * GET请求
+   * @param {Object} config { url, params }
+   * @param {Function} success 成功回调
+   * @param {Function} error 失败回调
+   */
+  get: function (config, success, error) {
     $.ajax({
-      type: 'PUT',
-      url: baseUrl + '/order/cancel/' + orderNo,
+      type: 'GET',
+      url: baseUrl + config.url,
+      headers: { Authorization: `Bearer` + token }, // http header 带token请求
       dataType: 'json',
       contentType: 'application/json;charset=UTF-8',
       success: function (res) {
-        resolve && resolve(res)
+
+        responseInterceptor(res.code) // 响应拦截器
+
+        success && success(res)
       },
       error: function (err) {
-        reject && reject(err)
+        error && error(err)
       }
     })
   },
-  // 删除当前登录用户的订单
-  deleteOrder: function (orderNo, resolve, reject) {
+
+  /**
+   * POST请求
+   * @param {Object} config { url, data }
+   * @param {Function} success 成功回调
+   * @param {Function} error 失败回调
+   */
+  post: function (config, success, error) {
     $.ajax({
-      type: 'DELETE',
-      url: baseUrl + '/order/delete/' + orderNo,
+      type: 'POST',
+      url: baseUrl + config.url,
+      headers: { Authorization: `Bearer` + token }, // http header 带token请求
+      data: JSON.stringify(config.data),
       dataType: 'json',
       contentType: 'application/json;charset=UTF-8',
       success: function (res) {
-        resolve && resolve(res)
+        
+        responseInterceptor(res.code) // 响应拦截器
+
+        success && success(res)
       },
       error: function (err) {
-        reject && reject(err)
+        error && error(err)
       }
     })
+  },
+  
+  /**
+   * PUT请求
+   * @param {Object} config { url, data }
+   * @param {Function} success 成功回调
+   * @param {Function} error 失败回调
+   */
+  put: function (config, success, error) {
+    $.ajax({
+      type: 'PUT',
+      url: baseUrl + config.url,
+      headers: { Authorization: `Bearer` + token }, // http header 带token请求
+      data: `password=${config.data}`,
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        
+        responseInterceptor(res.code) // 响应拦截器
+
+        success && success(res)
+      },
+      error: function (err) {
+        error && error(err)
+      }
+    })
+  },
+  
+  /**
+   * DELETE请求
+   * @param {Object} config { url, data }
+   * @param {Function} success 成功回调
+   * @param {Function} error 失败回调
+   */
+  delete: function (config, success, error) {
+    $.ajax({
+      type: 'DELETE',
+      url: baseUrl + config.url,
+      headers: { Authorization: `Bearer` + token }, // http header 带token请求
+      dataType: 'json',
+      contentType: 'application/json;charset=UTF-8',
+      success: function (res) {
+        
+        responseInterceptor(res.code) // 响应拦截器
+
+        success && success(res)
+      },
+      error: function (err) {
+        error && error(err)
+      }
+    })
+
+  },
+}
+
+// 响应拦截器
+function responseInterceptor (code) {
+  // token失效，清除本地token（登录状态），跳转到首页
+  if (code === 900) {
+    _ms.set('token', '')
+    window.location.href = 'index.html'
   }
 }
