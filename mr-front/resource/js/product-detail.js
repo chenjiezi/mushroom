@@ -6,7 +6,7 @@ var urlParams = _util.getUrlParams()
 _productApi.getProductInfo(urlParams['productId'], function(res) {
   if (res.code === 200) {
     var data = res.data
-    
+
     // 数据渲染
     $('#info-img').attr('src', data.productImg)
     $('#info-title').text(data.productName)
@@ -15,7 +15,7 @@ _productApi.getProductInfo(urlParams['productId'], function(res) {
 
     //  商品详情
     if (data.productDetail) {
-      $('#details-content').text(data.productDetail)
+      $('#details-content').html(data.productDetail)
     } else {
       $('#details-content').html('<div class="no-data">暂无商品详情~</div>')
     }
