@@ -70,7 +70,7 @@ if(orderNo) {
       $('#address').text(data.userAddress)
       // 订单总价
       $('#total').text(data.totalPrice)
-      
+
       // 显示修改地址弹窗
       $('#show_address_modal').on('click', function () {
         $('#address-ipt').val(data.userAddress)
@@ -93,16 +93,16 @@ if(orderNo) {
       // 订单按钮操作
       $('#order_btn').click(function () {
         if (orderStatus === 0) { // 未提交
-          var address = $('#address').text().trim()
+          var userAddress = $('#address').text().trim()
 
           // 下订单，地址不能为空
-          if (!address) {
+          if (!userAddress) {
             swal({ icon: 'warning', text: '收获地址不能为空~' })
             return false
           }
 
           // 请求：提交订单
-          _orderApi.SubmitOrder({orderNo, address}, function(res) {
+          _orderApi.SubmitOrder({orderNo, userAddress}, function(res) {
             if (res.code === 200) {
               // 提交订单成功，刷新页面
               window.location.reload()
@@ -129,7 +129,7 @@ if(orderNo) {
               window.location.reload()
             }
           })
-          
+
         }
       })
     }
