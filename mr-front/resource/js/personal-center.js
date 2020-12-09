@@ -18,7 +18,6 @@ _userApi.getUserInfo(function (res) {
 	}
 })
 
-//  TODO:
 $('#update_btn').click(function () {
 	 // 修改用户信息操作
 	if (isUpdateUserInfo) {
@@ -37,10 +36,10 @@ $('#update_btn').click(function () {
 			address
 		}
 
-		// 请求： 修改用户信息
+		// 请求： 修改用户信息 TODO:
 		_userApi.updateUserInfo(params, function (res) {
 			if (res.code === 200) {
-				// window.location.reload()
+				window.location.reload()
 			}
 		})
 
@@ -66,10 +65,10 @@ $('#update_btn').click(function () {
 		}
 		
 
-		// 请求： 修改密码
+		// 请求： 修改密码 TODO:
 		_userApi.updateUserPassword(password, function (res) {
 			if (res.code === 200) {
-				// window.location.reload()
+				window.location.reload()
 			}
 		})
 
