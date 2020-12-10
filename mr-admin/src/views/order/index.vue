@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="main">
-      <el-table :data="tableData" size="mini" default-expand-all :cell-style="{padding: '2px 0'}">
+      <el-table :data="tableData" size="mini" :cell-style="{padding: '2px 0'}">
         <el-table-column type="expand">
           <template slot-scope="props">
             <div class="detail-container">
@@ -46,9 +46,9 @@
         </el-table-column>
         <el-table-column align="center" prop="orderNo" label="订单号" width="180"></el-table-column>
         <el-table-column align="center" prop="orderStatusText" label="订单状态" width="80"></el-table-column>
-        <el-table-column align="center" prop="payStatusText" label="购买状态" width="80"></el-table-column>
         <el-table-column align="center" prop="totalPrice" label="订单总价(元)" width="100"></el-table-column>
-        <el-table-column align="center" prop="payTime" label="下单时间"></el-table-column>
+        <el-table-column align="center" prop="payTime" label="支付时间"></el-table-column>
+        <el-table-column align="center" prop="createTime" label="下单时间"></el-table-column>
         <el-table-column align="center" prop="userName" label="收货联系人"></el-table-column>
         <el-table-column align="center" prop="userPhone" label="联系方式" width="140"></el-table-column>
         <el-table-column align="center" prop="userAddress" label="送货地址"></el-table-column>
@@ -302,11 +302,13 @@ export default {
             if (item.orderStatus == 1) {
               item.orderStatusText = '已提交'
             } else if (item.orderStatus == 0) {
-              item.orderStatusText = '未支付'
+              item.orderStatusText = '未提交'
+            } else if (item.orderStatus == 2) {
+              item.orderStatusText = '已支付'
+            } else if (item.orderStatus == -1) {
+              item.orderStatusText = '用户关闭'
             } else if (item.orderStatus == -2) {
               item.orderStatusText = '商家关闭'
-            } else if (item.orderStatus == 0) {
-              item.orderStatusText = '未提交'
             } else {
               item.orderStatusText = '-'
             }
