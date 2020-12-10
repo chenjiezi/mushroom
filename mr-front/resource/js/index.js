@@ -19,7 +19,7 @@ _productApi.getCarouselList(function (res) {
   if (res.code === 200) {
     // 渲染轮播图模板
     $('#carousel-example').append(render_carousel_html_template(res.data))
-    // 配置轮播图参数 TODO: 数据比逻辑晚到，为什么不会报错？
+    // 配置轮播图参数 TODO: bootstrap carousel组件不支持自定义初始化
     $('#carousel-example').carousel({
       interval: 2800
     })
