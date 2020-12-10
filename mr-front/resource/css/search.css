@@ -17,8 +17,8 @@
 
 .product-card-warp {
     border-radius: 4px;
-    margin: 0 0 13px 13px;
-    width: 300px;
+    margin: 0 0 12px 10px;
+    width: 240px;
     float: left;
     transition: .3s all linear;
 }
@@ -27,7 +27,8 @@
     padding: 10px;
     background: #fafafa;
     transition: 1s;
-    border-top: 2px solid #ff4466;
+    border-top: 1px solid #ff4466 ;
+    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -41,13 +42,12 @@
 }
 
 .product-card .product-img {
-    width: 280px;
-    height: 280px;
+    width: 220px;
+    height: 220px;
 }
 .product-card .product-name {
     margin-top: 10px;
     font-weight: bold;
-    width: 280px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
